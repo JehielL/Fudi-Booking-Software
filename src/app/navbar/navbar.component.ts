@@ -34,13 +34,13 @@ export class NavbarComponent implements OnInit{
     this.authService.isLoggedin.subscribe(isLoggedin => {
       this.isLoggedin = isLoggedin;
       if(this.isLoggedin) {
-        this.httpClient.get<User>('http://localhost:8080/users/account')
+        this.httpClient.get<User>('https://217.160.163.48:8080/users/account')
           .subscribe(user => {
             this.user = user;
             if (this.user.imgUser.startsWith('http')) {
               this.avatarUrl = user.imgUser;
             } else {
-              this.avatarUrl = 'http://localhost:8080/files/' + user.imgUser;
+              this.avatarUrl = 'https://217.160.163.48:8080/files/' + user.imgUser;
             }
           });
       }
@@ -53,7 +53,7 @@ export class NavbarComponent implements OnInit{
       if (avatarUrl.startsWith('http')) {
         this.avatarUrl = avatarUrl;
       } else {
-        this.avatarUrl = 'http://localhost:8080/files/' + avatarUrl;
+        this.avatarUrl = 'https://217.160.163.48:8080/files/' + avatarUrl;
       }
     
     });
@@ -80,4 +80,3 @@ export class NavbarComponent implements OnInit{
   }
 }
 
-// http://localhost:8080/bookings/current;

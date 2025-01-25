@@ -60,7 +60,7 @@ export class UserFormComponent implements OnInit{
   save(){
     const user: User = this.registerUserForm.value as unknown as User;
     console.log(user)
-      const url = 'http://localhost:8080/users/register';
+      const url = 'https://217.160.163.48:8080/users/register';
       timer(500).pipe(
         switchMap(() => this.httpClient.post<User>(url,user))
       ).subscribe(backendUser =>{

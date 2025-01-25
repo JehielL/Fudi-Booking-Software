@@ -26,7 +26,7 @@ export class DiscountsComponent implements OnInit{
     window.scrollTo(0, 0); 
   }
   loadRestaurants(){
-    const apiURL = 'http://localhost:8080/restaurant';
+    const apiURL = 'https://217.160.163.48:8080/restaurant';
     this.httpClient.get<Restaurant[]>(apiURL).subscribe(restaurants => {
       this.restaurants = restaurants;
   });

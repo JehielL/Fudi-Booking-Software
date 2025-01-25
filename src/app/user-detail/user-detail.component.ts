@@ -33,7 +33,7 @@ export class UserDetailComponent implements OnInit {
       if (!id) return;
 
 
-    const url = 'http://localhost:8080/user/' + id;
+    const url = 'https://217.160.163.48:8080/user/' + id;
 
     this.httpClient.get<User>(url).subscribe(b => this.users = b);
     })

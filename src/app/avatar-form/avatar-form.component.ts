@@ -44,7 +44,7 @@ export class AvatarFormComponent implements OnInit {
 
       // EDICION
 
-      this.httpClient.get<User>('http://localhost:8080/users/account' + id).subscribe(user => {
+      this.httpClient.get<User>('https://217.160.163.48:8080/users/account' + id).subscribe(user => {
         this.userForm.reset({
           imgMenu: this.user?.imgUser,
         });  
@@ -57,7 +57,7 @@ export class AvatarFormComponent implements OnInit {
   }
 
   getUser() {
-    this.httpClient.get<User>('http://localhost:8080/users/account')
+    this.httpClient.get<User>('https://217.160.163.48:8080/users/account')
       .subscribe(user => this.user = user);
   }
 
@@ -94,10 +94,10 @@ export class AvatarFormComponent implements OnInit {
 
 
     if (this.isUpdate) {
-      this.httpClient.put<User>('http://localhost:8080/users/account/avatar/' + this.user?.id, formData)
+      this.httpClient.put<User>('https://217.160.163.48:8080/users/account/avatar/' + this.user?.id, formData)
         .subscribe(user => this.navigateToList());
     } else {
-      this.httpClient.post<User>('http://localhost:8080/users/account/avatar/', formData)
+      this.httpClient.post<User>('https://217.160.163.48:8080/users/account/avatar/', formData)
         .subscribe(dish => this.navigateToList());
     }
 
