@@ -59,9 +59,9 @@ export class MenuFormComponent implements OnInit {
       const id = params['id'];
       if (!id) return;
 
-      const restaurantUrl = 'https://217.160.163.48:8080/restaurant/' + id;
+      const restaurantUrl = 'https://dev.bitesoftware.es:8080/restaurant/' + id;
 
-      this.httpClient.get<Restaurant>('https://217.160.163.48:8080/restaurant/' + id)
+      this.httpClient.get<Restaurant>('https://dev.bitesoftware.es:8080/restaurant/' + id)
       .subscribe(restaurants => {
         this.restaurant = restaurants;
         this.menuForm.patchValue({
@@ -70,7 +70,7 @@ export class MenuFormComponent implements OnInit {
       }); 
 
       
-      this.httpClient.get<Menu>('https://217.160.163.48:8080/menus/' + id).subscribe(menu => {
+      this.httpClient.get<Menu>('https://dev.bitesoftware.es:8080/menus/' + id).subscribe(menu => {
         this.menuForm.reset(menu);
         this.menuForm.get('restaurant')?.setValue(menu.restaurant);
         this.menu = menu;
@@ -119,10 +119,10 @@ export class MenuFormComponent implements OnInit {
 
     if (this.isUpdate) {
       
-      this.httpClient.put<Menu>('https://217.160.163.48:8080/menus/' + menu.id, formData)
+      this.httpClient.put<Menu>('https://dev.bitesoftware.es:8080/menus/' + menu.id, formData)
         .subscribe(menu => this.navigateToList());
     } else {
-      this.httpClient.post<Menu>('https://217.160.163.48:8080/menus', formData)
+      this.httpClient.post<Menu>('https://dev.bitesoftware.es:8080/menus', formData)
         .subscribe(menu => this.navigateToList());
     }
   }

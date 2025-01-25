@@ -57,10 +57,10 @@ export class BookingListComponent implements OnInit {
 
       window.scrollTo(0, 0); 
       
-      const userUrl = 'https://217.160.163.48:8080/user/' + id;
+      const userUrl = 'https://dev.bitesoftware.es:8080/user/' + id;
       this.httpClient.get<User[]>(userUrl).subscribe(users => this.users = users);
 
-      const url = 'https://217.160.163.48:8080/bookings/filter-by-user/' + id;
+      const url = 'https://dev.bitesoftware.es:8080/bookings/filter-by-user/' + id;
       this.httpClient.get<Booking[]>(url).subscribe(bookings => this.bookings = bookings);
       
       
@@ -72,7 +72,7 @@ export class BookingListComponent implements OnInit {
 
   delete(booking: Booking) {
 
-    const url = 'https://217.160.163.48:8080/bookings/' + booking.id;
+    const url = 'https://dev.bitesoftware.es:8080/bookings/' + booking.id;
     this.httpClient.delete(url).subscribe(() => {
       this.showDeleteBookingMessage = true;
     })

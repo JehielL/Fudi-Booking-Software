@@ -52,7 +52,7 @@ export class DashboardUserComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       const id = params['id'];
       if (!id) return;
-      this.httpClient.get<User>('https://217.160.163.48:8080/user/' + id).subscribe(userbacken => {
+      this.httpClient.get<User>('https://dev.bitesoftware.es:8080/user/' + id).subscribe(userbacken => {
         const user = userbacken; // Access the first element of the array
         this.registerUserForm.patchValue({
           id: user.id,
@@ -70,7 +70,7 @@ export class DashboardUserComponent implements OnInit {
     const user: User = this.registerUserForm.value as User;
     console.log(user);
 
-    const url = 'https://217.160.163.48:8080/user/' + user.id;
+    const url = 'https://dev.bitesoftware.es:8080/user/' + user.id;
     this.httpClient.put<User>(url, user).subscribe(backendUser => {
       this.router.navigate(['/user', backendUser.id, 'detail']);
     });

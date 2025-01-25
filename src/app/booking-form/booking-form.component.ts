@@ -75,7 +75,7 @@ export class BookingFormComponent implements OnInit {
       this.showSpinner = false;
     }, 1000);
 
-    this.httpClient.get<User>('https://217.160.163.48:8080/users/account')
+    this.httpClient.get<User>('https://dev.bitesoftware.es:8080/users/account')
       .subscribe(user => {
         this.user = user;
 
@@ -87,11 +87,11 @@ export class BookingFormComponent implements OnInit {
       if (!id) return;
 
 
-      this.httpClient.get<Restaurant>('https://217.160.163.48:8080/restaurant/' + id)
+      this.httpClient.get<Restaurant>('https://dev.bitesoftware.es:8080/restaurant/' + id)
         .subscribe(restaurants => this.restaurant = restaurants);
 
 
-      this.httpClient.get<Booking>('https://217.160.163.48:8080/bookings/' + id).subscribe(bookingFromBackend => {
+      this.httpClient.get<Booking>('https://dev.bitesoftware.es:8080/bookings/' + id).subscribe(bookingFromBackend => {
         // cargar el libro obtenido en el formulario bookForm
         this.bookingForm.reset({
           id: bookingFromBackend.id,
@@ -133,13 +133,13 @@ export class BookingFormComponent implements OnInit {
     booking.restaurant = this.restaurant;
 
     if (this.isUpdate) {
-      const url = 'https://217.160.163.48:8080/bookings/' + booking.id;
+      const url = 'https://dev.bitesoftware.es:8080/bookings/' + booking.id;
       this.httpClient.put<Booking>(url, booking).subscribe(bookingFromBackend => {
         this.router.navigate(['/bookings', bookingFromBackend.id, 'detail']);
       });
 
     } else {
-      const url = 'https://217.160.163.48:8080/bookings';
+      const url = 'https://dev.bitesoftware.es:8080/bookings';
       this.httpClient.post<Booking>(url, booking).subscribe(bookingFromBackend => {
         this.router.navigate(['/bookings', bookingFromBackend.id, 'detail']);
       });

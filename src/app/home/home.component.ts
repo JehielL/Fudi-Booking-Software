@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
   }
 
   loadRestaurants() {
-    const apiUrl = 'https://217.160.163.48:8080/restaurant';
+    const apiUrl = 'https://dev.bitesoftware.es:8080/restaurant';
     timer(500).pipe(
       switchMap(() => this.httpClient.get<Restaurant[]>(apiUrl)),
       delay(500)
