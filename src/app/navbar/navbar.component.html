@@ -1,86 +1,73 @@
-<nav class="navbar navbar-expand-md bg-custom">
-  <div class="container-fluid">
-    <a routerLink="/home">
-      <img src="/assets/img/logo_bitebooking.png" alt="" style="max-width: 70px;">
+<nav class="navbar bg-custom navbar-expand-md shadow-sm p-3">
+  <div class="container-fluid text-center">
+    <a routerLink="/home" class="navbar-brand">
+      <img src="/assets/img/bi-removebg.png" alt="Logo" style="max-width: 140px;">
     </a>
 
-    <div class="loader">
-      <div data-glitch="BiteBooking" class="glitch">BiteBooking</div>
-   </div>
-    <button class="navbar-toggler" type="button" aria-controls="navbarContent" [attr.aria-expanded]="!collapsed"
-      aria-label="Toggle navigation" (click)="collapsed = !collapsed">
+    <button class="navbar-toggler" type="button" aria-controls="navbarContent" [attr.aria-expanded]="!collapsed" aria-label="Toggle navigation" (click)="collapsed = !collapsed">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="navbar-collapse" [class.collapse]="collapsed" id="navbarContent">
-      <ul class="navbar-nav ms-auto">
-    
-       
-        
-        <!-- Otros elementos del menú de navegación aquí -->
-       
+      <ul class="navbar-nav" style="margin-left: 30% !important;">
+        <li class="nav-item " ngbDropdown>
+          <a class="nav-link bi text-white"  id="navbarDropdown2" role="button">Inicio</a>
+          
+        </li>
         @if (isAdmin || isRestaurant) {
           <li class="nav-item " ngbDropdown>
-            <a class="nav-link bi bi-chat-right-quote" tabindex="0" ngbDropdownToggle id="navbarDropdown2" role="button">
-              Administración</a>
-            <div ngbDropdownMenu aria-labelledby="navbarDropdown2" class="dropdown-menu dropdown-menu-end">
+            <a class="nav-link bi bi-chat-right-quote" ngbDropdownToggle id="navbarDropdown2" role="button">Administración</a>
+            <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end">
               @if (isAdmin) {<a ngbDropdownItem routerLink="/restaurant-form">Crear Restaurantes</a>}
               <a ngbDropdownItem [routerLink]="['/restaurant-list']" [queryParams]="{ view: 'mine' }">Mis Restaurantes</a>
-              <a ngbDropdownItem href="#" (click)="$event.preventDefault()" routerLink="/menus/create">Crear Menu</a>
-              <a ngbDropdownItem href="#" (click)="$event.preventDefault()" routerLink="/dishes/create">Crear Plato</a>
+              <a ngbDropdownItem routerLink="/menus/create">Crear Menu</a>
+              <a ngbDropdownItem routerLink="/dishes/create">Crear Plato</a>
             </div>
           </li>
         }
-
-        <!-- Más elementos del menú de navegación aquí -->
-
+        <li class="nav-item ">
+          <button class="btn nav-link dropdown-toggle" (click)="toggleCocinasDropdown()">Segun su Origen</button>
+          @if (showCocinasDropdown) {
+            <app-kitchen></app-kitchen>
+          }
+        </li>
         <li class="nav-item" ngbDropdown>
-          <a class="nav-link" id="navbarDropdown2" role="button" ngbDropdownToggle>
-            <i class="nav-icon bi bi-fire"></i> Quienes somos
+          <a class="nav-link" ngbDropdownToggle id="navbarDropdown2" role="button">
+            <i class="bi bi-fire"></i> Quienes somos
           </a>
-          <div ngbDropdownMenu aria-labelledby="navbarDropdown2" class="dropdown-menu dropdown-menu-end">
-            <a ngbDropdownItem routerLink="user/list" (click)="$event.preventDefault()" routerLink="/about-us">Sobre nosotros.</a>
-            <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Sobre el proyecto.</a>
+          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end">
+            <a ngbDropdownItem routerLink="/about-us">Sobre nosotros</a>
+            <a ngbDropdownItem href="#">Sobre el proyecto</a>
           </div>
         </li>
-
-        
-        @if (isLoggedin) {
-          <li class="nav-item custom-drop" ngbDropdown>
-            @if (userEmail) {
-              <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown2" role="button">
-                <img class="user-photo" [src]="avatarUrl" alt="Restaurant 1">
-                {{user?.firstName}} {{user?.lastName}}
-              </a>
-            } 
-            <div ngbDropdownMenu aria-labelledby="navbarDropdown2" class="dropdown-menu dropdown-menu-end">
-              <a ngbDropdownItem [routerLink]="['/bookings', 'user', userId]">Mis Reservas</a>
-              
-
-              @if (isAdmin) {<a ngbDropdownItem routerLink="user/list">Lista de usuarios</a>}
-              <a ngbDropdownItem href="#"  routerLink="/menus">Gastronomia Favorita</a>
-              <a ngbDropdownItem href="#" routerLink="users/account" >Ajustes de usuario.</a>
-              <a ngbDropdownItem href="#" (click)="logout()">Cerrar sesión</a>
-            </div>
-          </li>
-        }
-        
-
       </ul>
-
-      <!-- Botones de usuario aquí -->
-      
-
-      @if (isLoggedin) {
-        
-      } @else {
-        <button routerLink="user/login" type="button" class="btn btn-login"  >
-          <i class="bi bi-box-arrow-left ms-2"></i>
-          Login</button>
-        <button routerLink="/user/register" type="button" class="btn btn-register  ms-2" >
-          <i class="bi bi-person-fill-add p-1 ms-2"></i>Registrate</button>
-      }
-
+      <ul class="navbar-nav text-center" style="margin-left: 10% !important;">
+        <li class="nav-item " ngbDropdown>
+          @if (isLoggedin) {
+            <a class="nav-link" ngbDropdownToggle id="navbarDropdown2" role="button">
+              <img class="user-photo" [src]="avatarUrl" alt="Restaurant 1">
+              {{user?.firstName || ''}} {{user?.lastName || ''}}
+            </a>
+            <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end">
+              <a ngbDropdownItem [routerLink]="['/bookings', 'user', userId]">Mis Reservas</a>
+              @if (isAdmin) {<a ngbDropdownItem routerLink="user/list">Lista de usuarios</a>}
+              <a ngbDropdownItem routerLink="/menus">Gastronomia Favorita</a>
+              <a ngbDropdownItem routerLink="users/account">Ajustes de usuario</a>
+              <a ngbDropdownItem (click)="logout()">Cerrar sesión</a>
+            </div>
+          } @else {
+            <button routerLink="/user/login" class="btn-login me-2">
+              <i class="bi bi-box-arrow-in-right "></i> Login
+            </button>
+            <button routerLink="/user/register" class="btn-register">
+              <i class="bi bi-person-plus"></i> Registrarse
+            </button>
+          }
+        </li>
+      </ul>
     </div>
+    
   </div>
 </nav>
+
+

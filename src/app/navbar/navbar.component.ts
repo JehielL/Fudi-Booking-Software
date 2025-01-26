@@ -4,11 +4,12 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationService } from '../services/authentication.service';
 import { User } from '../Interfaces/user.model';
 import { HttpClient } from '@angular/common/http';
+import { KitchenComponent } from '../kitchen/kitchen.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NgbDropdownModule, RouterLink],
+  imports: [NgbDropdownModule, RouterLink, KitchenComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -24,7 +25,8 @@ export class NavbarComponent implements OnInit{
   isRestaurant = false;
   user: User | undefined;
   avatarUrl = '';
-
+  puedeMostrarMas: boolean = false;
+  showCocinasDropdown: boolean = false;
   constructor(
     private authService: AuthenticationService,
     private router: Router,
@@ -71,6 +73,10 @@ export class NavbarComponent implements OnInit{
 
     
     
+  }
+
+  toggleCocinasDropdown() {
+    this.showCocinasDropdown = !this.showCocinasDropdown;
   }
 
   logout() {

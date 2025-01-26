@@ -31,6 +31,109 @@
   transform: scale(1.05); 
 }
 
+.navbar-collapse[_ngcontent-ng-c1227068899]{
+  width: 100% !important;; 
+}
+.navbar {
+  background-color: #ffffff;
+  height: 100px;
+  border-radius: 30px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  width: 80%;
+  position: fixed;
+  top: 0;
+  padding: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  border: 2px solid #000000;
+}
+
+.nav-item {
+  color: #000000 !important;
+  transition: all 0.5s;
+  font-weight: bold;
+  border-radius: 20px;
+  padding: 5px;
+}
+
+.nav-item:hover {
+  background-color: #F49D37;
+  
+}
+
+
+.nav-item .nav-link {
+  color: #000000 !important;
+  transition: all 0.5s;
+  font-weight: bold;
+}
+.nav-item:hover .nav-link {
+  color: #ffffff !important;
+  transition: all 0.5s;
+  font-weight: bold;
+}
+
+
+
+.navbar-brand {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 20px;
+  max-width: calc(100% - 100px); /* Limita el ancho del logo para evitar desbordamiento */
+}
+
+.navbar-toggler {
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 20px;
+}
+
+@media (max-width: 991px) {
+  .navbar {
+      height: 100px; 
+      padding: 10px 20px; 
+      width: 100%;
+      border-radius: 0; 
+      margin-top: 0px;
+  }
+
+  .navbar-toggler {
+      top: 50%; /* Ajuste la posición del botón de hamburguesa */
+      transform: translateY(-50%);
+      z-index: 1; /* Asegura que el botón de hamburguesa esté sobre el contenido */
+  }
+
+  .navbar-collapse {
+      position: absolute;
+      top: 100%; /* Coloca el menú desplegable debajo del botón de hamburguesa */
+      right: 0; /* Alinea el menú desplegable a la derecha */
+      width: 50%;
+      background-color: #ffffff;
+      border-radius: 0 0 20px 20px; /* Ajusta los bordes del menú desplegable */
+      z-index: 0; /* Asegura que el menú desplegable esté detrás del botón de hamburguesa */
+  }
+  
+
+  .navbar-nav {
+      display: flex;
+      flex-direction: column;
+      
+  }
+
+  .navbar-nav .nav-item {
+      margin-bottom: 10px; /* Espacio entre los elementos del menú */
+  }
+
+
+  
+}
+
+
 .btn-login:hover {
   background-position: right center; 
   transform: scale(1.05); 
@@ -62,6 +165,14 @@
     flex-direction: column;
     flex-wrap: nowrap;
   }
+
+  .navbar {
+    border-top-left-radius: 40px !important;
+    border-top-right-radius: 40px !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-left: none !important;
+  }
   
   /* Ajuste del padding del navbar en pantallas pequeñas */
   .navbar {
@@ -80,9 +191,12 @@
     position : absolute;
     width: 100%;
   }
-  .bg-custom{
-    background-color: #FFA33C ;
-    opacity: 1!important;
+  
+
+  #navbarContent {
+
+    width: 100% !important;
+    background-color: #660000;
   }
 
   
@@ -115,68 +229,12 @@
 .btn-primary:hover {
   background-position: right center; 
 }
-.glitch {
-  position: relative;
-  font-size: 25px;
-  font-weight: 700;
-  line-height: 1.2;
-  color: #fff;
-  letter-spacing: 5px;
-  z-index: 1;
-  animation: shift 3s ease-in-out infinite alternate;
-}
 
-.glitch:before,
-.glitch:after {
-  display: block;
-  content: attr(data-glitch);
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0.8;
-}
 
-.glitch:before {
-  animation: glitch 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
-  color: #FFD700;
-  z-index: -1;
-}
-
-.glitch:after {
-  animation: glitch 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
-  color: #020101;
-  z-index: -2;
-}
-
-@keyframes glitch {
-  0% {
-    transform: translate(0);
-  }
-
-  20% {
-    transform: translate(-3px, 3px);
-  }
-
-  40% {
-    transform: translate(-3px, -3px);
-  }
-
-  60% {
-    transform: translate(3px, 3px);
-  }
-
-  80% {
-    transform: translate(3px, -3px);
-  }
-
-  to {
-    transform: translate(0);
-  }
-}
 
 
 .bg-custom{
-  background-color: #FFA33C;
+  background-color: #660000;
   opacity: 0.9;
 }
 
@@ -195,5 +253,11 @@
 .user-photo{
   border: 1px solid #000000;
   border-radius: 50%;
-  max-width: 30px;
+  max-width: 60px;
+}
+
+@media (max-width: 991px) {
+  .navbar {
+    margin-top: 20px !important;
+  }
 }

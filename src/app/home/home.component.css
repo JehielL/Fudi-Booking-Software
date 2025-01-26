@@ -297,20 +297,8 @@ a {
 }
 
 .type-kitchen {
-  color: white;
-  display: block;
-
-  border: 3px   solid white;
-  border-radius: 10px;
-  padding: 10px;
-  background: linear-gradient(-45deg, #D00000 0%,#DC2F02 50%, #FAA307  100%);
-  border: none;
-  transition: background-position 0.3s ease;
-  background-size: 200% auto;
-  color: white;
-  width: 100%;
-  margin-left: 5%;
-  margin-top: 30px;
+ 
+  margin-top: 20px;
   
 }
 

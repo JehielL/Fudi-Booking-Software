@@ -43,6 +43,8 @@ export class HomeComponent implements OnInit {
     window.scrollTo(0, 0); 
     Aos.init();
     this.loadRestaurants();
+
+    
   }
 
   loadRestaurants() {
@@ -70,7 +72,7 @@ export class HomeComponent implements OnInit {
     this.puedeMostrarMas = resultadosFiltrados.length > this.maxResultados;
     this.resultadosBusqueda = resultadosFiltrados.slice(0, this.maxResultados);
   }
-
+  
   mostrarMas(): void {
     this.maxResultados += 5;
     this.filtrarResultados();
