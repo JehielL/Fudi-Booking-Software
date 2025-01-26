@@ -30,7 +30,7 @@ export class MenuListComponent {
     }, 1000);
     window.scrollTo(0, 0); 
 
-    this.httpClient.get<Menu[]>('https://dev.bitesoftware.es:8080/menus')
+    this.httpClient.get<Menu[]>('https://biteapp.store:8080/menus')
       .subscribe(menus => this.menus = menus);
     this.menus.filter(menu =>
       menu.title.toLowerCase().includes(this.searchTerm.toLowerCase()));

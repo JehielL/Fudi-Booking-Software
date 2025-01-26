@@ -15,7 +15,7 @@
   <div class="row">
     <div class="col-md-6 mb-3 mb-md-0">
       <img
-        [src]="restaurant?.imageUrl?.startsWith('http') ? restaurant?.imageUrl : ('https://dev.bitesoftware.es:8080/files/' + restaurant?.imageUrl)"
+        [src]="restaurant?.imageUrl?.startsWith('http') ? restaurant?.imageUrl : ('https://biteapp.store:8080/files/' + restaurant?.imageUrl)"
         [alt]="restaurant?.name" class="img-fluid rounded">
     </div>
     <div class="col-md-6">
@@ -60,7 +60,7 @@
       <div class="col-md-4 mb-3">
         <div class="card h-100" [routerLink]="['/menus', menu?.id, 'detail']" style="cursor: pointer;">
           <img class="card-img-top"
-            [src]="menu.imgMenu.startsWith('http') ? menu.imgMenu : ('https://dev.bitesoftware.es:8080/files/' + menu.imgMenu)"
+            [src]="menu.imgMenu.startsWith('http') ? menu.imgMenu : ('https://biteapp.store:8080/files/' + menu.imgMenu)"
             class="card-img-top" [alt]="menu.title">
           <div class="card-body">
             <h5 class="card-title">{{menu?.title}}</h5>
@@ -83,7 +83,7 @@
         <div class="col-md-4 mb-3">
           <div class="card h-100" [routerLink]="['/restaurant',restaurant.id,'detail']" style="cursor: pointer;">
             <img class="card-img-top"
-              [src]="restaurant.imageUrl.startsWith('http') ? restaurant.imageUrl : 'https://dev.bitesoftware.es:8080/files/' + restaurant.imageUrl"
+              [src]="restaurant.imageUrl.startsWith('http') ? restaurant.imageUrl : 'https://biteapp.store:8080/files/' + restaurant.imageUrl"
               alt="Restaurant 1">
             <div class="card-body">
               <h5 class="card-title">{{restaurant.name}}</h5>
@@ -173,7 +173,7 @@
         <div class="card-container p-3 ">
           <div class="card card-cover overflow-hidden text-bg-dark rounded-4 shadow-lg">
             <div class="background-image"
-              [style.background-image]="'url(https://dev.bitesoftware.es:8080/files/' + booking.restaurant.imageUrl + ')'"></div>
+              [style.background-image]="'url(https://biteapp.store:8080/files/' + booking.restaurant.imageUrl + ')'"></div>
             <div class="container-fluid custom">
               <div class="row mt-3 ms-2">
                 <div class="col-md-4">

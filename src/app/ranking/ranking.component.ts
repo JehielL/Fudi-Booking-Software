@@ -24,7 +24,7 @@ export class RankingComponent implements OnInit{
     this.loadTopRestaurants();
   }
   loadTopRestaurants() {
-    const apiUrl = 'https://dev.bitesoftware.es:8080/restaurant';
+    const apiUrl = 'https://biteapp.store:8080/restaurant';
     timer(500).pipe(
       switchMap(() =>  this.httpClient.get<Restaurant[]>(apiUrl)),
     ).subscribe(restaurants => {

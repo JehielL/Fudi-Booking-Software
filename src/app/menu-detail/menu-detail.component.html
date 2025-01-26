@@ -34,7 +34,7 @@
           }
           @else{
           <!-- Si es url interna entonces hay que añadir delante del localhost:8080/files -->
-          <img class="" [src]="'https://dev.bitesoftware.es:8080/files/' + menu.imgMenu" alt="">
+          <img class="" [src]="'https://biteapp.store:8080/files/' + menu.imgMenu" alt="">
 
           }
 
@@ -182,7 +182,7 @@
           }
           @else{
           <!-- Si es url interna entonces hay que añadir delante del localhost:8080/files -->
-          <img class="card-img-top" [src]="'https://dev.bitesoftware.es:8080/files/' + dish.imgDish" alt="">
+          <img class="card-img-top" [src]="'https://biteapp.store:8080/files/' + dish.imgDish" alt="">
 
           }
 
@@ -236,7 +236,7 @@
                             }
                             @else{
                             <!-- Si es url interna entonces hay que añadir delante del localhost:8080/files -->
-                            <img class="card-img" [src]="'https://dev.bitesoftware.es:8080/files/' + dish.imgDish" alt="">
+                            <img class="card-img" [src]="'https://biteapp.store:8080/files/' + dish.imgDish" alt="">
                             }
                           </div>
                         </div>
@@ -313,7 +313,7 @@
 
 
               <img
-                [src]="rating.user?.imgUser?.startsWith('http') ? rating.user?.imgUser : ('https://dev.bitesoftware.es:8080/files/' + rating.user?.imgUser)"
+                [src]="rating.user?.imgUser?.startsWith('http') ? rating.user?.imgUser : ('https://biteapp.store:8080/files/' + rating.user?.imgUser)"
                 class="custom-picture" [routerLink]="['/user', user?.id, 'detail']" alt="logo" height="80" width="80">
 
 

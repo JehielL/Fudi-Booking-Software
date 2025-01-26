@@ -33,7 +33,7 @@ export class LoginMainComponent {
             password: this.loginForm.get('password')?.value ?? '',
           };
         
-          this.httpClient.post<Token>('https://dev.bitesoftware.es:8080/users/login', login).subscribe({
+          this.httpClient.post<Token>('https://biteapp.store:8080/users/login', login).subscribe({
             next: (response) => {
               console.log(response.token);
               this.authService.saveToken(response.token);

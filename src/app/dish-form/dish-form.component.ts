@@ -77,7 +77,7 @@ export class DishFormComponent implements OnInit {
       setTimeout(() => {
         this.showSpinner = false;
       }, 1000);
-      this.httpClient.get<Menu>('https://dev.bitesoftware.es:8080/menus/' + id)
+      this.httpClient.get<Menu>('https://biteapp.store:8080/menus/' + id)
       .subscribe(menus => {
         this.menu = menus;
         this.dishForm.patchValue({
@@ -87,7 +87,7 @@ export class DishFormComponent implements OnInit {
 
       // EDICION
 
-      this.httpClient.get<Dish>('https://dev.bitesoftware.es:8080/dishes/' + id).subscribe(dish => {
+      this.httpClient.get<Dish>('https://biteapp.store:8080/dishes/' + id).subscribe(dish => {
         this.dishForm.reset({
           menu: dish.menu,
         });  
@@ -137,10 +137,10 @@ export class DishFormComponent implements OnInit {
     }
 
     if (this.isUpdate) {
-      this.httpClient.put<Dish>('https://dev.bitesoftware.es:8080/dishes/' + this.dish?.id, formData)
+      this.httpClient.put<Dish>('https://biteapp.store:8080/dishes/' + this.dish?.id, formData)
         .subscribe(dish => this.navigateToList());
     } else {
-      this.httpClient.post<Dish>('https://dev.bitesoftware.es:8080/dishes', formData)
+      this.httpClient.post<Dish>('https://biteapp.store:8080/dishes', formData)
         .subscribe(dish => this.navigateToList());
     }
   }

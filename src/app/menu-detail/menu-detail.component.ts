@@ -69,19 +69,19 @@ export class MenuDetailComponent implements OnInit {
         this.showSpinner = false;
       }, 1000);
      
-      const ratingsUrl = 'https://dev.bitesoftware.es:8080/menus/filter-by-menu/' + id;
-      const userUrl = 'https://dev.bitesoftware.es:8080/user/' + id;
+      const ratingsUrl = 'https://biteapp.store:8080/menus/filter-by-menu/' + id;
+      const userUrl = 'https://biteapp.store:8080/user/' + id;
       
       
 
-      const url = 'https://dev.bitesoftware.es:8080/menus/' + id;
+      const url = 'https://biteapp.store:8080/menus/' + id;
       this.httpClient.get<Menu>(url).subscribe(m => {
         this.menu = m;
         this.loadRatings();
       });      this.httpClient.get<Rating[]>(ratingsUrl).subscribe(ratings => this.ratings = ratings);
       this.httpClient.get<User[]>(userUrl).subscribe(users => this.users = users);
 
-      this.httpClient.get<Dish[]>('https://dev.bitesoftware.es:8080/dishes/filter-by-menu/' + id)
+      this.httpClient.get<Dish[]>('https://biteapp.store:8080/dishes/filter-by-menu/' + id)
       .subscribe(dishes => this.dishes = dishes);
 
       this.checkCanEdit(id);
@@ -92,7 +92,7 @@ export class MenuDetailComponent implements OnInit {
   }
 
   checkCanEdit(id: number): void {
-    this.httpClient.get<boolean>(`https://dev.bitesoftware.es:8080/menus/can-edit/${id}`)
+    this.httpClient.get<boolean>(`https://biteapp.store:8080/menus/can-edit/${id}`)
     .subscribe(canEdit => {
         this.canEdit = canEdit;
     }, error => {
@@ -101,7 +101,7 @@ export class MenuDetailComponent implements OnInit {
 }
 
   delete(menu: Menu) {
-    const url = 'https://dev.bitesoftware.es:8080/menus/' + menu.id;
+    const url = 'https://biteapp.store:8080/menus/' + menu.id;
     this.httpClient.delete(url).subscribe(response => {
       this.menu = undefined;
       this.showDeleteMenuMessage = true;
@@ -122,24 +122,24 @@ export class MenuDetailComponent implements OnInit {
 
     };
 
-    this.httpClient.post<Rating>('https://dev.bitesoftware.es:8080/ratings', rating).subscribe(rating => {
+    this.httpClient.post<Rating>('https://biteapp.store:8080/ratings', rating).subscribe(rating => {
       this.ratingForm.reset();
       this.loadRatings();
     });
 
-    this.httpClient.get<Rating[]>('https://dev.bitesoftware.es:8080/menus/filter-by-menu/' + this.menu?.id)
+    this.httpClient.get<Rating[]>('https://biteapp.store:8080/menus/filter-by-menu/' + this.menu?.id)
       .subscribe(ratings => this.ratings = ratings);
   }
 
   loadRatings() {
     if (!this.menu) return;
 
-    this.httpClient.get<Rating[]>('https://dev.bitesoftware.es:8080/menus/filter-by-menu/' + this.menu.id)
+    this.httpClient.get<Rating[]>('https://biteapp.store:8080/menus/filter-by-menu/' + this.menu.id)
       .subscribe(ratings => this.ratings = ratings);
   }
 
   deleteRating(rating: Rating) {
-    this.httpClient.delete('https://dev.bitesoftware.es:8080/ratings/' + rating.id)
+    this.httpClient.delete('https://biteapp.store:8080/ratings/' + rating.id)
     .subscribe({
       next: response => {
         this.loadRatings();
