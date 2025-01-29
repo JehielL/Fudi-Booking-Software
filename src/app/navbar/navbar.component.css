@@ -167,11 +167,12 @@
   }
 
   .navbar {
-    border-top-left-radius: 40px !important;
-    border-top-right-radius: 40px !important;
-    border-bottom-left-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
     border-left: none !important;
+    margin-bottom: 50px !important;
   }
   
   /* Ajuste del padding del navbar en pantallas pequeñas */
@@ -258,6 +259,6 @@
 
 @media (max-width: 991px) {
   .navbar {
-    margin-top: 20px !important;
+    margin-top: 0px !important;
   }
 }
