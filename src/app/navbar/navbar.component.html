@@ -1,7 +1,7 @@
 <nav class="navbar bg-custom navbar-expand-md shadow-sm p-3">
     <div class="container-fluid text-center">
     <a routerLink="/home" class="navbar-brand">
-      <img src="/assets/img/bi-removebg.png" alt="Logo" style="max-width: 140px;">
+      <img src="/assets/img/bi-removebg.png" alt="Logo" style="max-width: 80px;">
     </a>
 
     <button class="navbar-toggler" type="button" aria-controls="navbarContent" [attr.aria-expanded]="!collapsed" aria-label="Toggle navigation" (click)="collapsed = !collapsed">
@@ -9,9 +9,9 @@
     </button>
 
     <div class="navbar-collapse" [class.collapse]="collapsed" id="navbarContent">
-      <ul class="navbar-nav" style="margin-left: 30% !important;">
+      <ul class="navbar-nav text-center" style="margin-left: 150px !important;">
         <li class="nav-item " ngbDropdown>
-          <a class="nav-link bi text-white"  id="navbarDropdown2" role="button">Inicio</a>
+          <a  routerLink="/home"  class="nav-link bi text-white"  id="navbarDropdown2" role="button">Inicio</a>
           
         </li>
         @if (isAdmin || isRestaurant) {
@@ -40,7 +40,7 @@
             <a ngbDropdownItem href="#">Sobre el proyecto</a>
           </div>
         </li>
-        <li class="nav-item " ngbDropdown>
+        <li class="nav-item " ngbDropdown style="margin-left: 150px;">
           @if (isLoggedin) {
             <a class="nav-link" ngbDropdownToggle id="navbarDropdown2" role="button">
               <img class="user-photo" [src]="avatarUrl" alt="Restaurant 1">

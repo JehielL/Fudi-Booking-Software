@@ -7,13 +7,21 @@
   color: rgb(0, 0, 0);
 }
 
-.navbar{
-  position: sticky;
-  width: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
+
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap; /* Evita que los elementos se desborden */
+  max-width: 100%;
+  padding: 10px 20px;
+  height: auto;
+}
+
+.nav-item:last-child {
+  flex-shrink: 1; /* Permite que se reduzca para caber en la navbar */
+  max-width: 250px; /* Evita que crezca demasiado */
 }
 .btn-login {
   background: linear-gradient(to right, #b30092, #009bb3);
@@ -23,7 +31,20 @@
   color: white;
 }
 
+.nav-item:last-child .dropdown-menu {
+  right: 0;
+  left: auto;
+  max-width: 250px;
+  white-space: nowrap; /* Evita que el texto cause desbordamiento */
+}
+
+
 .nav-link{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 1rem;
+  padding: 8px 12px;
   color: #000000;
 }
 .btn-primary:hover {
@@ -31,6 +52,10 @@
   transform: scale(1.05); 
 }
 
+.navbar-nav .dropdown-toggle{
+  display: flex;
+  align-items: center;
+}
 .navbar-collapse[_ngcontent-ng-c1227068899]{
   width: 100% !important;; 
 }
@@ -51,6 +76,8 @@
 }
 
 .nav-item {
+  display: flex;
+  align-items: cente;
   color: #000000 !important;
   transition: all 0.5s;
   font-weight: bold;
@@ -75,6 +102,10 @@
   font-weight: bold;
 }
 
+.nav-link i.bi {
+  font-size: 1.2rem;
+  vertical-align: middle;
+}
 
 
 .navbar-brand {
@@ -114,19 +145,19 @@
       right: 0; /* Alinea el menú desplegable a la derecha */
       width: 50%;
       background-color: #ffffff;
-      border-radius: 0 0 20px 20px; /* Ajusta los bordes del menú desplegable */
-      z-index: 0; /* Asegura que el menú desplegable esté detrás del botón de hamburguesa */
+      border-radius: 0 0 20px 20px; 
+      z-index: 0;
   }
   
 
   .navbar-nav {
       display: flex;
       flex-direction: column;
-      
+      gap: 10px; 
   }
 
   .navbar-nav .nav-item {
-      margin-bottom: 10px; /* Espacio entre los elementos del menú */
+      margin-bottom: 10px; 
   }
 
 
@@ -252,6 +283,9 @@
 }
 
 .user-photo{
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
   border: 1px solid #000000;
   border-radius: 50%;
   max-width: 60px;

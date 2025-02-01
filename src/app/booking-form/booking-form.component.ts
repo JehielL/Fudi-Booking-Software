@@ -104,12 +104,11 @@ export class BookingFormComponent implements OnInit {
           restaurant: bookingFromBackend.restaurant,
           isPremium: bookingFromBackend.isPremium,
           extraService: bookingFromBackend.extraService,
-
+          
 
         });
+    
 
-        // marcar boolean true isUpdate
-        this.isUpdate = true;
 
       });
     });
