@@ -52,6 +52,6 @@ export class AppComponent {
     this.mostrarBotonesExtras = false;
   }
 
-  title = 'Bite booking app';   
+  title = 'Bite Food app';   
   
 }

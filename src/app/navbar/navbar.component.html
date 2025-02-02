@@ -25,12 +25,7 @@
             </div>
           </li>
         }
-        <li class="nav-item ">
-          <button class="btn nav-link dropdown-toggle" (click)="toggleCocinasDropdown()">Segun su Origen</button>
-          @if (showCocinasDropdown) {
-            <app-kitchen></app-kitchen>
-          }
-        </li>
+       
         <li class="nav-item" ngbDropdown>
           <a class="nav-link" ngbDropdownToggle id="navbarDropdown2" role="button">
             <i class="bi bi-fire"></i> Quienes somos
@@ -41,6 +36,15 @@
           </div>
           
         </li>
+        <li class="nav-item" ngbDropdown>
+          <a class="nav-link dropdown-toggle" ngbDropdownToggle id="navbarDropdown2" role="button">
+            Segun su Origen
+          </a>
+          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-center">
+            <app-kitchen ></app-kitchen>
+          </div>
+        </li>
+        
         <div class="search ">
           <input type="search" class="form-control form-control-sm rounded custom-input"
                  placeholder="Buscar Restaurantes ..." aria-label="Buscar" aria-describedby="search-addon"
