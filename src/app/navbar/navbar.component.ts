@@ -5,6 +5,8 @@ import { AuthenticationService } from '../services/authentication.service';
 import { User } from '../Interfaces/user.model';
 import { HttpClient } from '@angular/common/http';
 import { KitchenComponent } from '../kitchen/kitchen.component';
+import { Restaurant } from '../Interfaces/restaurant.model';
+import { delay, switchMap, timer } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -20,9 +22,15 @@ export class NavbarComponent implements OnInit{
   userId: string | null = null;
   isLoggedin = false;
   collapsed = true;
+  searchTerm: string = '';
+
+  restaurants: Restaurant[] = [];
+  resultadosBusqueda: Restaurant[] = [];
   userEmail = '';
   isAdmin = false;
   isRestaurant = false;
+  maxResultados: number = 5; 
+  minResultados: number = 5;
   user: User | undefined;
   avatarUrl = '';
   puedeMostrarMas: boolean = false;
@@ -71,7 +79,7 @@ export class NavbarComponent implements OnInit{
 
   ngOnInit(): void {
 
-    
+    this.loadRestaurants();
     
   }
 
@@ -79,6 +87,48 @@ export class NavbarComponent implements OnInit{
     this.showCocinasDropdown = !this.showCocinasDropdown;
   }
 
+
+   loadRestaurants() {
+      const apiUrl = 'https://biteapp.store:8080/restaurant';
+      timer(500).pipe(
+        switchMap(() => this.httpClient.get<Restaurant[]>(apiUrl)),
+        delay(500)
+      )
+      .subscribe(restaurants => {
+        this.restaurants = restaurants;
+      });
+    }
+  
+    buscar(termino: string): void {
+      this.searchTerm = termino;
+      this.filtrarResultados();
+    }
+  
+    filtrarResultados(): void {
+      const resultadosFiltrados = this.searchTerm
+        ? this.restaurants.filter(restaurant =>
+            restaurant.name.toLowerCase().includes(this.searchTerm.toLowerCase()))
+        : [];
+      this.puedeMostrarMas = resultadosFiltrados.length > this.maxResultados;
+      this.resultadosBusqueda = resultadosFiltrados.slice(0, this.maxResultados);
+    }
+    
+    mostrarMas(): void {
+      this.maxResultados += 5;
+      this.filtrarResultados();
+    }
+    mostrarMenos(): void {
+      this.maxResultados = Math.max(this.minResultados, this.maxResultados - 5);
+      this.filtrarResultados();
+    }
+  
+    highlightSearchTerm(name: string, searchTerm: string): string {
+      if (!searchTerm) return name;
+  
+      const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`(${escapedSearchTerm})`, 'gi');
+      return name.replace(regex, '$1');
+    }
   logout() {
 
     this.authService.removeToken();

@@ -10,13 +10,14 @@
 
 
 .navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: nowrap; /* Evita que los elementos se desborden */
-  max-width: 100%;
-  padding: 10px 20px;
-  height: auto;
+    padding: 10px 20px;
+    height: auto;
+    z-index: 1000;
+    position: sticky;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 .nav-item:last-child {
@@ -59,31 +60,76 @@
 .navbar-collapse[_ngcontent-ng-c1227068899]{
   width: 100% !important;; 
 }
-.navbar {
-  background-color: #ffffff;
-  height: 100px;
-  border-radius: 30px;
-  margin-top: 20px;
-  margin-bottom: 40px;
-  width: 80%;
-  position: fixed;
-  top: 0;
-  padding: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  border: 2px solid #000000;
-}
 
+.navbar-nav{
+  margin-left: 200px;
+}
 .nav-item {
   display: flex;
-  align-items: cente;
+  align-items: center;
   color: #000000 !important;
   transition: all 0.5s;
   font-weight: bold;
   border-radius: 20px;
   padding: 5px;
 }
+
+.search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* Permite que los resultados se ubiquen sin desplazar otros elementos */
+  padding: 5px;
+  margin-top: 0; /* Elimina la separación vertical que hacía que la navbar se moviera */
+  margin-left: 250px;
+  margin-right: -150px;
+}
+
+/* Asegurar que la barra de búsqueda esté bien alineada */
+.search input {
+  height: 36px; /* Igualar la altura de los elementos */
+  padding: 8px 15px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+}
+
+/* Posicionar los resultados de búsqueda debajo del input sin mover otros elementos */
+.search-container {
+  position: absolute;
+  top: 100%; /* Asegura que los resultados aparezcan debajo */
+  left: 0;
+  width: 100%;
+  background: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  z-index: 1000; /* Asegura que los resultados estén sobre otros elementos */
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* No permitir que la navbar cambie de tamaño cuando aparezcan resultados */
+.search-container ul {
+  margin: 0;
+  padding: 5px;
+  list-style: none;
+}
+
+/* Ajustar los ítems de la lista de búsqueda */
+.search-container .list-group-item {
+  padding: 8px 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Evita que los elementos de búsqueda ocupen demasiado espacio */
+.search-container .list-group-item a {
+  display: block;
+  text-decoration: none;
+  color: #333;
+}
+
+
+
+
 
 .nav-item:hover {
   background-color: #F49D37;
@@ -124,45 +170,7 @@
   right: 20px;
 }
 
-@media (max-width: 991px) {
-  .navbar {
-      height: 100px; 
-      padding: 10px 20px; 
-      width: 100%;
-      border-radius: 0; 
-      margin-top: 0px;
-  }
 
-  .navbar-toggler {
-      top: 50%; /* Ajuste la posición del botón de hamburguesa */
-      transform: translateY(-50%);
-      z-index: 1; /* Asegura que el botón de hamburguesa esté sobre el contenido */
-  }
-
-  .navbar-collapse {
-      position: absolute;
-      top: 100%; /* Coloca el menú desplegable debajo del botón de hamburguesa */
-      right: 0; /* Alinea el menú desplegable a la derecha */
-      width: 50%;
-      background-color: #ffffff;
-      border-radius: 0 0 20px 20px; 
-      z-index: 0;
-  }
-  
-
-  .navbar-nav {
-      display: flex;
-      flex-direction: column;
-      gap: 10px; 
-  }
-
-  .navbar-nav .nav-item {
-      margin-bottom: 10px; 
-  }
-
-
-  
-}
 
 
 .btn-login:hover {
@@ -203,7 +211,6 @@
     border-bottom-left-radius: 0px !important;
     border-bottom-right-radius: 0px !important;
     border-left: none !important;
-    margin-bottom: 50px !important;
   }
   
   /* Ajuste del padding del navbar en pantallas pequeñas */
@@ -294,5 +301,81 @@
 @media (max-width: 991px) {
   .navbar {
     margin-top: 0px !important;
+    flex-direction: column;
+    align-items: center;
+    height: 100px; 
+      padding: 10px 20px; 
+      width: 100%;
+      border-radius: 0; 
+      margin-top: 0px;
+}
+
+.navbar-nav {
+    flex-direction: column;
+    width: 100%;
+    margin-left: 20px !important;
+}
+
+.nav-item {
+    width: 100%;
+    text-align: center;
+}
+
+.nav-item:last-child {
+    width: 100%;
+}
+
+.nav-item:last-child .dropdown-menu {
+    width: 100%;
+}
+
+.search {
+  width: 50% !important;
+  justify-content: center;
+  margin-left: 0 !important;
+}
+
+.search-container {
+  width: 100%;
+  left: 0;
+}
+
+.user-profile{
+
+  margin-left: 0 !important;
+}
+}
+
+@media (max-width: 991px) {
+  
+
+  .navbar-toggler {
+      top: 50%; /* Ajuste la posición del botón de hamburguesa */
+      transform: translateY(-50%);
+      z-index: 1; /* Asegura que el botón de hamburguesa esté sobre el contenido */
   }
+
+  .navbar-collapse {
+      position: absolute;
+      top: 100%; /* Coloca el menú desplegable debajo del botón de hamburguesa */
+      right: 0; /* Alinea el menú desplegable a la derecha */
+      width: 50%;
+      background-color: #ffffff;
+      border-radius: 0 0 20px 20px; 
+      z-index: 0;
+  }
+  
+
+  .navbar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 10px; 
+  }
+
+  .navbar-nav .nav-item {
+      margin-bottom: 10px; 
+  }
+
+
+  
 }

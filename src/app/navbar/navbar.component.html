@@ -1,7 +1,7 @@
 <nav class="navbar bg-custom navbar-expand-md shadow-sm p-3">
     <div class="container-fluid text-center">
     <a routerLink="/home" class="navbar-brand">
-      <img src="/assets/img/bi-removebg.png" alt="Logo" style="max-width: 80px;">
+      <img class="navbar-brand" src="/assets/img/bi-removebg.png" alt="Logo" style="max-width: 80px;">
     </a>
 
     <button class="navbar-toggler" type="button" aria-controls="navbarContent" [attr.aria-expanded]="!collapsed" aria-label="Toggle navigation" (click)="collapsed = !collapsed">
@@ -9,7 +9,7 @@
     </button>
 
     <div class="navbar-collapse" [class.collapse]="collapsed" id="navbarContent">
-      <ul class="navbar-nav text-center" style="margin-left: 150px !important;">
+      <ul class="navbar-nav text-center" >
         <li class="nav-item " ngbDropdown>
           <a  routerLink="/home"  class="nav-link bi text-white"  id="navbarDropdown2" role="button">Inicio</a>
           
@@ -39,8 +39,35 @@
             <a ngbDropdownItem routerLink="/about-us">Sobre nosotros</a>
             <a ngbDropdownItem href="#">Sobre el proyecto</a>
           </div>
+          
         </li>
-        <li class="nav-item " ngbDropdown style="margin-left: 150px;">
+        <div class="search ">
+          <input type="search" class="form-control form-control-sm rounded custom-input"
+                 placeholder="Buscar Restaurantes ..." aria-label="Buscar" aria-describedby="search-addon"
+                 style="max-width: 760px;" (input)="buscar($any($event.target).value)">
+          @if (resultadosBusqueda.length > 0) {
+          <div class="search-container">
+              <ul class="list-group">
+                  @for (restaurantes of resultadosBusqueda; track restaurantes ) {
+                  <li class="list-group-item">
+                      <a [routerLink]="['/restaurant', restaurantes.id, 'detail']"
+                         [innerHTML]="highlightSearchTerm(restaurantes.name, searchTerm)">{{ restaurantes.name }}</a>
+                  </li>
+                  }
+              </ul>
+              @if (puedeMostrarMas) {
+              <button class="btn btn-outline-primary" (click)="mostrarMas()">Mostrar más</button>
+              }
+              @if (maxResultados > minResultados) {
+              <button class="btn btn-outline-primary" (click)="mostrarMenos()">Mostrar menos</button>
+              }
+          </div>
+          }
+          
+    
+    
+      </div>
+        <li class="nav-item user-profile" ngbDropdown style="margin-left: 150px;">
           @if (isLoggedin) {
             <a class="nav-link" ngbDropdownToggle id="navbarDropdown2" role="button">
               <img class="user-photo" [src]="avatarUrl" alt="Restaurant 1">
@@ -60,11 +87,14 @@
             <button routerLink="/user/register" class="btn-register">
               <i class="bi bi-person-plus"></i> Registrarse
             </button>
+            
           }
         </li>
       </ul>
       
     </div>
+
+    
     
   </div>
 </nav>
