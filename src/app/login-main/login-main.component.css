@@ -21,18 +21,19 @@
   }
   
   
-  .coolinput input[type=text].input {
-    padding: 10px 50px;
-    font-size: 0.95rem;
-    border: 2px #4b0f4a solid;
-    border-radius: 4px;
+  .coolinput input.input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid #660000;
+    border-radius: 6px;
     background: white;
-  }
+    width: 100%;
+}
 
   .coolinput input[type=text].input {
     padding: 10px 50px;
     font-size: 0.95rem;
-    border: 2px #4b0f4a solid;
+    border: 2px #660000 solid;
     border-radius: 4px;
     background: white;
   }
@@ -57,7 +58,7 @@
     font-family: Noto Sans, sans-serif;
     font-weight: 500;
     color: white;
-    background-color: #4b0f4a;
+    background-color: #660000;
    }
    
    .custom-btn:hover {
@@ -83,9 +84,7 @@
     transition: all .4s;
    }
    
-   .custom-btn::after {
-    background-color: #fff;
-   }
+   
    
    .custom-btn:hover::after {
     transform: scaleX(1.4) scaleY(1.6);
@@ -136,7 +135,8 @@ a {
   }
   
   .columnaDER {
-      width: 100%; /* Ajusta la columna derecha para ocupar todo el ancho */
+      width: 80%; 
+    
   }
 }
 

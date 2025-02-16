@@ -34,7 +34,7 @@ import { NotRestaurantComponent } from './not-restaurant/not-restaurant.componen
 export const routes: Routes = [
    {
     path: '',
-    redirectTo: '/home-logout',
+    redirectTo: '/home',
     pathMatch: 'full'
    }, 
  {

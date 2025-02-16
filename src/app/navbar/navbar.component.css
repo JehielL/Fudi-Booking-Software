@@ -30,6 +30,8 @@
   transition: background-position 0.3s ease, transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
   background-size: 200% auto;
   color: white;
+  padding: 10px;
+  border-radius: 20px;
 }
 
 .nav-item:last-child .dropdown-menu {
@@ -81,8 +83,10 @@
   position: relative; /* Permite que los resultados se ubiquen sin desplazar otros elementos */
   padding: 5px;
   margin-top: 0; /* Elimina la separación vertical que hacía que la navbar se moviera */
-  margin-left: 250px;
   margin-right: -150px;
+}
+.user-container{
+  margin-left: 70vh;
 }
 
 /* Asegurar que la barra de búsqueda esté bien alineada */
@@ -127,16 +131,6 @@
   color: #333;
 }
 
-
-
-
-
-.nav-item:hover {
-  background-color: #F49D37;
-  
-}
-
-
 .nav-item .nav-link {
   color: #000000 !important;
   transition: all 0.5s;
@@ -170,20 +164,20 @@
   right: 20px;
 }
 
-
-
-
 .btn-login:hover {
   background-position: right center; 
   transform: scale(1.05); 
+  
 }
 
 .btn-register {
-  background: linear-gradient(to right, #009bb3, #4ed851);
+  background: linear-gradient(to right, #009bb3, #b0271a);
   border: none;
   transition: background-position 0.3s ease, transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
   background-size: 200% auto;
   color: white;
+  padding: 10px;
+  border-radius: 20px;
  
 }
 .btn-register:hover {
@@ -235,9 +229,13 @@
   #navbarContent {
 
     width: 100% !important;
-    background-color: #660000;
+    background-color: #660000 ;
   }
 
+  .header {
+    background-color: #660000;
+
+  }
   
 }
 
@@ -298,6 +296,11 @@
   max-width: 60px;
 }
 
+.user-profile{
+  
+  margin-left: 60vh;
+}
+
 @media (max-width: 991px) {
   .navbar {
     margin-top: 0px !important;
@@ -316,10 +319,7 @@
     margin-left: 20px !important;
 }
 
-.nav-item {
-    width: 100%;
-    text-align: center;
-}
+
 
 .nav-item:last-child {
     width: 100%;
@@ -328,22 +328,18 @@
 .nav-item:last-child .dropdown-menu {
     width: 100%;
 }
-
-.search {
-  width: 50% !important;
-  justify-content: center;
-  margin-left: 0 !important;
+.user-profile{
+  
+  margin-left: 0vh !important;
 }
 
+
 .search-container {
-  width: 100%;
+  width: 80%;
   left: 0;
 }
 
-.user-profile{
 
-  margin-left: 0 !important;
-}
 }
 
 @media (max-width: 991px) {

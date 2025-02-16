@@ -18,7 +18,8 @@ import { AuthenticationService } from '../services/authentication.service';
 export class CarruselComponent implements OnInit {
   restaurants: Restaurant[] = [];
   restaurantType = RestaurantType;
-  carruselIntervalo = 2000;
+  carruselIntervalo = 3000;
+  
   
 
   userId: string | null = null;

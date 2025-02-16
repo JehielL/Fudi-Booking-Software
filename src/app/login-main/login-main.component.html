@@ -1,60 +1,85 @@
-<div class="row">
-  <div class="col-lg-6 col-md-6 d-none d-md-block img-fluid columnaIZQ">
-    <img style="opacity: 0.5; " src="./assets/img/logo_bitebooking.png" alt="login">
+@if (showSpinner) {
+  <div class="loader-wrapper">
+    <div class="packman"></div>
+    <div class="dots">
+      <div class="dot bi-fire"></div>
+      <div class="dot bi-fire "></div>
+      <div class="dot bi-fire"></div>
+      <div class="dot bi-fire"></div>
+    </div>
   </div>
-  <div class="col-lg-6 col-md-6 pl-0 columnaDER">
+}@else {
 
-
-    <div id="formdiv" class=" text-center">
-      <form [formGroup]="loginForm" (ngSubmit)="save()">
-
-        <div
-          style="display: grid; place-items: center;font-family:Noto Sans, sans-serif; font-weight: 400; font-style: normal;">
-          <h1 style="margin-top: 20px;">Iniciar sesion</h1>
+  <div class="row mt-5 justify-content-center">
+    <div class="col-lg-6 col-md-6 d-none d-md-block img-fluid columnaIZQ">
+      <ngb-carousel
+    #carousel
+    [interval]="4000"
+    [pauseOnHover]="pauseOnHover"
+    [pauseOnFocus]="pauseOnFocus"
+    (slide)="onSlide($event)"
+  >
+    @for (img of images; track img; let i = $index) {
+      <ng-template ngbSlide>
+        <div class="carousel-caption">
+          <h3>My slide {{ i + 1 }} title</h3>
         </div>
-
-        <div class="coolinput">
-          <div> <label for="input" class="text">Email address</label></div>
-          <input type="text" name="email" class="input" id="email" placeholder="name@example.com"
-            formControlName="email">
-
-
-        </div>
-
-        <div class="mb-3">
-          <div class="password">
-            <div><label for="input" class="password">contraseña</label></div>
-            <input type="password" name="password" formControlName="password" class="input">
-            @if (errorMessage) {<div class="error-message">{{ errorMessage }}</div>}
-
-            <div><label for="input" class="text">haz olvidado tu <a style="color:black;" class="contr"
-                  href="#">contraseña?</a></label></div>
+        <a href="https://www.google.fr/?q=Number+{{ i + 1 }}" target="_blank" rel="nofollow noopener noreferrer">
+          <div class="picsum-img-wrapper">
+            <img [src]="img" alt="My image {{ i + 1 }} description" />
           </div>
-
-          <div class="mb-3 form-check">
-            <label class="form-check-label" for="exampleCheck1" style="margin-top: 10px;">recuerdame <input
-                type="checkbox" class="form-check-input" id="exampleCheck1"></label>
+        </a>
+      </ng-template>
+    }
+  </ngb-carousel>
+    </div>
+    
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <div id="formdiv" class="text-center p-4 rounded shadow-sm">
+        <form [formGroup]="loginForm" (ngSubmit)="save()">
+          
+          <h1 class="mb-4">Iniciar sesión</h1>
+          
+          <div class="mb-3 coolinput">
+            <label for="email" class="text">Email address</label>
+            <input type="email" id="email" class="form-control input" placeholder="name@example.com" formControlName="email" required>
           </div>
-
-          <button class="custom-btn" type="submit">iniciar sesion</button>
+          
+          <div class="mb-3 coolinput">
+            <label for="password" class="text">Contraseña</label>
+            <input type="password" id="password" class="form-control input" formControlName="password" required>
+            @if (errorMessage) {
+              <div class="error-message">{{ errorMessage }}</div>
+            }
+          </div>
+          
+          <div class="mb-3 text-start">
+            <a href="#" class="text-decoration-none">¿Olvidaste tu contraseña?</a>
+          </div>
+          
+          <div class="mb-3 form-check text-start">
+            <input type="checkbox" class="form-check-input" id="rememberMe">
+            <label class="form-check-label" for="rememberMe">Recuérdame</label>
+          </div>
+          
+          <button class="custom-btn w-100" type="submit">Iniciar sesión</button>
+        </form>
+        
+        <div class="mt-4">
+          <h5>¿No tienes una cuenta aún?</h5>
+          <h4><a class="text-primary" routerLink="/user/create">Registrarse</a></h4>
         </div>
-
-
-      </form>
-      <div>
-        <h5>¿No tienes una cuenta aun?</h5>
-        <h4><a style="color: #4b0f4a;" routerLink="/user/create">Registrarse!</a></h4>
-      </div>
-      <div>
-        <ul>
-          <li><a href="#"><i class="fab fa-instagram instagram"></i> </a></li>
-          <li><a href="#"><i class="fab fa-google google"></i> </a></li>
-          <li><a href="#"><i class="fab fa-facebook facebook"></i> </a></li>
-        </ul>
+        
+        <div class="social-login mt-3">
+          <ul class="list-unstyled d-flex justify-content-center gap-3">
+            <li><a href="#" class="text-danger"><i class="fab fa-google fa-2x"></i></a></li>
+            <li><a href="#" class="text-primary"><i class="fab fa-facebook fa-2x"></i></a></li>
+            <li><a href="#" class="text-pink"><i class="fab fa-instagram fa-2x"></i></a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 
+}
 
-
-</div>
