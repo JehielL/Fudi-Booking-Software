@@ -1,6 +1,6 @@
-## BITEBOOKING
+## BITEFOOD
 
-Bienvenido a BiteBooking, la solución integral para reservas en restaurantes que no solo facilita a los usuarios la búsqueda y reserva de mesas, sino que también ofrece a los restaurantes una plataforma robusta para mejorar su visibilidad y gestionar sus reservas efectivamente.
+Bienvenido a BiteFood, la solución integral para reservas en restaurantes que no solo facilita a los usuarios la búsqueda y reserva de mesas, sino que también ofrece a los restaurantes una plataforma robusta para mejorar su visibilidad y gestionar sus reservas efectivamente.
 
 ## 🌟 Propósito
 
