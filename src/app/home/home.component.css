@@ -18,16 +18,58 @@
   border: 2px solid rgba(253, 253, 253, 0.986);
   border-radius: 20px;
   width: 150px;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   cursor: pointer;
   background-color: transparent;
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
 }
 
+/* Contenedor del GIF con efecto de fade-in */
+.category::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://media3.giphy.com/media/t3cAV2HGSSMljwOpS9/200w.gif?cid=6c09b952r52j9vaj92kvkmn6wcm4ibcr4s7e9ixdk4l48q5c&ep=v1_gifs_search&rid=200w.gif&ct=g'); /* Ruta del GIF */
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out; /* Suaviza el efecto */
+  z-index: -1;
+}
+
+.categoryRanking::before{
+
+  background-image: url('https://cdn.dribbble.com/userupload/19780573/file/original-f539c7b5bcf80ff45985124ec1395f74.gif') !important; /* Ruta del GIF */
+
+}
+.categoryDiscounts::before{
+
+  background-image: url('https://cdn-icons-gif.flaticon.com/12707/12707727.gif') !important; /* Ruta del GIF */
+
+}
+
+.categoryZonas::before{
+
+  background-image: url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdjl5bnZ1NGduM3o0MzZ0N21vbGY4a3JkNmQzd3I2cncxOWNpeTRuYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lPdnsmJjxXuXbDn6yq/giphy.gif') !important; /* Ruta del GIF */
+
+}
+
+
+/* Efecto al hacer hover */
 .category:hover {
   transform: scale(1.2);
-  background-color: rgba(255, 255, 255, 0.1); 
   box-shadow: 0 12px 16px rgba(255, 255, 255, 0.671);
 }
+
+.category:hover::before {
+  opacity: 1; /* Hace el GIF visible con una transición progresiva */
+}
+
 
 .category p, .category .icon, .category .svg-inline--fa {
   color: #FFFFFF;
@@ -323,6 +365,17 @@ a {
   text-decoration: underline;
   text-align: left;
   margin-left: 15vh;
+}
+
+.editor-title {
+  font-size: 30px;
+  color: rgb(0, 0, 0);
+  margin: 20px;
+  font-weight: 400;
+  font-style: normal;
+  text-decoration: underline;
+  text-align: right;
+  margin-right: 15vh;
 }
 
 .title-portada {

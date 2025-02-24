@@ -164,13 +164,13 @@
   right: 20px;
 }
 
-.btn-login:hover {
+/* .btn-login:hover {
   background-position: right center; 
   transform: scale(1.05); 
   
-}
+} */
 
-.btn-register {
+/* .btn-register {
   background: linear-gradient(to right, #009bb3, #b0271a);
   border: none;
   transition: background-position 0.3s ease, transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
@@ -183,7 +183,7 @@
 .btn-register:hover {
   background-position: right center; 
   transform: scale(1.05); 
-}
+} */
 
 
 

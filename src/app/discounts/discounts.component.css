@@ -6,7 +6,7 @@
   .discount-title {
     font-size: 2.5rem;
     margin-bottom: 2rem;
-    color: #323232;
+    color: #ffffff !important;
   }
   
   .discount-cards-container {
@@ -39,7 +39,7 @@
   
   .discount-card-title {
     font-size: 1.5rem;
-    color: #444;
+    color: #ffffff;
   }
   
   .discount-card-description {
@@ -60,9 +60,9 @@
   }
   
   .discount-card-offer {
-    background: #FFA33C;
+    background: #660000;
     opacity: 0.9;
-    color: #020202;
+    color: #ffffff;
     padding: 0.25rem 0.75rem;
     border-radius: 5px;
     font-weight: bold;

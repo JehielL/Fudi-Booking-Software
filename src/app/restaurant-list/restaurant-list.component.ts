@@ -55,7 +55,7 @@ export class RestaurantListComponent implements OnInit {
   }
 
   loadMyRestaurants(): void {
-    const myRestaurantsUrl = 'https://biteapp.store:8080/my-restaurants';
+    const myRestaurantsUrl = 'http://localhost:8080/my-restaurants';
     timer(500).pipe(
       switchMap(() => this.httpClient.get<Restaurant[]>(myRestaurantsUrl)),
     ).subscribe(restaurants => {
@@ -72,7 +72,7 @@ export class RestaurantListComponent implements OnInit {
   }
 
   filtrarRestaurantesPorTipoCocina(tipoCocina: string): void {
-    const url = `https://biteapp.store:8080/restaurant-list/${tipoCocina}`;
+    const url = `http://localhost:8080/restaurant-list/${tipoCocina}`;
     timer(500).pipe(
       switchMap( () => this.httpClient.get<Restaurant[]>(url))
     ).subscribe(restaurants => {
@@ -88,7 +88,7 @@ export class RestaurantListComponent implements OnInit {
   }
 
   loadRestaurantsDirectly() {
-    const apiUrl = 'https://biteapp.store:8080/restaurant';
+    const apiUrl = 'http://localhost:8080/restaurant';
 
     timer(600).pipe(
       switchMap(() => this.httpClient.get<Restaurant[]>(apiUrl))
