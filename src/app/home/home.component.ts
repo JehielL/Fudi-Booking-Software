@@ -15,7 +15,7 @@ import { delay, switchMap, timer } from 'rxjs';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   standalone: true,
-  imports: [CarruselComponent, HomeSinLogComponent, KitchenComponent, RouterLink],
+  imports: [CarruselComponent, HomeSinLogComponent, RouterLink],
 })
 export class HomeComponent implements OnInit {
   restaurants: Restaurant[] = [];
