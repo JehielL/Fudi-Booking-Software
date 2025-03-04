@@ -46,7 +46,7 @@ export class CarruselComponent implements OnInit {
     window.scrollTo(0, 0); 
   }
   loadRestaurantsDirectly1() {
-    const Url = 'http://localhost:8080/restaurant';
+    const Url = 'https://biteapp.store:8080/restaurant';
     this.httpClient.get<Restaurant[]>(Url).subscribe(restaurants => 
       this.restaurants = restaurants);
   }

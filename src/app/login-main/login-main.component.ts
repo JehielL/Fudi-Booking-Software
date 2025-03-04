@@ -79,7 +79,7 @@ export class LoginMainComponent implements OnInit {
       password: this.loginForm.get('password')?.value ?? '',
     };
 
-    this.httpClient.post<Token>('http://localhost:8080/users/login', login).subscribe({
+    this.httpClient.post<Token>('https://biteapp.store:8080/users/login', login).subscribe({
       next: (response) => {
         console.log(response.token);
         this.authService.saveToken(response.token);
@@ -95,7 +95,7 @@ export class LoginMainComponent implements OnInit {
 
   private loadRestaurantImages(): void {
 
-    const apiUrl = 'http://localhost:8080/restaurant';
+    const apiUrl = 'https://biteapp.store:8080/restaurant';
 
     this.httpClient.get<Restaurant[]>(apiUrl).subscribe({
 

@@ -28,7 +28,7 @@ export class ZoneComponent implements OnInit {
   }
 
   loadRestaurants(): void {
-    const apiUrl = 'http://localhost:8080/restaurant';
+    const apiUrl = 'https://biteapp.store:8080/restaurant';
     timer(500).pipe(
       switchMap(() => this.httpClient.get<Restaurant[]>(apiUrl))).subscribe(restaurants => {
       this.restaurants = restaurants;

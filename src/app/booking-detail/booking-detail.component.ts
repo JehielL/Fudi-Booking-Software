@@ -42,16 +42,16 @@ export class BookingDetailComponent implements OnInit {
       setTimeout(() => {
         this.showSpinner = false;
       }, 1000);
-      const url = 'http://localhost:8080/bookings/' + id;
+      const url = 'https://biteapp.store:8080/bookings/' + id;
       this.httpClient.get<Booking>(url).subscribe(b => this.booking = b);
-      const resturl = 'http://localhost:8080/restaurants/' + id;
+      const resturl = 'https://biteapp.store:8080/restaurants/' + id;
       this.httpClient.get<Booking>(resturl).subscribe(b => this.booking = b);
     });
      // Carga las reservas al inicializar el componente
   }
 
   delete(booking: Booking) {
-    const url = 'http://localhost:8080/bookings/' + booking.id;
+    const url = 'https://biteapp.store:8080/bookings/' + booking.id;
     this.httpClient.delete(url).subscribe(response => {
       this.booking = undefined;
       this.showDeleteBookingMessage = true;

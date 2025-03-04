@@ -76,7 +76,7 @@ export class BookingFormComponent implements OnInit {
       if (!id) return;
   
       // Primero intentamos cargar el restaurante
-      this.httpClient.get<Restaurant>(`http://localhost:8080/restaurant/${id}`).subscribe(
+      this.httpClient.get<Restaurant>(`https://biteapp.store:8080/restaurant/${id}`).subscribe(
         restaurant => {
           this.restaurant = restaurant;
           this.isUpdate = false; // Estamos creando una nueva reserva
@@ -84,7 +84,7 @@ export class BookingFormComponent implements OnInit {
         },
         error => {
           // Si el restaurante no existe, intentamos con una reserva
-          this.httpClient.get<Booking>(`http://localhost:8080/bookings/${id}`).subscribe(
+          this.httpClient.get<Booking>(`https://biteapp.store:8080/bookings/${id}`).subscribe(
             bookingFromBackend => {
               this.isUpdate = true; // Estamos editando una reserva existente
               this.bookingForm.patchValue(bookingFromBackend);
@@ -120,13 +120,13 @@ export class BookingFormComponent implements OnInit {
     booking.restaurant = this.restaurant;
 
     if (this.isUpdate) {
-      const url = 'http://localhost:8080/bookings/' + booking.id;
+      const url = 'https://biteapp.store:8080/bookings/' + booking.id;
       this.httpClient.put<Booking>(url, booking).subscribe(bookingFromBackend => {
         this.router.navigate(['/bookings', bookingFromBackend.id, 'detail']);
       });
 
     } else {
-      const url = 'http://localhost:8080/bookings';
+      const url = 'https://biteapp.store:8080/bookings';
       this.httpClient.post<Booking>(url, booking).subscribe(bookingFromBackend => {
         this.router.navigate(['/bookings', bookingFromBackend.id, 'detail']);
       });
