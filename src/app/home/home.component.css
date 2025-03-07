@@ -474,17 +474,21 @@ a {
 
 .card-covercustom{
   height: auto;
-  width: 80%;
+  width: 75%;
   aspect-ratio: 3/4;
   display: flex;
   flex-direction: column;
+  filter: grayscale(100%);
 
 }
 
 .card-covercustom:hover{
-  transform: scale(0.90);
+  transform: scale(1.05);
   transition: transform 0.5s;
   cursor: pointer;
+  filter: grayscale(0%);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.426);
+
 
 }
 
