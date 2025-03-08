@@ -70,7 +70,7 @@ export class LoginMainComponent implements OnInit {
 
     });
 
-    this.loadRestaurantImages();
+    this.loadPredefinedImages();
 
   }
   save() {
@@ -93,28 +93,13 @@ export class LoginMainComponent implements OnInit {
     });
   }
 
-  private loadRestaurantImages(): void {
+  private loadPredefinedImages(): void{
 
-    const apiUrl = 'https://biteapp.store:8080/restaurant';
+    this.images = [
 
-    this.httpClient.get<Restaurant[]>(apiUrl).subscribe({
-
-      next:(restaurants) => {
-
-        if (restaurants.length > 0){
-
-          const validImages = restaurants
-          .filter (restaurant => restaurant.status && restaurant.imageUrl?.trim() !== '')
-          .map(restaurant => restaurant.imageUrl);
-
-          this.images = this.shuffleArray(validImages).slice(0, 7);
-        }
-      },
-      error: (error) => {
-        console.error('Error cargando imagenes desde restaurant', error);
-      }
-
-    });
+      'https://i.ibb.co/Tx4hSC0K/brunch.jpg',
+      'https://i.ibb.co/Cph0Zhdm/elige.png'
+    ]
 
   }
 

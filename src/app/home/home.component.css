@@ -482,6 +482,10 @@ a {
 
 }
 
+.bi-star{
+  color: #FFD700;
+  margin-right: 5px;
+}
 .card-covercustom:hover{
   transform: scale(1.05);
   transition: transform 0.5s;
