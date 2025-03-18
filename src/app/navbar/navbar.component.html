@@ -16,7 +16,7 @@
         </li>
         @if (isAdmin || isRestaurant) {
           <li class="nav-item " ngbDropdown>
-            <a class="nav-link bi bi-chat-right-quote" ngbDropdownToggle id="navbarDropdown2" role="button">Administración</a>
+            <a class="nav-link" ngbDropdownToggle id="navbarDropdown2" role="button">Administración</a>
             <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end">
               @if (isAdmin) {<a ngbDropdownItem routerLink="/restaurant-form">Crear Restaurantes</a>}
               <a ngbDropdownItem [routerLink]="['/restaurant-list']" [queryParams]="{ view: 'mine' }">Mis Restaurantes</a>
@@ -28,7 +28,7 @@
        
         <li class="nav-item" ngbDropdown>
           <a class="nav-link" ngbDropdownToggle id="navbarDropdown2" role="button">
-            <i class="bi bi-fire"></i> Quienes somos
+          Quienes somos
           </a>
           <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end">
             <a ngbDropdownItem routerLink="/about-us">Sobre nosotros</a>
