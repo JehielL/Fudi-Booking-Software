@@ -18,11 +18,11 @@
 
 .home-container {
   position: relative;
-  color: white;
   height: 100vh; 
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .home-side-text {
@@ -366,7 +366,17 @@
 }
 
 .content {
-  margin-top: 5rem;
+  position: relative;
+  z-index: 2;
+  padding: 2rem;
+  text-align: center;
+}
+
+.content h1{
+  font-size: 3rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1rem;
 }
 
 
@@ -374,4 +384,16 @@
   width: 200px;
   height: 200px;
   margin: 10px;
+}
+
+.custom-input{
+
+ max-width: 760px;
+ margin: 0 auto;
+ padding: 10px 15px;
+ border-radius: 10px;
+ border: none;
+ box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+ 
+
 }

@@ -1,10 +1,8 @@
 .skills-container {
-  padding: 20px;
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  z-index: 3;
-  position: relative;
+  gap: 15px;
+  flex-wrap: wrap;
   align-items: center;
 }
 
@@ -15,12 +13,11 @@
   margin: 10px;
   margin-top: 15px;
   padding: 20px;
-  border: 2px solid rgba(253, 253, 253, 0.986);
   border-radius: 20px;
+  background-color: rgba(0,0,0,0.3);  
   width: 150px;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   cursor: pointer;
-  background-color: transparent;
   background-size: cover;
   position: relative;
   overflow: hidden;
@@ -73,7 +70,7 @@
 
 .category p, .category .icon, .category .svg-inline--fa {
   color: #FFFFFF;
-
+  font-size: 1.2rem;
 }
 
 .category a {
@@ -462,12 +459,28 @@ a {
   margin-right: calc(50% - 50vw);
 }
 
+.card-cover{
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
 .card-cover:hover {
   transform: scale(1.05);
   transition: transform 0.5s;
   cursor: pointer;
 }
 
+.card-cover h3 {
+  font-size: 1.4rem;
+ 
+}
+
+.card-cover bi{
+
+  margin-right: 5px;
+}
 .custom-photo {
   border-radius: 100px;
 }
