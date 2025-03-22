@@ -100,7 +100,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgb(0, 0, 0);
   z-index: 1; 
 }
 
@@ -230,7 +230,10 @@ a {
   animation: pac-top 0.5s linear infinite;
   transform-origin: center bottom;
 }
-
+.form-control{
+  max-width: 300px !important; 
+  margin-left: 30%;
+}
 .loader-wrapper .packman::after {
   content: '';
   position: absolute;
@@ -353,25 +356,14 @@ a {
   border-radius: 30px;
 }
 
-.custom-title {
-  font-size: 30px;
-  color: rgb(0, 0, 0);
-  margin: 20px;
-  font-weight: 400;
-  font-style: normal;
-  text-decoration: underline;
-  text-align: left;
-  margin-left: 15vh;
-}
+
 
 .editor-title {
   font-size: 30px;
   color: rgb(0, 0, 0);
-  margin: 20px;
   font-weight: 400;
   font-style: normal;
-  text-decoration: underline;
-  text-align: right;
+  text-align: center;
 }
 
 .title-portada {
@@ -560,9 +552,24 @@ a {
   filter: brightness(50%);
 }
 
-.category-title{
+.category-title {
   font-size: 44px;
   margin-top: 50px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  
+  position: relative;
+  text-align: center;
+  padding-bottom: 10px;
+  display: inline-block; 
+}
+
+.category-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%; 
+  height: 1px; 
+  background-color: #D00000;
+  border-radius: 2px;
 }
