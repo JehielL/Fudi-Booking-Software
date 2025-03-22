@@ -41,10 +41,6 @@ export const routes: Routes = [
     path:'home',
     component: HomeComponent
  },
- {
-   path: 'home-logout',
-   component: HomeSinLogComponent
- },
 {
    path:'user/:id/update',
    component: DashboardUserComponent,

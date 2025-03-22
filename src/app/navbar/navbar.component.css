@@ -164,30 +164,6 @@
   right: 20px;
 }
 
-/* .btn-login:hover {
-  background-position: right center; 
-  transform: scale(1.05); 
-  
-} */
-
-/* .btn-register {
-  background: linear-gradient(to right, #009bb3, #b0271a);
-  border: none;
-  transition: background-position 0.3s ease, transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-  background-size: 200% auto;
-  color: white;
-  padding: 10px;
-  border-radius: 20px;
- 
-}
-.btn-register:hover {
-  background-position: right center; 
-  transform: scale(1.05); 
-} */
-
-
-
-
 .bi {
   font-size: 1rem;
 }
@@ -226,17 +202,7 @@
   }
   
 
-  #navbarContent {
-
-    width: 100% !important;
-    background-color: #660000 ;
-  }
-
-  .header {
-    background-color: #660000;
-
-  }
-  
+ 
 }
 
 @media (max-width: 1000px) {
@@ -247,21 +213,6 @@
 }
 
 
-/* Animación para el icono bi-fire */
-@keyframes fireAnimation {
-  0% { color: #FF5733; }
-  50% { color: #FFD700; }
-  100% { color: #FF5733; }
-}
-@keyframes registerAnimation {
-  0% { color: #ffffff; }
-  50% { color: #000000; }
-  100% { color: #ffffff; }
-}
-.bi-fire {
-  animation: fireAnimation 3s infinite;
-}
-
 /* Estilos adicionales para el botón primario en el hover */
 .btn-primary:hover {
   background-position: right center; 
@@ -271,7 +222,7 @@
 
 
 .bg-custom{
-  background-color: #660000;
+  background-color: #ED474A;
   opacity: 0.9;
 }
 

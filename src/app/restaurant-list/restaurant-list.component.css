@@ -310,7 +310,7 @@
   animation: fireAnimation 3s infinite;
 }
 .btn-custom {
-  background: linear-gradient(to right, #E85D04 , #03071E);
+  background: #00000093;
   transition: background-position 0.3s ease;
   color: white; 
   padding: 0px 10px;
