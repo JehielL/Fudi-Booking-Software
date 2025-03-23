@@ -529,6 +529,17 @@ a {
     
   }
 
+  .form-control{
+    max-width: 300px !important; 
+    margin-left: 0% !important;
+  }
+
+  .custom-input{
+    margin-left: 0% !important;
+
+  } 
+
+
   
   
 }

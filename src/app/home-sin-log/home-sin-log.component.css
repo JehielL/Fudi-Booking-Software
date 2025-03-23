@@ -84,9 +84,7 @@
   background-color: #f8f9fa;
 }
 
-.border-primary{
-  color:  !important;
-}
+
 
 .logos-wrapper {
   max-width: 800px;
@@ -98,6 +96,8 @@
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 40px;
   justify-items: center;
+  align-items: center;
+  
 }
 
 .logo {
@@ -620,8 +620,16 @@
   .custom-card {
     align-items: flex-start; 
     width: 90%;
+    
   }
 
+  .card-wrapper {
+    width: 100%;
+    max-width: 700px;
+    margin-left: -50px;
+  }
+
+  
   .custom-card .container-fluid {
     flex: 1;
     padding: 20px;
