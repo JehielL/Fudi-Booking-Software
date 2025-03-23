@@ -17,13 +17,6 @@
 }
 
 
-
-
-
-
-
-
-
 .miTarjeta img {
   max-height: 200px;
 }
@@ -76,17 +69,43 @@
   flex-wrap: wrap; 
 }
 
-.logos-container {
+.parallax-section {
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.left-half {
+  flex: 1 1 50%;
+  padding: 4rem 2rem;
+  align-items: center;
   justify-content: center;
+  background-color: #f8f9fa;
+}
+
+.border-primary{
+  color:  !important;
+}
+
+.logos-wrapper {
+  max-width: 800px;
+  width: 100%;
+}
+
+.logos-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 40px;
+  justify-items: center;
 }
 
 .logo {
-  width: 100px; 
-  height: 100px;
-  margin: 10px; 
+  width: 140px;
+  height: 120px;
 }
+
+
 
 @media (max-width: 768px) {
   .home-side-text {
@@ -149,11 +168,6 @@
   margin-top: 20px; 
 }
 
-.custom-card .logo {
-  width: 130px; 
-  height: 130px; 
-  margin: 13px; 
-}
 
 .banner-img {
   max-width: 100%;
@@ -188,48 +202,6 @@
   
 }
 
-.featurette-divider {
-  background-color: black;
-}
-
-.featurette-heading {
-  letter-spacing: -.05rem;
-}
-.featurette {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 1100px;
-}
-
-
-  .featurette-heading {
-    font-size: 2.4rem;
-    font-weight: 700;
-    line-height: 1.2;
-    text-align: center;
-    color: #212529;
-  }
-
-  .featurette .lead {
-    font-size: 1.25rem;
-    font-weight: 400;
-    color: #444;
-    line-height: 1.6;
-    text-align: center;
-  }
-
-  .featurette-image {
-    max-width: 300px;
-    border-radius: 50%;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transition: transform 1s ease;
-    animation: rotate-counter-clockwise 15s linear infinite alternate;
-  }
-
-  .featurette {
-    margin: 3rem auto;
-    max-width: 1100px;
-  }
 
   @keyframes rotate-counter-clockwise {
     0% { transform: rotate(0deg); }
@@ -237,21 +209,6 @@
     100% { transform: rotate(0deg); }
   }
 
-  @media (max-width: 768px) {
-    .featurette {
-      flex-direction: column !important;
-      padding: 1.5rem;
-    }
-
-    .featurette .custom-img2 {
-      order: -1;
-      margin-bottom: 1rem;
-    }
-
-    .featurette .lead {
-      text-align: center;
-    }
-  }
 
 @keyframes rotate-clockwise {
   0% {
@@ -329,11 +286,6 @@
 }
 
 
-.logo	{
-  width: 200px;
-  height: 200px;
-  margin: 10px;
-}
 
 .custom-input{
 
@@ -359,11 +311,8 @@
   padding: 100px;
 }
 
-.overlay {
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-}
+
+
 
 .vertical-text {
   writing-mode: vertical-rl;
@@ -407,7 +356,224 @@
   border-radius: 2px;
 }
 
+.custom-card {
+  transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+  border: none;
+  border-bottom: 1px solid #ff00008c;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+.card-service{
+  min-height: 400px;
+}
+.custom-card-app {
+  transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+  box-shadow: 0 10px 20px rgba(2, 238, 246, 0.318) !important;
+}
+.custom-card-app .card-img-top {
+  width: 100%;
+  height: 200px; 
+  object-fit: cover; 
+}
 
+/* Card hover effect */
+.custom-card:hover {
+  transform: translateY(-15px) scale(1.05);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  cursor: pointer;
+}
+.custom-card-app:hover {
+  transform: translateY(-15px) scale(1.05);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+/* Card body styling */
+.card-body {
+  background-color: #f7f7f7;
+  border-radius: 15px;
+  padding: 20px;
+  border-bottom: 2px solid #00000069;
+  transition: background-color 0.4s ease-in-out;
+}
+
+.custom-card:hover .card-body {
+  background-color: #ffffff;
+}
+
+.custom-card:hover {
+  background-color: #ffffff;
+}
+
+/* SVG icon */
+.custom-card .bi-tablet, 
+.custom-card .bi-textarea-resize, 
+.custom-card .bi-repeat, 
+.custom-card .bi-shield-check {
+  color: #bd7878e5 !important; /* Primary color for the icon */
+}
+
+/* Title */
+.custom-card h4 {
+  color: #030303; /* Dark color for the title */
+  transition: color 0.4s ease-in-out;
+}
+
+.custom-card:hover h4 {
+  color: #22bb3e; /* Color change on hover */
+}
+
+/* Text */
+.custom-card p {
+  color: #6c757d; /* Secondary text color */
+}
+
+
+
+/* Card image container */
+.card-img {
+  transition: all 0.5s;
+  display: flex;
+  justify-content: center;
+  perspective: 1000px; /* Add perspective for 3D effect */
+}
+
+/* Card image styling */
+.card-img .img {
+  transition: transform 0.5s, box-shadow 0.5s;
+}
+
+/* Card image hover effect */
+.card-img:hover .img {
+  transform: translateY(-10px) rotateX(10deg) rotateY(10deg);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.parallax-section {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.parallax-half {
+  background-image: url('https://i.ibb.co/Fq6cgGnQ/g.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  flex: 1 1 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: white;
+  padding: 2rem;
+  text-align: right !important;
+}
+
+.parallax-half::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.parallax-half .text-wrapper {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  text-align: left;
+}
+
+.parallax-half .btn {
+  border-color: white;
+  color: white;
+}
+
+.parallax-half .btn:hover {
+  background-color: white;
+  color: black;
+}
+
+.parallax-right {
+  background-image: url('https://i.ibb.co/3Kkg1bj/personas.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  flex: 1 1 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: white;
+  padding: 2rem;
+  text-align: right !important;
+}
+
+.parallax-right::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.parallax-right .text-wrapper {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  text-align: left;
+}
+
+.parallax-right .btn {
+  border-color: white;
+  color: white;
+}
+
+.parallax-right .btn:hover {
+  background-color: white;
+  color: black;
+}
+
+
+.right-half {
+  flex: 1 1 50%;
+  padding: 4rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-wrapper {
+  width: 100%;
+  max-width: 700px;
+  margin-right: 100px;
+}
+
+@media (max-width: 991px) {
+  .parallax-section {
+    flex-direction: column;
+  }
+
+  .parallax-half,
+  .right-half {
+    flex: 1 1 100%;
+    min-height: auto;
+    padding: 2rem 1rem;
+  }
+}
 
 /* Responsive para móviles y tablets */
 @media (max-width: 768px) {
@@ -472,111 +638,3 @@
   }
 }
 
-.custom-card {
-  transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
-  border: none;
-  border-bottom: 1px solid #0095ff;
-  border-radius: 15px;
-  overflow: hidden;
-  position: relative;
-  z-index: 0;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
-}
-.card-service{
-  min-height: 400px;
-}
-.custom-card-app {
-  transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
-  border: none;
-  border-radius: 15px;
-  overflow: hidden;
-  position: relative;
-  z-index: 0;
-  box-shadow: 0 10px 20px rgba(2, 238, 246, 0.318) !important;
-}
-.custom-card-app .card-img-top {
-  width: 100%;
-  height: 200px; 
-  object-fit: cover; 
-}
-
-/* Card hover effect */
-.custom-card:hover {
-  transform: translateY(-15px) scale(1.05);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-}
-.custom-card-app:hover {
-  transform: translateY(-15px) scale(1.05);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-}
-
-/* Card body styling */
-.card-body {
-  background-color: #f7f7f7;
-  border-radius: 15px;
-  padding: 20px;
-  transition: background-color 0.4s ease-in-out;
-}
-
-.custom-card:hover .card-body {
-  background-color: #ffffff;
-}
-
-.custom-card:hover {
-  background-color: #ffffff;
-}
-
-/* SVG icon */
-.custom-card .bi-tablet, 
-.custom-card .bi-textarea-resize, 
-.custom-card .bi-repeat, 
-.custom-card .bi-shield-check {
-  color: #0095ff; /* Primary color for the icon */
-}
-
-/* Title */
-.custom-card h4 {
-  color: #030303; /* Dark color for the title */
-  transition: color 0.4s ease-in-out;
-}
-
-.custom-card:hover h4 {
-  color: #22bb3e; /* Color change on hover */
-}
-
-/* Text */
-.custom-card p {
-  color: #6c757d; /* Secondary text color */
-}
-
-/* Link */
-a.link-primary {
-  color: #0095ff;
-  transition: color 0.4s ease-in-out;
-}
-
-a.link-primary:hover {
-  color: #b659a6;
-  text-decoration: none;
-}
-
-/* Card image container */
-.card-img {
-  transition: all 0.5s;
-  display: flex;
-  justify-content: center;
-  perspective: 1000px; /* Add perspective for 3D effect */
-}
-
-/* Card image styling */
-.card-img .img {
-  transition: transform 0.5s, box-shadow 0.5s;
-}
-
-/* Card image hover effect */
-.card-img:hover .img {
-  transform: translateY(-10px) rotateX(10deg) rotateY(10deg);
-  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
-}
