@@ -116,25 +116,13 @@
 }
 
 .search {
-  width: 80%;
-  max-width: 760px;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
 }
 
-.search-container {
-  position: absolute;
-  left: 0;
-  z-index: 2000;
-  background-color: white;
-  border: 1px solid #ccc;
-  max-height: 200px;
-  overflow-y: auto;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-left: 25%;
-  width: 50%;
-  border-bottom-left-radius: 20px; 
-  border-bottom-right-radius: 20px; 
-}
 
 .search-container ul {
   list-style: none;
@@ -250,7 +238,6 @@ a {
 
 .form-control{
   max-width: 300px !important; 
-  margin-left: 30%;
 }
 
 
@@ -456,10 +443,10 @@ a {
     
   }
 
-  .form-control{
-    max-width: 300px !important; 
+  .form-control[_ngcontent-ng-c1890522272] {
+    max-width: 300px !important;
     margin-left: 0% !important;
-  }
+}
 
   .custom-input{
     margin-left: 0% !important;
