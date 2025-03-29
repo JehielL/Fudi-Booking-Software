@@ -33,26 +33,38 @@ export class AccountFormComponent implements OnInit {
   showSpinner = true;
 
   constructor(private httpClient: HttpClient,
-              private authService: AuthenticationService,
-              private modalService: NgbModal,
-              private router: Router) {
+    private authService: AuthenticationService,
+    private modalService: NgbModal,
+    private router: Router) {
     this.authService.isAdmin.subscribe(isAdmin => this.isAdmin = isAdmin);
   }
 
   ngOnInit(): void {
-
-    window.scrollTo(0, 0); 
-
-
+    window.scrollTo(0, 0);
+  
     timer(500).pipe(
-      switchMap(() => this.httpClient.get<User>('https://biteapp.store:8080/users/account'))
-    ).subscribe(user => {
-      this.user = user;
-      this.userForm.patchValue(user); 
-      this.showSpinner = false;
+      switchMap(() =>
+        this.httpClient.get<User>('https://biteapp.store:8080/users/account')
+      )
+    ).subscribe({
+      next: user => {
+        this.user = user;
+        this.userForm.patchValue(user);
+        this.showSpinner = false;
+      },
+      error: err => {
+        this.showSpinner = false;
+        if (err.status === 401) {
+          console.warn('Sesión expirada o token inválido, redirigiendo al login...');
+          this.authService.logout(); // si tienes un método para limpiar sesión, úsalo aquí
+          this.router.navigate(['/login']);
+        } else {
+          console.error('Error al cargar la cuenta:', err);
+        }
+      }
     });
-      
   }
+  
 
   save() {
     if (!this.user) {
@@ -122,7 +134,7 @@ export class AccountFormComponent implements OnInit {
         this.httpClient.put<User>('https://biteapp.store:8080/users/account', this.user)
           .subscribe(() => {
             this.router.navigateByUrl('/home');
-            if(this.user?.imgUser)
+            if (this.user?.imgUser)
               this.authService.avatarUrl.next(this.user?.imgUser);
             // TODO actualiar el avatrar en el authentication service 
             // authenticationService.updateAvatar(this.user?.avatar);

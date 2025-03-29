@@ -1,21 +1,25 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { catchError, throwError } from 'rxjs';
 
-/*
-Interceptor de Angular basado en función
-
-Sirve para interceptar las peticiones HTTP que se envían de Angular a Backend.
-
-Agrega el token JWT en una cabecera (header) de la petición HTTP
-*/
 export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = localStorage.getItem("jwt_token");
+  const router = inject(Router);
+  const token = localStorage.getItem('jwt_token');
 
   if (token) {
     req = req.clone({
-      // agregar token JWT a la cabecera Authorization de la petición HTTP
-      headers: req.headers.set('Authorization', `Bearer ${token}`)
+      headers: req.headers.set('Authorization', `Bearer ${token}`),
     });
   }
 
-  return next(req);
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401) {
+        localStorage.removeItem('jwt_token');
+        router.navigate(['/user/login']);
+      }
+      return throwError(() => error);
+    })
+  );
 };

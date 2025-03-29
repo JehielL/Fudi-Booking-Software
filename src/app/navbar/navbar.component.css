@@ -7,7 +7,9 @@
   color: rgb(0, 0, 0);
 }
 
-
+.navbar-toggler-icon {
+ color: whitesmoke !important;
+}
 
 .navbar {
     padding: 10px 20px;
@@ -23,15 +25,6 @@
 .nav-item:last-child {
   flex-shrink: 1; /* Permite que se reduzca para caber en la navbar */
   max-width: 250px; /* Evita que crezca demasiado */
-}
-.btn-login {
-  background: linear-gradient(to right, #b30092, #009bb3);
-  border: none;
-  transition: background-position 0.3s ease, transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-  background-size: 200% auto;
-  color: white;
-  padding: 10px;
-  border-radius: 20px;
 }
 
 .nav-item:last-child .dropdown-menu {
@@ -307,7 +300,7 @@
       top: 100%; /* Coloca el menú desplegable debajo del botón de hamburguesa */
       right: 0; /* Alinea el menú desplegable a la derecha */
       width: 50%;
-      background-color: #ffffff;
+      background-color: #181F1C;
       border-radius: 0 0 20px 20px; 
       z-index: 0;
   }

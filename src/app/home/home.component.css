@@ -92,9 +92,10 @@
 .img-welcome {
   position: relative;
   background-size: cover;
+  background-color: #2f2c26a4;
+  background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20200827/pngtree-abstract-black-ink-suspension-diffusion-ink-background-banner-image_397189.jpg');
+
 }
-
-
 .content {
   position: relative;
   z-index: 2; 
@@ -206,6 +207,9 @@ a {
 .dot:nth-child(1) {
   animation-delay: -0.3s;
 }
+
+
+
 
 .dot:nth-child(2) {
   animation-delay: -0.1s;
@@ -424,7 +428,94 @@ a {
   
 }
 
-@media (min-width: 768px) {
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(50%);
+}
+
+.category-title {
+  font-size: 44px;
+  margin-top: 50px;
+  position: relative;
+  font-family: Manrope,serif;
+  text-align: center;
+  padding-bottom: 10px;
+  display: inline-block; 
+}
+
+.category-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%; 
+  height: 1px; 
+  background-color: #D00000;
+  border-radius: 2px;
+}
+
+.parallax-banner {
+  position: relative;
+  height: 70vh;
+  background-image: url('https://i.ibb.co/39TD1jqx/Today-is-yours.png');
+  background-attachment: fixed; /* Efecto Parallax */
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+.vertical-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 2.8rem; /* Tamaño ligeramente menor para balance visual */
+  letter-spacing: 4px;
+  font-weight: bold;
+  padding-right: 30px; /* Mayor separación hacia el centro */
+}
+
+
+.main-title {
+  font-size: 4rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem; 
+}
+
+.side-text {
+  font-size: 1.7rem;
+  font-weight: 600;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif; 
+  text-align: right;
+  line-height: 1.4;
+  padding-left: 30px; 
+}
+
+
+.side-text strong{
+  position: relative;
+  display: inline-block;
+}
+
+.side-text strong::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -3px;
+  transform: translate(-50%);
+  width: 100%;
+  height: 2px;
+  background-color: #D00000;
+  border-radius: 2px;
+}
+
+
+@media (max-width: 767px) {
   .hero h2 {
       font-size: 64px;
   }
@@ -453,39 +544,75 @@ a {
 
   } 
 
+  .home-side-text {
+    max-width: 100%;
+    margin: 0 10%;
+    text-align: center;
+  }
+
+
+  .home-side-text h1 {
+    font-size: 24px; 
+  }
+
+  .home-side-text p {
+    font-size: 16px; 
+  }
+
+  .home-container {
+    flex-direction: column; 
+    padding: 20px;
+  }
+
+  .book-now-button {
+    font-size: 24px;
+    padding: 5px 10px;
+  }
+
+  .parallax-banner .col-2,
+  .parallax-banner .col-8 {
+    flex: 0 0 auto;
+  }
+
+  .vertical-text {
+    font-size: 2rem;
+    letter-spacing: 2px;
+    max-width: 20px;
+    line-height: 1;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  .main-title {
+    font-size: 1.2rem !important;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  .btn.btn-lg {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+
+  .side-text {
+    font-size: 0.8rem;
+    line-height: 1.2;
+    text-align: right;
+    padding-left: 5px;
+  }
+
+  .side-text p {
+    margin-bottom: 0.3rem;
+  }
+
+  .parallax-banner{
+    padding: 0px !important;
+  }
+
+  .category{
+     width: 120px !important;
+  }
 
   
   
-}
-.image-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  filter: brightness(50%);
-}
-
-.category-title {
-  font-size: 44px;
-  margin-top: 50px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  position: relative;
-  text-align: center;
-  padding-bottom: 10px;
-  display: inline-block; 
-}
-
-.category-title::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%; 
-  height: 1px; 
-  background-color: #D00000;
-  border-radius: 2px;
 }

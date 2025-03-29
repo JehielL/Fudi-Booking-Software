@@ -40,6 +40,13 @@ export class AuthenticationService {
     this.isRestaurant.next(false);
   }
 
+  logout() {
+    localStorage.removeItem('jwt_token'); // o el nombre que uses
+    this.avatarUrl.next('');
+    this.isAdmin.next(false);
+  }
+  
+
   getUserEmail() {
     const token =  localStorage.getItem('jwt_token');
     if(!token) return '';

@@ -15,9 +15,9 @@
 }@else {
 
 <div class="text-center container-fluid img-welcome">
-  <video loop muted autoplay oncanplay="this.play()" onloadedmetadata="this.muted = true" class="myvideo">
+  <!-- <video loop muted autoplay oncanplay="this.play()" onloadedmetadata="this.muted = true" class="myvideo">
     <source src="/assets/videohome.mp4" type="video/mp4">
-</video>
+</video> -->
 
 
   <div class="content container-fluid">
@@ -36,7 +36,7 @@
           <li class="list-group-item">
             <a [routerLink]="['/restaurant', restaurantes.id, 'detail']"
               [innerHTML]="highlightSearchTerm(restaurantes.name, searchTerm)">{{ restaurantes.name }}</a>
-          </li>
+          </li> 
           }
         </ul>
         @if (puedeMostrarMas) {
@@ -84,7 +84,158 @@
 </div>
 
 
+<div class="container-fluid">
 
+  <div style="text-align: center;">
+    <h1 class="category-title">Recien Añadidos</h1>
+  </div>
+  
+  <div class="container" id="custom-cards">
+
+    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch py-5">
+      @for (restaurant of restaurants; track $index) {
+      <div class="col mt-3">
+        <div class="card card-cover h-150 w-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative">
+          <div class="image-overlay" [style.background-image]="'url(' + (restaurant.imageUrl.startsWith('http') ? restaurant.imageUrl : 'https://biteapp.store:8080/files/' + restaurant.imageUrl) + ')'"
+                      style="background-size: cover; background-position: center; height: 200px;">
+          </div>
+          <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1 position-relative">
+            <h3 class="mt-auto mb-3 text-center fs-5 fw-bold"> {{ restaurant.name }}</h3>
+            <ul class="d-flex justify-content-between list-unstyled mt-auto">
+              <li class="d-flex align-items-center me-3">
+                <i class="bi bi-geo-alt"></i> {{ restaurant.address }}
+              </li>
+              <li class="ms-3 d-flex align-items-center">
+                <i class="bi bi-star"></i> {{restaurant.averageRating}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+  </div>
+</div>
+
+<div class=" container-fluid justify-content-center ">
+
+  <div class="container" id="custom-cards">
+    <div style="text-align: center;">
+      <h1 class="category-title">Recomendaciones</h1>
+    </div>
+    
+    <div class="row row-cols-1 row-cols-md-3 g-3 justify-content-center align-items-center py-3 mt-3">
+
+
+      <div class="col ">
+        <div
+          class="card card-covercustom h-100 w-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative">
+          <div class="image-overlay"
+            style="background-image: url('https://www.srperro.com/media/negocio/5b49b1ea-9bdf-41a2-864b-aff9aa695385.original.jpg');">
+          </div>
+
+          <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1 position-relative">
+            <h3 class="mt-1 mb-3 text-center fs-1 fw-bold">Arya Café</h3>
+            <div class="flex-grow-1 d-flex justify-content-center align-items-center">
+              <p class="mt-2 px-3">Brunch tranquilo con una dueña muy particular, Menú fresco y saludable, una
+                propuesta diferente en un Madrid actual. </p>
+
+            </div>
+            <ul class="d-flex justify-content-between list-unstyled mt-auto">
+
+              <li class="d-flex align-items-center me-3">
+                <i class="bi bi-geo-alt"> </i> Madrid - Moncloa
+
+              </li>
+              <li class="ms-3 d-flex align-items-center">
+                <i class="bi bi-currency-euro"> </i> 20 /<i class="bi bi-person"></i>
+
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div
+          class="card card-covercustom h-100 w-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative">
+          <div class="image-overlay"
+            style="background-image: url('https://doppelgangerbar.com/wp-content/uploads/2021/04/Puesto3_900X900.jpg');">
+          </div>
+          <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1 position-relative">
+            <h3 class="mt-1 mb-3 text-center fs-1 fw-bold">Doppelgänger Bar</h3>
+            <div class="flex-grow-1 d-flex justify-content-center align-items-center">
+              <p class=" px-1">El mas disruptivo puesto de mercado, con una propuesta tan alocada como su chef,
+                presenta uno de nuestros sitios favoritos donde hacer algo mas que solo salir a comer en Madrid.</p>
+
+            </div>
+            <ul class="d-flex justify-content-between list-unstyled mt-auto">
+
+              <li class="d-flex align-items-center me-3">
+                <i class="bi bi-geo-alt ms-1"> </i> Madrid - Antón Martín
+
+              </li>
+              <li class="ms-3 d-flex align-items-center">
+                <i class="bi bi-currency-euro"> </i> 20 /<i class="bi bi-person"></i>
+
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div
+          class="card card-covercustom h-100 w-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative">
+          <div class="image-overlay"
+            style="background-image: url('https://menu.tipsipro.com/media/uploads/DSC00493.jpg');">
+          </div>
+          <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1 position-relative">
+            <h3 class="mt-1 mb-3 text-center fs-1 fw-bold">Nomade Café</h3>
+            <div class="flex-grow-1 d-flex justify-content-center align-items-center">
+              <p class="mt-2 px-3">El Brunch perfecto para un desayuno, luego de una noche de fiestas por el centro de
+                Madrid, la mejor opción Calidad/ Precio de Lavapíes </p>
+
+            </div>
+            <ul class="d-flex justify-content-between list-unstyled mt-auto">
+
+              <li class="d-flex align-items-center me-3">
+                <i class="bi bi-geo-alt ms-1"> </i> Madrid - Lavapíes
+
+              </li>
+              <li class="ms-3 d-flex align-items-center">
+                <i class="bi bi-currency-euro"> </i> 20 /<i class="bi bi-person"></i>
+
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+
+
+</div>
+
+<!-- Parallax Hero Banner -->
+<div class="parallax-banner d-flex align-items-center justify-content-center">
+  <div class="overlay"></div>
+  <div class="container position-relative text-white">
+    <div class="row align-items-center justify-content-between">
+      <div class="col-2 vertical-text d-md-flex">¡NO TE LÍES!</div>
+      <div class="col-8 text-center">
+        <h1 class="main-title">HOY ES EL DÍA</h1>
+        <button class="btn btn-outline-light btn-lg mt-3" routerLink="/user/login">Reservar ahora</button>
+      </div>
+      <div class="col-2 side-text d-md-flex flex-column align-items-end justify-content-center">
+        <p>Estás a un <strong>click</strong></p>
+        <p>De conocer tu <strong>nuevo restaurante</strong> favorito.</p>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="container-fluid">
 
   <div style="text-align: center;">
@@ -231,208 +382,7 @@
 </div>
 
 
-<div class=" container-fluid justify-content-center ">
 
-  <div class="container" id="custom-cards">
-    <div style="text-align: center;">
-      <h1 class="category-title">Recomendaciones</h1>
-    </div>
-    
-    <div class="row row-cols-1 row-cols-md-3 g-3 justify-content-center align-items-center py-3 mt-3">
-
-
-      <div class="col ">
-        <div
-          class="card card-covercustom h-100 w-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative">
-          <div class="image-overlay"
-            style="background-image: url('https://www.srperro.com/media/negocio/5b49b1ea-9bdf-41a2-864b-aff9aa695385.original.jpg');">
-          </div>
-
-          <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1 position-relative">
-            <h3 class="mt-1 mb-3 text-center fs-1 fw-bold">Arya Café</h3>
-            <div class="flex-grow-1 d-flex justify-content-center align-items-center">
-              <p class="mt-2 px-3">Brunch tranquilo con una dueña muy particular, Menú fresco y saludable, una
-                propuesta diferente en un Madrid actual. </p>
-
-            </div>
-            <ul class="d-flex justify-content-between list-unstyled mt-auto">
-
-              <li class="d-flex align-items-center me-3">
-                <i class="bi bi-geo-alt"> </i> Madrid - Moncloa
-
-              </li>
-              <li class="ms-3 d-flex align-items-center">
-                <i class="bi bi-currency-euro"> </i> 20 /<i class="bi bi-person"></i>
-
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div
-          class="card card-covercustom h-100 w-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative">
-          <div class="image-overlay"
-            style="background-image: url('https://doppelgangerbar.com/wp-content/uploads/2021/04/Puesto3_900X900.jpg');">
-          </div>
-          <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1 position-relative">
-            <h3 class="mt-1 mb-3 text-center fs-1 fw-bold">Doppelgänger Bar</h3>
-            <div class="flex-grow-1 d-flex justify-content-center align-items-center">
-              <p class=" px-1">El mas disruptivo puesto de mercado, con una propuesta tan alocada como su chef,
-                presenta uno de nuestros sitios favoritos donde hacer algo mas que solo salir a comer en Madrid.</p>
-
-            </div>
-            <ul class="d-flex justify-content-between list-unstyled mt-auto">
-
-              <li class="d-flex align-items-center me-3">
-                <i class="bi bi-geo-alt ms-1"> </i> Madrid - Antón Martín
-
-              </li>
-              <li class="ms-3 d-flex align-items-center">
-                <i class="bi bi-currency-euro"> </i> 20 /<i class="bi bi-person"></i>
-
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div
-          class="card card-covercustom h-100 w-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative">
-          <div class="image-overlay"
-            style="background-image: url('https://menu.tipsipro.com/media/uploads/DSC00493.jpg');">
-          </div>
-          <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1 position-relative">
-            <h3 class="mt-1 mb-3 text-center fs-1 fw-bold">Nomade Café</h3>
-            <div class="flex-grow-1 d-flex justify-content-center align-items-center">
-              <p class="mt-2 px-3">El Brunch perfecto para un desayuno, luego de una noche de fiestas por el centro de
-                Madrid, la mejor opción Calidad/ Precio de Lavapíes </p>
-
-            </div>
-            <ul class="d-flex justify-content-between list-unstyled mt-auto">
-
-              <li class="d-flex align-items-center me-3">
-                <i class="bi bi-geo-alt ms-1"> </i> Madrid - Lavapíes
-
-              </li>
-              <li class="ms-3 d-flex align-items-center">
-                <i class="bi bi-currency-euro"> </i> 20 /<i class="bi bi-person"></i>
-
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-
-    </div>
-  </div>
-
-
-
-</div>
-
-<div class="container-fluid">
-
-  <div style="text-align: center;">
-    <h1 class="category-title">Recien Añadidos</h1>
-  </div>
-  
-  <div class="container" id="custom-cards">
-
-    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch py-5">
-      @for (restaurant of restaurants; track $index) {
-      <div class="col mt-3">
-        <div class="card card-cover h-150 w-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative">
-          <div class="image-overlay" [style.background-image]="'url(' + (restaurant.imageUrl.startsWith('http') ? restaurant.imageUrl : 'https://biteapp.store:8080/files/' + restaurant.imageUrl) + ')'"
-                      style="background-size: cover; background-position: center; height: 200px;">
-          </div>
-          <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1 position-relative">
-            <h3 class="mt-auto mb-3 text-center fs-5 fw-bold"> {{ restaurant.name }}</h3>
-            <ul class="d-flex justify-content-between list-unstyled mt-auto">
-              <li class="d-flex align-items-center me-3">
-                <i class="bi bi-geo-alt"></i> {{ restaurant.address }}
-              </li>
-              <li class="ms-3 d-flex align-items-center">
-                <i class="bi bi-star"></i> {{restaurant.averageRating}}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      }
-    </div>
-
-  </div>
-</div>
-<!-- <div class="container-fluid">
-  <section id="hero" class="hero2 d-flex align-items-center">
-    <div class="container">
-      <h2 class="pb-2 custom-title">¡Crece con nosotros!</h2>
-      <div class="row justify-content-between gy-5 mt-3">
-        <div
-          class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center align-items-center align-items-lg-start text-center text-lg-center ">
-          <h2 class="custom-title" data-aos="zoom-out">¡El marketing<br>importa!</h2>
-          <p data-aos="fade-up" data-aos-delay="200">En biteFood, puedes llevar lo mejor de tu Gastronomía a tus
-            clientes, sabemos lo importante que es ofrecer tus productos, con nosotros cuentas con una sección dedicada
-            a promocionar lo mejor de tu cocina.</p>
-        </div>
-        <div class="col-lg-5 order-1 order-lg-2 text-center text-lg-start custom-photo">
-          <img src="https://www.getkobe.com/wp-content/uploads/2019/10/MarketPlace_our_focus_food_table-1880x882.jpg"
-            class="img-fluid custom-photo" alt="" data-aos="zoom-out" data-aos-delay="300">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="hero2" class="hero2 d-flex align-items-center">
-    <div class="container">
-      <div class="row justify-content-between gy-5">
-        <div class="col-lg-5 order-2 order-lg-1 text-center text-lg-start custom-photo">
-          <img
-            src="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?cs=srgb&dl=pexels-chan-walrus-958545.jpg&fm=jpg"
-            class="img-fluid custom-photo" alt="" data-aos="zoom-out" data-aos-delay="300">
-        </div>
-
-        <div
-          class="col-lg-5 order-1 order-lg-2 d-flex flex-column justify-content-center align-items-center align-items-lg-start text-center text-lg-center">
-          <h2 class="custom-title">¡Rota,<br>cambia, decide!</h2>
-          <p data-aos="fade-up">Comprometidos con tu crecimiento, eres tu quien decide, donde, cuando, como y que
-            mostrar de tu carta, te permitimos en tiempo real editar, crear, borrar y hacer lo que quieras con tu menú,
-            tranquilo... no te cobraremos por ello.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="hero" class="hero2 d-flex align-items-center">
-    <div class="container">
-      <div class="row justify-content-between gy-5">
-        <div
-          class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center align-items-center align-items-lg-start text-center text-lg-center ">
-          <h2 class="custom-title">¿Ya estas aqui?<br>¡Contactanos!</h2>
-          <p data-aos="fade-up">Como nuestro partner, tendrás acceso a asesorías personalizadas. Nos preocupamos por
-            cada detalle de tu imagen, porque tu éxito es nuestra prioridad. Te brindaremos herramientas como talleres y
-            cursos personalizados para hacer crecer tu negocio en el sector de la hostelería. Contamos con más de 10
-            años de experiencia en la industria, lo que nos permite ofrecerte un servicio adaptado a tus necesidades y
-            objetivos.</p>
-        </div>
-        <div class="col-lg-5 order-2 order-lg-1 text-center text-lg-start custom-photo">
-          <img src="https://www.bakusolutions.com/wp-content/uploads/2023/10/shutterstock_725353828-min-1024x683.jpg"
-            class="img-fluid custom-photo" alt="" data-aos="zoom-out" data-aos-delay="300">
-        </div>
-      </div>
-    </div>
-  </section>
-</div> -->
-
-
-
-<!-- <div class="d-flex justify-content-center mb-3" data-aos="fade-up" data-aos-delay="200">
-  <a href="">
-    <button class="btn custom-btn" type="submit">Ir a promociones</button>
-  </a>
-</div> -->
 <app-home-sin-log></app-home-sin-log>
 
 
