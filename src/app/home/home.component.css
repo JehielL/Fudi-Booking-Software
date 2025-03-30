@@ -93,7 +93,7 @@
   position: relative;
   background-size: cover;
   background-color: #2f2c26a4;
-  background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20200827/pngtree-abstract-black-ink-suspension-diffusion-ink-background-banner-image_397189.jpg');
+  background-image: url('https://ottawabaskets.ca/cdn/shop/files/banner3_1400x.progressive.png.jpg?v=1707757173');
 
 }
 .content {
@@ -410,19 +410,6 @@ a {
 
 }
 
-.custom-btn {
-  background: linear-gradient(-45deg, #D00000 0%,#DC2F02 50%, #FAA307  100%);
-  border: none;
-  transition: background-position 0.3s ease;
-  background-size: 200% auto;
-  color: white;
-  width: 100%;
-  margin-left: 5%;
-  margin-top: 10px;
-  
-}
-
-
 .custom-div{
   margin-left: calc(36% - 20px);
   
@@ -458,7 +445,7 @@ a {
   transform: translateX(-50%);
   width: 100%; 
   height: 1px; 
-  background-color: #D00000;
+  background-color: #926644;
   border-radius: 2px;
 }
 
@@ -500,6 +487,7 @@ a {
 .side-text strong{
   position: relative;
   display: inline-block;
+  margin-right: 20px;
 }
 
 .side-text strong::after {
@@ -510,7 +498,7 @@ a {
   transform: translate(-50%);
   width: 100%;
   height: 2px;
-  background-color: #D00000;
+  background-color: #926644;
   border-radius: 2px;
 }
 
@@ -599,7 +587,10 @@ a {
     line-height: 1.2;
     text-align: right;
     padding-left: 5px;
+    margin-right: 10px;
   }
+
+  
 
   .side-text p {
     margin-bottom: 0.3rem;
@@ -612,7 +603,10 @@ a {
   .category{
      width: 120px !important;
   }
-
+  .side-text strong{
+    position: relative;
+    display: inline-block;
+  }
   
   
 }

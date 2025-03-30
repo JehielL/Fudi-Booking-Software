@@ -275,7 +275,7 @@
  
 }
 .text-gradient2 {
-  background: linear-gradient(to right, #00ffdd, #cf74c0);
+  background: linear-gradient(to right, #885418, #a39a9a);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -305,19 +305,17 @@
 #about .custom-name {
   animation: fireAnimation 3s infinite;
   text-align: center;
-  margin-left: 34%;
 }
 
 h2 .custom-name {
   animation: fireAnimation 3s infinite !important;
-  text-align: center;
 }
   
 
 .horizontal-bars {
   width: 100%;
   height: 3px;
-  background: linear-gradient(to right, #0bd1df, #c40eb2, #0d2ff2);
+  background: linear-gradient(to right, #926644, #6e6c6e, #926644);
   /* Degradado de blanco a gris a blanco */
   margin-bottom: 1rem;
 }
