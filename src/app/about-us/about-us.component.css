@@ -1,6 +1,4 @@
-.about {
-  background-color: black;
-}
+
 .about-us{
   margin-left: 10%;
 }
@@ -33,7 +31,6 @@
   width: 120px;
   height: 1px;
   display: inline-block;
-  background: #4ce8eb;
   margin: 4px 10px;
 }
 
@@ -52,7 +49,6 @@
 .about-me .content h3 {
   font-weight: 700;
   font-size: 26px;
-  color: #18c6d2;
 }
 
 .about-me .content ul {
@@ -93,8 +89,9 @@
   width: 100%;
   position: relative;
   text-align: center;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(156, 150, 150, 0.24);
   border-radius: 30px;
+  margin-bottom: 30px;
 }
 
 .counts .count-box i {
@@ -105,7 +102,7 @@
   font-size: 24px;
   background: rgba(255, 255, 255, 0.1);
   padding: 12px;
-  color: #4ce8eb;
+  color: #2b4c4d;
   border-radius: 50px;
   line-height: 0;
 }
@@ -114,11 +111,11 @@
 
   display: block;
 
-  color: #fff;
+  color: #926644;
 }
 
 .counts .count-box li {
-  color: rgb(197, 190, 190);
+  color: rgb(0, 0, 0);
   padding: 0;
   margin: 0;
   font-size: 14px;
@@ -127,7 +124,7 @@
 }
 
 .counts .count-box p {
-  color: rgb(197, 190, 190);
+  color: rgb(0, 0, 0);
   padding: 0;
   margin: 0;
   font-size: 14px;
@@ -236,13 +233,9 @@
   background: #fff;
 }
 
-.services .icon-box:hover .icon i {
-  color: #4ce8eb;
-}
 
-.services .icon-box:hover .icon::before {
-  background: #4ce8eb;
-}
+
+
 
 .services .icon-box:hover h4 a,
 .services .icon-box:hover p {
@@ -274,42 +267,27 @@
   -webkit-text-fill-color: transparent;
  
 }
-.text-gradient2 {
-  background: linear-gradient(to right, #885418, #a39a9a);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 80px;
-  margin-top: 2rem;
- 
-}
 
-@keyframes fireAnimation {
+/* @keyframes fireAnimation {
   0% {
     color: #FF5733;
   }
 
-  /* Color inicial */
   50% {
     color: #FFD700;
   }
 
-  /* Color intermedio */
   100% {
     color: #FF5733;
   }
 
-  /* Color final */
-}
+} */
 
 #about .custom-name {
-  animation: fireAnimation 3s infinite;
   text-align: center;
 }
 
-h2 .custom-name {
-  animation: fireAnimation 3s infinite !important;
-}
+
   
 
 .horizontal-bars {
@@ -411,8 +389,9 @@ h2 .custom-name {
 }
 
 .hero-tech-section {
-  background: linear-gradient(to right, #181F1C, #b28c70);
+  background: linear-gradient(to right, #181F1C, #926644 );
   color: white;
+  
   padding: 4rem 0;
 }
 
@@ -426,19 +405,29 @@ h2 .custom-name {
   padding: 2rem;
 }
 
-.hexagon {
-  width: 320px;
-  aspect-ratio: 1.15;
-  position: relative;
+.hexagon-wrapper {
+  width: 440px;
+  aspect-ratio: 1.10;
+  background: white;
+  padding: 4px;
+  border-radius: 10px;
   clip-path: polygon(
-    25% 0%, 75% 0%, 100% 50%,
+    25% 0%, 75% 0%, 100% 50%, 
     75% 100%, 25% 100%, 0% 50%
   );
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+}
+
+.hexagon {
+  width: 100%;
+  height: 100%;
   overflow: hidden;
-  border: 15px solid rgb(255, 255, 255);
-  border-radius: 15px;
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
-  background-attachment: scroll ;
+  border-radius: 20px;
+  clip-path: polygon(
+    25% 0%, 75% 0%, 100% 50%, 
+    75% 100%, 25% 100%, 0% 50%
+  );
 }
 
 .hexagon img {
@@ -446,6 +435,7 @@ h2 .custom-name {
   height: 100%;
   object-fit: cover;
 }
+
 
 /* responsive  */
 
@@ -459,6 +449,21 @@ h2 .custom-name {
   }
   .custom-name{
     margin-left: 5px;
+  }
+
+  .hexagon-wrapper {
+    width: 300px ! important;
+    aspect-ratio: 1.10;
+    background: white;
+    padding: 4px;
+    border-radius: 10px;
+    clip-path: polygon(
+      25% 0%, 75% 0%, 100% 50%, 
+      75% 100%, 25% 100%, 0% 50%
+    );
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    margin-left: 25%;
   }
  
   

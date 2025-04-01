@@ -18,28 +18,10 @@ export class AboutUsComponent implements OnInit {
 
   ngOnInit(): void {
     Aos.init();
-    this.animateProgressBars();
 
     window.scrollTo(0, 0); 
   }
 
-  animateProgressBars() {
-    const skillsElement = this.skillsElement.nativeElement;
-    const bars = skillsElement.querySelectorAll('.progress-bar');
-
-    bars.forEach((bar: any) => {
-      const percentage = parseInt(bar.getAttribute('aria-valuenow'));
-      let currentWidth = 0;
-
-      const interval = setInterval(() => {
-        if (currentWidth >= percentage) {
-          clearInterval(interval);
-        } else {
-          currentWidth++;
-          bar.style.width = currentWidth + '%';
-        }
-      }, 10);
-    });
-  }
+ 
 
 }
