@@ -1,423 +1,441 @@
-<section class="hero-tech-section">
-    <div class="container-fluid g-0 d-flex flex-wrap align-items-center">
+@if (showSpinner) {
 
-        <!-- Lado izquierdo: texto -->
-        <div class="col-md-6 p-5 text-white hero-text">
-          <h1 class="display-4 fw-bold first-title">La Tecnología al servicio de la Hostelería.</h1>
-          <p class="lead">¿Qué es Füdi? ¿Cuál es nuestro objetivo? ¿Cómo vamos a ayudar a tu negocio?</p>
-          <p class="lead bold"><strong>Sí</strong>, vamos a poner todo al revés.</p>
-          <a href="#contacto" class="btn btn-outline-light rounded-pill mt-3">Quiero conocer </a>
-        </div>
-      
-        <!-- Lado derecho: imagen hexagonal centrada -->
-        <div class="col-md-6 d-flex justify-content-center align-items-center" style="height: 100%;">
-          <div class="hexagon-wrapper">
-            <div class="hexagon">
-              <img src="https://chefiq.com/cdn/shop/articles/blog-post-thumb_tech.png?v=1704681560" alt="Hexagonal" />
+    <section class="dots-container">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </section>
+
+} @else {
+    <section class="hero-tech-section">
+        <div class="container-fluid g-0 d-flex flex-wrap align-items-center">
+    
+            <!-- Lado izquierdo: texto -->
+            <div class="col-md-6 p-5 text-white hero-text">
+              <h1 class="display-4 fw-bold first-title">La Tecnología al servicio de la Hostelería.</h1>
+              <p class="lead">¿Qué es Füdi? ¿Cuál es nuestro objetivo? ¿Cómo vamos a ayudar a tu negocio?</p>
+              <p class="lead bold"><strong>Sí</strong>, vamos a poner todo al revés.</p>
+              <a href="#contacto" class="btn btn-outline-light rounded-pill mt-3">Quiero conocer </a>
             </div>
+          
+            <!-- Lado derecho: imagen hexagonal centrada -->
+            <div class="col-md-6 d-flex justify-content-center align-items-center" style="height: 100%;">
+              <div class="hexagon-wrapper">
+                <div class="hexagon">
+                  <img src="https://chefiq.com/cdn/shop/articles/blog-post-thumb_tech.png?v=1704681560" alt="Hexagonal" />
+                </div>
+              </div>
+            </div>
+          
           </div>
-        </div>
+          
+      </section>
       
-      </div>
-      
-  </section>
-  
-
-
-<section id="about" class="about">
-    <div class="horizontal-bars"></div>
-    <!-- ======= About US -->
-    <div class="about-me container">
-
-
-        <div class="row" data-aos="fade-up">
-
-            <h2><span class="custom-name" >Fudï</span></h2>
-
-           
-
-            <div class="col-lg-8 pt-4 pt-lg-0 content ">
-
-                
-
-
-                <h3>Software Destinado a Revolucionar la hostelería</h3>
-                <p class="fst-italic text-justify">
-                    Luego de darnos cuenta que la Hostelería se encuentra abandonada tecnolgoicamente en España, la union de conocimientos, experiencias, nos ha llevado a la creación de Fudï, 
-                    una plataforma de reservas de restaurantes que busca revolucionar la forma en que los comensales descubren y reservan experiencias gastronómicas. Con un enfoque en la innovación y la tecnología, Fudï se esfuerza por ofrecer una experiencia única y personalizada para cada usuario, facilitando la búsqueda y reserva de restaurantes de manera rápida y eficiente.
-                </p>
-                <div class="row">
-                    <div class="col-lg-6">
-                        
-                    </div>
-                    <div class="col-lg-6">
-                        
-                    </div>
-                </div>
-              
-            </div>
-        </div>
-
-    </div><!-- End About Me -->
-
-    <!-- ======= Counts ======= -->
-    <div data-aos="fade-up" class="counts container">
-
-        <div class="row">
-
-            <div class="section-title mb-5">
-                <h2>Principales Funciones</h2>
-            </div>
-
-            <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
-                <div class="count-box">
-                    <i class="bi bi-bricks"></i>
-
-                    <strong>Control de Reservaciones</strong>
-                    <p>Brindamos las herramientas necesarias para que la Gestión de tus reservas no se vuelva un total Caos, con un panel intuitivo, encontraras la solución necesaria
-                        para que tu negocio sea realmente eficiente.
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
-                <div class="count-box">
-                    <i class="bi bi-kanban"></i>
-
-                    <strong>Captación de Leads</strong>
-                    <p>
-                        Con un sistema de gestión de reservas, podrás captar leads de forma automatizada, lo que te 
-                        permitirá aumentar tu base de datos, conocer mejor los gustos de tus comensales y mejorar tus estrategias de marketing.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="count-box">
-                    <i class="bi bi-star"></i>
-
-                    <strong>Ranking & Comentarios</strong>
-                    <p class="custom-p">Podras conocer en tiempo real, como ha sido la experiencia de tus usuarios, desde 
-                        la calidad del servicio, hasta la comida, 
-                        lo que te permitirá mejorar tu servicio y adaptarte a las necesidades de tus comensales.
-
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="count-box">
-                    <i class="bi bi-robot"></i>
-
-                    <strong>Machine Learning</strong>
-                    <p class="custom-p">Tecnicas Avanzadas, como la inteligencía artificial, analisis de datos, permitiran realizar predicciones de gustos,
-                        basado en las preferencias de tus comensales, lo que te permitirá ofrecer una experiencia personalizada.
-                    </p>
-                </div>
-            </div>
-           
-
-            
-
-        </div>
-
-        <div class="row justify-content-center">
-            <div class="col-lg-3 col-md-6">
-                <div class="count-box">
-                    <i class="bi bi-highlighter"></i>
-
-                    <strong>Gestión de Menús, carta y platos.</strong>
-                    <p class="custom-p">Con un panel interactivo, podras crear, administrar y mostrar las diferentes: cartas, menús y platos, segun la temporada,
-                        podras adaptar tu Menú y enseñar lo mejor de tu cocina, con un par de clicks.</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="count-box">
-                    <i class="bi bi-highlighter"></i>
-
-                    <strong>Contenido.</strong>
-                    <p class="custom-p">Gestionar Digitalmente tu restaurant, nunca fue tan facil, tendras herramientas potentes, para crear diferentes restaurantes, podras ser administrador de todos tus puntos de venta, desde un mismo administrador.</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="count-box">
-                    <i class="bi bi-highlighter"></i>
-
-                    <strong>Control de Inventarios*.</strong>
-                    <p class="custom-p">No sabes cuanto estas ganando. Spoiler: <strong style="color: black !important;">¡Es mucho mas de lo que crees!</strong> </p>
-                    <p>Vamos a conectar los pedidos de tus clientes, directamente con un control de inventario, capaz de detectar perdidas... <strong style="color: black !important;">¡Antes de que sucedan!</strong></p>
-                </div>
-            </div>
-        </div>
-        
     
-
-    </div>
-    <!-- End Counts -->
-    <!-- ======= Interests ======= -->
-    <div class="interests container mb-5">
-
-        <div data-aos="fade-up" class="section-title mb-5">
-            <h2>Beneficios de trabajar con nosotros...¡Unete!</h2>
-        </div>
-
-       <!--  <div data-aos="fade-up" class="row">
-            <div class="col-lg-3 col-md-4">
-                <div class="icon-box">
-                    <img src="https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png" alt=""
-                        style="max-width: 70px;">
-                    <h3 class="p-3">Git</h3>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
-                <div class="icon-box">
-                    <img src="https://www.vectorlogo.zone/logos/java/java-icon.svg" alt="">
-
-                    <h3 class="p-3">Java</h3>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
-                <div class="icon-box">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/2048px-Angular_full_color_logo.svg.png"
-                        alt="" style="max-width: 60px;">
-                    <h3 class="p-3">Angular</h3>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4 mt-lg-0">
-                <div class="icon-box">
-                    <img src="https://cdn.worldvectorlogo.com/logos/spring-3.svg" alt="" style="max-width: 60px;">
-                    <h3 class="p-3">Spring</h3>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4">
-                <div class="icon-box">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Python_logo_51.svg/1200px-Python_logo_51.svg.png"
-                        alt="" style="max-width: 70px;">
-                    <h3 class="p-3">Python</h3>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4">
-                <div class="icon-box">
-                    <img src="https://www.vectorlogo.zone/logos/mysql/mysql-official.svg" alt=""
-                        style="max-width: 130px;">
-                    <h3 class="p-3">SQL</h3>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4">
-                <div class="icon-box">
-                    <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo-shadow.png" alt=""
-                        style="max-width: 80px;">
-                    <h3 class="p-3">Bootstrap</h3>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4">
-                <div class="icon-box">
-                    <img src="https://icons.veryicon.com/png/o/business/vscode-program-item-icon/typescript-def.png"
-                        alt="" style="max-width: 60px;">
-                    <h3 class="p-3">Typescript</h3>
-                </div>
-            </div>
-
-
-        </div>
-        <div data-aos="fade-up" class="row">
-            <div class="section-title mt-5">
-                <h2>Resultados</h2>
-            </div>
-
-            <div class="col-lg-3 col-md-4 mt-4">
-                <div class="icon-box">
-                    <img src="https://1000logos.net/wp-content/uploads/2021/05/Trello-logo.png" alt=""
-                        style="max-width: 100px;">
-                    <h3></h3>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4">
-                <div class="icon-box">
-                    <img class="p-1" src="https://static-00.iconduck.com/assets.00/postman-icon-2048x2048-dsydvxav.png"
-                        alt="" style="max-width: 60px;">
-                    <h3 class="p-3">Postman</h3>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4">
-                <div class="icon-box">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Figma-logo.svg/1667px-Figma-logo.svg.png"
-                        alt="" style="max-width: 40px;">
-                    <h3 class="p-3">Figma</h3>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4">
-                <div class="icon-box">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Slack_icon_2019.svg/2048px-Slack_icon_2019.svg.png"
-                        alt="" style="max-width: 60px;">
-                    <h3 class="p-3">Slack</h3>
-                </div>
-            </div>
-        </div> -->
-
-    </div>
     
-    <div class="slider container ">
-        
-        <div data-aos="fade-up" class="section-title mb-5 text-left">
-            <h2>Principales Aliados</h2>
-        </div>
-        <div class="slide-track">
-            <a href="">
-                <div class="slide">
-                    <img src="https://i.ibb.co/kgz9MP8/last-hibachi-logo-removebg-preview.png" alt="">
-
-                </div>
-            </a>
-
-            <a href="">
-                <div class="slide">
-                    <img src="https://wahkeepty.com/wp-content/uploads/2020/02/1.png" alt="">
-
-                </div>
-            </a>
-
-            <a href="">
-                <div class="slide">
-                    <img src="https://i.ibb.co/wzDpN2P/logo-KP-pdf-removebg-preview.png" alt="">
-
-                </div>
-            </a>
-
-            <a href="">
-
-                <div class="slide">
-                    <img src="https://i.ibb.co/ZNXkSR3/oh-toro-logo-bg-remove.png" alt="">
-
-                </div>
-
-            </a>
-            <a href="">
-                <div class="slide">
-                    <img src="https://i.ibb.co/BBJ1zMq/MAGUROlogo-pdf-removebg-preview.pnghttps://i.ibb.co/BBJ1zMq/MAGUROlogo-pdf-removebg-preview.pnghttps://i.etsystatic.com/26674607/r/il/fab569/3656957743/il_794xN.3656957743_snou.jpg"
-                        alt="">
-
-                </div>
-
-            </a>
-
-            <a href="">
-                <div class="slide">
-                    <img src="https://i.ibb.co/h1JSJ7X/isaki-logo-removebg-preview.png" alt="">
-
-                </div>
-            </a>
-           
-
-        </div>
-    </div>
-
-<!--     <div class="horizontal-bars"></div>
- -->
-    <!-- <section id="contacto" data-aos="flip-left" data-aos-duration="2000">
-        <div class="form-container">
-            <div class="form">
-
-                <h3 class="titulo-seccion custom-title ms-2 p-2">Contáctanos ahora</h3>
-                <div class="form-group">
-                    <form action="https://formsubmit.co/biteandbooking@gmail.com" method="POST">
-
-                        <div class="labels">
-                            <input type="text" name="name" id="name" placeholder="Nombre Completo" class="input-mitad"
-                                required>
-                            <br>
-                            <input type="email" name="email" id="email" placeholder="Dirección de Email"
-                                class="input-mitad" required>
-
-
-                            <input type="text" name="subject" id="subject" placeholder="Asunto..." class="input-full">
-
-
-                            <textarea name="message" id="message" cols="30" rows="10" placeholder="Tu Mensaje..."
-                                class="input-full" required></textarea>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
-                        <input type="hidden" name="_next" value="http://localhost:4200/">
-                        <input type="hidden" name="_captcha" value="false">
-                    </form>
-
-                </div>
-
-            </div>
-        </div>
-
-
-    </section> -->
-
-
-    <section class="asking">
+    <section id="about" class="about">
         <div class="horizontal-bars"></div>
-
-        <div class="container mb-5">
-            <div class="row">
-                <div class="col">
-                    <!---Acordeon NgBootstrap-->
-
-                    <h2 class="mt-3 mb-3 text-center">Preguntas Frecuentes</h2>
-
-                    <div ngbAccordion #accordion="ngbAccordion">
-                        <div ngbAccordionItem="first">
-                            <h2 ngbAccordionHeader>
-                                <button ngbAccordionButton>¿Qué es Fudï?</button>
-                            </h2>
-                            <div ngbAccordionCollapse>
-                                <div ngbAccordionBody>
-                                    <ng-template>
-                                        Fudï es una plataforma de reservas en línea que te permite encontrar y reservar una amplia variedad de restaurantes en diferentes destinos. Con BiteFood, puedes planificar y organizar fácilmente tus viajes, ya sea para unas vacaciones, un viaje de negocios o una escapada de fin de semana y todo para tu gusto y el mejor.
-                                        
-                                        Nuestra plataforma ofrece una amplia gama de opciones gastronómicas, desde restaurantes de alta cocina hasta acogedores cafés y locales de comida rápida, para adaptarse a todos los gustos y presupuestos. Puedes buscar restaurantes por ubicación, tipo de cocina, precio y más, para encontrar la opción perfecta para tu ocasión. 
-                                    </ng-template>
-                                </div>
-                            </div>
+        <!-- ======= About US -->
+        <div class="about-me container">
+    
+    
+            <div class="row" data-aos="fade-up">
+    
+                <h2><span class="custom-name" >Fudï</span></h2>
+    
+               
+    
+                <div class="col-lg-8 pt-4 pt-lg-0 content ">
+    
+                    
+    
+    
+                    <h3>Software Destinado a Revolucionar la hostelería</h3>
+                    <p class="fst-italic text-justify">
+                        Luego de darnos cuenta que la Hostelería se encuentra abandonada tecnolgoicamente en España, la union de conocimientos, experiencias, nos ha llevado a la creación de Fudï, 
+                        una plataforma de reservas de restaurantes que busca revolucionar la forma en que los comensales descubren y reservan experiencias gastronómicas. Con un enfoque en la innovación y la tecnología, Fudï se esfuerza por ofrecer una experiencia única y personalizada para cada usuario, facilitando la búsqueda y reserva de restaurantes de manera rápida y eficiente.
+                    </p>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            
                         </div>
-                        <div ngbAccordionItem="second">
-                            <h2 ngbAccordionHeader>
-                                <button ngbAccordionButton>¿Como fue el desarrollo del equipo?</button>
-                            </h2>
-                            <div ngbAccordionCollapse>
-                                <div ngbAccordionBody>
-                                    <ng-template>
-                                        el desarrollo del equipo de BiteFood fue un proceso estructurado y colaborativo que permitió crear una aplicación de reservas de restaurantes exitosa y satisfactoria para los usuarios. Cada miembro del equipo desempeñó un papel crucial en el proceso, contribuyendo con sus habilidades y conocimientos para alcanzar los objetivos del proyecto.
-                                    </ng-template>
-                                </div>
-                            </div>
-                        </div>
-                        <div ngbAccordionItem="three">
-                            <h2 ngbAccordionHeader>
-                                <button ngbAccordionButton>¿Cual es el futuro del proyecto?</button>
-                            </h2>
-                            <div ngbAccordionCollapse>
-                                <div ngbAccordionBody>
-                                    <ng-template>
-                                        <strong>Misión:</strong>
-                                        Ser la plataforma líder a nivel global en reservas de restaurantes, brindando a nuestros usuarios una experiencia gastronómica excepcional y ayudando a los restaurantes a maximizar su potencial.
-                                        <p>         <strong>Visión:</strong>
-                                            Transformar la manera en que el mundo disfruta de la gastronomía, conectando de manera innovadora a comensales con los mejores restaurantes, ofreciendo una amplia gama de opciones culinarias y garantizando una experiencia de reserva simple, segura y emocionante.
-                                        </p>
-
-                                    </ng-template>
-                                  
-                                
-                                    </div>
-
-                            </div>
+                        <div class="col-lg-6">
+                            
                         </div>
                     </div>
-
-                    <hr />
-
-
-                    <button class="btn btn-sm btn-outline-dark me-2" (click)="accordion.expandAll()">Abrir
-                        todos</button>
-                    <button class="btn btn-sm btn-outline-dark me-2" (click)="accordion.collapseAll()">Cerrar
-                        todos</button>
+                  
                 </div>
             </div>
+    
+        </div><!-- End About Me -->
+    
+        <!-- ======= Counts ======= -->
+        <div data-aos="fade-up" class="counts container">
+    
+            <div class="row">
+    
+                <div class="section-title mb-5">
+                    <h2>Principales Funciones</h2>
+                </div>
+    
+                <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
+                    <div class="count-box">
+                        <i class="bi bi-bricks"></i>
+    
+                        <strong>Control de Reservaciones</strong>
+                        <p>Brindamos las herramientas necesarias para que la Gestión de tus reservas no se vuelva un total Caos, con un panel intuitivo, encontraras la solución necesaria
+                            para que tu negocio sea realmente eficiente.
+                        </p>
+                    </div>
+                </div>
+    
+                <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+                    <div class="count-box">
+                        <i class="bi bi-kanban"></i>
+    
+                        <strong>Captación de Leads</strong>
+                        <p>
+                            Con un sistema de gestión de reservas, podrás captar leads de forma automatizada, lo que te 
+                            permitirá aumentar tu base de datos, conocer mejor los gustos de tus comensales y mejorar tus estrategias de marketing.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="count-box">
+                        <i class="bi bi-star"></i>
+    
+                        <strong>Ranking & Comentarios</strong>
+                        <p class="custom-p">Podras conocer en tiempo real, como ha sido la experiencia de tus usuarios, desde 
+                            la calidad del servicio, hasta la comida, 
+                            lo que te permitirá mejorar tu servicio y adaptarte a las necesidades de tus comensales.
+    
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="count-box">
+                        <i class="bi bi-robot"></i>
+    
+                        <strong>Machine Learning</strong>
+                        <p class="custom-p">Tecnicas Avanzadas, como la inteligencía artificial, analisis de datos, permitiran realizar predicciones de gustos,
+                            basado en las preferencias de tus comensales, lo que te permitirá ofrecer una experiencia personalizada.
+                        </p>
+                    </div>
+                </div>
+               
+    
+                
+    
+            </div>
+    
+            <div class="row justify-content-center">
+                <div class="col-lg-3 col-md-6">
+                    <div class="count-box">
+                        <i class="bi bi-highlighter"></i>
+    
+                        <strong>Gestión de Menús, carta y platos.</strong>
+                        <p class="custom-p">Con un panel interactivo, podras crear, administrar y mostrar las diferentes: cartas, menús y platos, segun la temporada,
+                            podras adaptar tu Menú y enseñar lo mejor de tu cocina, con un par de clicks.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="count-box">
+                        <i class="bi bi-highlighter"></i>
+    
+                        <strong>Contenido.</strong>
+                        <p class="custom-p">Gestionar Digitalmente tu restaurant, nunca fue tan facil, tendras herramientas potentes, para crear diferentes restaurantes, podras ser administrador de todos tus puntos de venta, desde un mismo administrador.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="count-box">
+                        <i class="bi bi-highlighter"></i>
+    
+                        <strong>Control de Inventarios*.</strong>
+                        <p class="custom-p">No sabes cuanto estas ganando. Spoiler: <strong style="color: black !important;">¡Es mucho mas de lo que crees!</strong> </p>
+                        <p>Vamos a conectar los pedidos de tus clientes, directamente con un control de inventario, capaz de detectar perdidas... <strong style="color: black !important;">¡Antes de que sucedan!</strong></p>
+                    </div>
+                </div>
+            </div>
+            
+        
+    
         </div>
-
+        <!-- End Counts -->
+        <!-- ======= Interests ======= -->
+        <div class="interests container mb-5">
+    
+            <div data-aos="fade-up" class="section-title mb-5">
+                <h2>Beneficios de trabajar con nosotros...¡Unete!</h2>
+            </div>
+    
+           <!--  <div data-aos="fade-up" class="row">
+                <div class="col-lg-3 col-md-4">
+                    <div class="icon-box">
+                        <img src="https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png" alt=""
+                            style="max-width: 70px;">
+                        <h3 class="p-3">Git</h3>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+                    <div class="icon-box">
+                        <img src="https://www.vectorlogo.zone/logos/java/java-icon.svg" alt="">
+    
+                        <h3 class="p-3">Java</h3>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+                    <div class="icon-box">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/2048px-Angular_full_color_logo.svg.png"
+                            alt="" style="max-width: 60px;">
+                        <h3 class="p-3">Angular</h3>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 mt-4 mt-lg-0">
+                    <div class="icon-box">
+                        <img src="https://cdn.worldvectorlogo.com/logos/spring-3.svg" alt="" style="max-width: 60px;">
+                        <h3 class="p-3">Spring</h3>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 mt-4">
+                    <div class="icon-box">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Python_logo_51.svg/1200px-Python_logo_51.svg.png"
+                            alt="" style="max-width: 70px;">
+                        <h3 class="p-3">Python</h3>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 mt-4">
+                    <div class="icon-box">
+                        <img src="https://www.vectorlogo.zone/logos/mysql/mysql-official.svg" alt=""
+                            style="max-width: 130px;">
+                        <h3 class="p-3">SQL</h3>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 mt-4">
+                    <div class="icon-box">
+                        <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo-shadow.png" alt=""
+                            style="max-width: 80px;">
+                        <h3 class="p-3">Bootstrap</h3>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 mt-4">
+                    <div class="icon-box">
+                        <img src="https://icons.veryicon.com/png/o/business/vscode-program-item-icon/typescript-def.png"
+                            alt="" style="max-width: 60px;">
+                        <h3 class="p-3">Typescript</h3>
+                    </div>
+                </div>
+    
+    
+            </div>
+            <div data-aos="fade-up" class="row">
+                <div class="section-title mt-5">
+                    <h2>Resultados</h2>
+                </div>
+    
+                <div class="col-lg-3 col-md-4 mt-4">
+                    <div class="icon-box">
+                        <img src="https://1000logos.net/wp-content/uploads/2021/05/Trello-logo.png" alt=""
+                            style="max-width: 100px;">
+                        <h3></h3>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 mt-4">
+                    <div class="icon-box">
+                        <img class="p-1" src="https://static-00.iconduck.com/assets.00/postman-icon-2048x2048-dsydvxav.png"
+                            alt="" style="max-width: 60px;">
+                        <h3 class="p-3">Postman</h3>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 mt-4">
+                    <div class="icon-box">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Figma-logo.svg/1667px-Figma-logo.svg.png"
+                            alt="" style="max-width: 40px;">
+                        <h3 class="p-3">Figma</h3>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 mt-4">
+                    <div class="icon-box">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Slack_icon_2019.svg/2048px-Slack_icon_2019.svg.png"
+                            alt="" style="max-width: 60px;">
+                        <h3 class="p-3">Slack</h3>
+                    </div>
+                </div>
+            </div> -->
+    
+        </div>
+        
+        <div class="slider container ">
+            
+            <div data-aos="fade-up" class="section-title mb-5 text-left">
+                <h2>Principales Aliados</h2>
+            </div>
+            <div class="slide-track">
+                <a href="">
+                    <div class="slide">
+                        <img src="https://i.ibb.co/kgz9MP8/last-hibachi-logo-removebg-preview.png" alt="">
+    
+                    </div>
+                </a>
+    
+                <a href="">
+                    <div class="slide">
+                        <img src="https://wahkeepty.com/wp-content/uploads/2020/02/1.png" alt="">
+    
+                    </div>
+                </a>
+    
+                <a href="">
+                    <div class="slide">
+                        <img src="https://i.ibb.co/wzDpN2P/logo-KP-pdf-removebg-preview.png" alt="">
+    
+                    </div>
+                </a>
+    
+                <a href="">
+    
+                    <div class="slide">
+                        <img src="https://i.ibb.co/ZNXkSR3/oh-toro-logo-bg-remove.png" alt="">
+    
+                    </div>
+    
+                </a>
+                <a href="">
+                    <div class="slide">
+                        <img src="https://i.ibb.co/BBJ1zMq/MAGUROlogo-pdf-removebg-preview.pnghttps://i.ibb.co/BBJ1zMq/MAGUROlogo-pdf-removebg-preview.pnghttps://i.etsystatic.com/26674607/r/il/fab569/3656957743/il_794xN.3656957743_snou.jpg"
+                            alt="">
+    
+                    </div>
+    
+                </a>
+    
+                <a href="">
+                    <div class="slide">
+                        <img src="https://i.ibb.co/h1JSJ7X/isaki-logo-removebg-preview.png" alt="">
+    
+                    </div>
+                </a>
+               
+    
+            </div>
+        </div>
+    
+    <!--     <div class="horizontal-bars"></div>
+     -->
+        <!-- <section id="contacto" data-aos="flip-left" data-aos-duration="2000">
+            <div class="form-container">
+                <div class="form">
+    
+                    <h3 class="titulo-seccion custom-title ms-2 p-2">Contáctanos ahora</h3>
+                    <div class="form-group">
+                        <form action="https://formsubmit.co/biteandbooking@gmail.com" method="POST">
+    
+                            <div class="labels">
+                                <input type="text" name="name" id="name" placeholder="Nombre Completo" class="input-mitad"
+                                    required>
+                                <br>
+                                <input type="email" name="email" id="email" placeholder="Dirección de Email"
+                                    class="input-mitad" required>
+    
+    
+                                <input type="text" name="subject" id="subject" placeholder="Asunto..." class="input-full">
+    
+    
+                                <textarea name="message" id="message" cols="30" rows="10" placeholder="Tu Mensaje..."
+                                    class="input-full" required></textarea>
+                            </div>
+    
+                            <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+                            <input type="hidden" name="_next" value="http://localhost:4200/">
+                            <input type="hidden" name="_captcha" value="false">
+                        </form>
+    
+                    </div>
+    
+                </div>
+            </div>
+    
+    
+        </section> -->
+    
+    
+        <section class="asking">
+            <div class="horizontal-bars"></div>
+    
+            <div class="container mb-5">
+                <div class="row">
+                    <div class="col">
+                        <!---Acordeon NgBootstrap-->
+    
+                        <h2 class="mt-3 mb-3 text-center">Preguntas Frecuentes</h2>
+    
+                        <div ngbAccordion #accordion="ngbAccordion">
+                            <div ngbAccordionItem="first">
+                                <h2 ngbAccordionHeader>
+                                    <button ngbAccordionButton>¿Qué es Fudï?</button>
+                                </h2>
+                                <div ngbAccordionCollapse>
+                                    <div ngbAccordionBody>
+                                        <ng-template>
+                                            Fudï es una plataforma de reservas en línea que te permite encontrar y reservar una amplia variedad de restaurantes en diferentes destinos. Con Fudï, puedes planificar y organizar fácilmente tus viajes, ya sea para unas vacaciones, un viaje de negocios o una escapada de fin de semana y todo para tu gusto y el mejor.
+                                            
+                                            Nuestra plataforma ofrece una amplia gama de opciones gastronómicas, desde restaurantes de alta cocina hasta acogedores cafés y locales de comida rápida, para adaptarse a todos los gustos y presupuestos. Puedes buscar restaurantes por ubicación, tipo de cocina, precio y más, para encontrar la opción perfecta para tu ocasión. 
+                                        </ng-template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ngbAccordionItem="second">
+                                <h2 ngbAccordionHeader>
+                                    <button ngbAccordionButton>¿Es Gratis Fudï?</button>
+                                </h2>
+                                <div ngbAccordionCollapse>
+                                    <div ngbAccordionBody>
+                                        <ng-template>
+                                            <strong>Sí</strong>, Fudï es totalmente gratis, los usuarios no pagaran una tarifa <strong>nunca</strong> por realizar reservas.
+    
+                                            <p class="mt-3">
+                                                Los primeros    <strong>100 restaurantes</strong>, tendran a disposición una prueba gratuita de 1 año, para que puedan probar toda la tecnología que prometemos va a cambiar la historia de tu negocio.
+                                            </p>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ngbAccordionItem="three">
+                                <h2 ngbAccordionHeader>
+                                    <button ngbAccordionButton>¿Como puedo participar?</button>
+                                </h2>
+                                <div ngbAccordionCollapse>
+                                    <div ngbAccordionBody>
+                                        <ng-template>
+                                            <strong>Misión:</strong>
+                                            Ser la plataforma líder a nivel global en reservas de restaurantes, brindando a nuestros usuarios una experiencia gastronómica excepcional y ayudando a los restaurantes a maximizar su potencial.
+                                            <p>         <strong>Visión:</strong>
+                                                Transformar la manera en que el mundo disfruta de la gastronomía, conectando de manera innovadora a comensales con los mejores restaurantes, ofreciendo una amplia gama de opciones culinarias y garantizando una experiencia de reserva simple, segura y emocionante.
+                                            </p>
+    
+                                        </ng-template>
+                                      
+                                    
+                                        </div>
+    
+                                </div>
+                            </div>
+                        </div>
+    
+                        <hr />
+    
+    
+                        <button class="btn btn-sm btn-outline-dark me-2" (click)="accordion.expandAll()">Abrir
+                            todos</button>
+                        <button class="btn btn-sm btn-outline-dark me-2" (click)="accordion.collapseAll()">Cerrar
+                            todos</button>
+                    </div>
+                </div>
+            </div>
+    
+        </section>
     </section>
-</section>
+}
+
+

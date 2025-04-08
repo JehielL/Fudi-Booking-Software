@@ -12,16 +12,21 @@ import Aos from 'aos';
 })
 export class AboutUsComponent implements OnInit {
 
+
+  showSpinner = true;
   @ViewChild('skills') skillsElement!: ElementRef;
 
   constructor() { }
 
   ngOnInit(): void {
     Aos.init();
-
     window.scrollTo(0, 0); 
-  }
 
- 
+    setTimeout(() => {
+    this.showSpinner = false;
+    
+  },2000);
+
+  }
 
 }
