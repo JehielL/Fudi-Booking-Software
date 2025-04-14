@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationService } from '../services/authentication.service';
@@ -7,11 +7,13 @@ import { HttpClient } from '@angular/common/http';
 import { KitchenComponent } from '../kitchen/kitchen.component';
 import { Restaurant } from '../Interfaces/restaurant.model';
 import { delay, switchMap, timer } from 'rxjs';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NgbDropdownModule, RouterLink, KitchenComponent],
+  imports: [NgbDropdownModule, RouterLink, KitchenComponent, CommonModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -35,6 +37,8 @@ export class NavbarComponent implements OnInit{
   avatarUrl = '';
   puedeMostrarMas: boolean = false;
   showCocinasDropdown: boolean = false;
+  isScrolled = false;
+
   constructor(
     private authService: AuthenticationService,
     private router: Router,
@@ -68,6 +72,13 @@ export class NavbarComponent implements OnInit{
     
     });
   }
+
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.isScrolled = window.pageYOffset > 20;
+  }
+
 
   getUserAvatar() {
     if(this.user) {

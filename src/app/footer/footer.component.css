@@ -4,10 +4,14 @@
   color: #aaaaaa !important;
   text-align: center; /* Centra el contenido del footer */
   padding: 30px;
-  position: static;
+  position: sticky;
   bottom: 0;
   left: 0;
   width: 100%;
+}
+body.scrolled .footer-custom {
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.5);
+  background-color: #1e2723; /* Cambia ligeramente el fondo al hacer scroll */
 }
 
 .footer-custom .nav li a {

@@ -12,23 +12,14 @@ body {
 
 }
 
-
-/* .gradient-background {
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(300deg,#7e697e,#2a3439,#926644);
-  background-size: 180% 180%;
-  animation: gradient-animation 18s ease infinite;
-  transition: background-position 0.1s ease-out;
-  z-index: -1;
-  pointer-events: none; 
+main {
+  padding-top: calc(80px + 1rem);
+  flex: 1;
 }
 
-@keyframes gradient-animation {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-} */
+
+
+
 
 .dots-container {
   display: flex;
@@ -36,7 +27,7 @@ body {
   justify-content: center;
   height: 100%;
   width: 100%;
-  margin-top: 20%;
+  margin-top: calc(20% + 80px);
   margin-bottom: 30%;
 }
 
