@@ -20,7 +20,7 @@
   font-weight: 500;
   padding: 0;
   line-height: 1px;
-  margin: 0 0 20px 0;
+  margin: 20px 0 20px 0;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #aaaaaa;
@@ -317,8 +317,8 @@
   width: 90%;
   max-width: 400px;
   margin: 0 auto;
-  background: linear-gradient(#000000, #0c021a) padding-box,
-    linear-gradient(145deg, transparent 25%, #e81cff, #40c9ff) border-box;
+  background: linear-gradient(#ffffff, #ffffff) padding-box,
+    linear-gradient(145deg, transparent 25%, #000000, #926644) border-box;
   border: 2px solid transparent;
   padding: 32px 24px;
   font-size: 14px;
@@ -333,7 +333,7 @@
 }
 
 .btn-primary {
-  background: linear-gradient(to right, #007bff, #b30092);
+  background: linear-gradient(to right, #000000, #926644);
   border: none;
   transition: background-position 0.3s ease;
   background-size: 200% auto;
@@ -507,8 +507,9 @@
 }
 
 .slider .slide:hover {
-  cursor: pointer; /* Cambia el cursor al pasar sobre los slides */
+  cursor: pointer; 
 }
+
 
 /* responsive  */
 

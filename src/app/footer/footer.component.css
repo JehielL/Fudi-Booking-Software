@@ -33,6 +33,7 @@
   color: #926644 !important;
 }
 
+
 /* Media query para dispositivos móviles */
 @media (max-width: 576px) {
   .footer-custom {
