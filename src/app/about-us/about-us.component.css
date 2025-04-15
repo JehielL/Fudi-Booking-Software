@@ -20,7 +20,7 @@
   font-weight: 500;
   padding: 0;
   line-height: 1px;
-  margin: 20px 0 20px 0;
+  margin: 10px 0 20px 0;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #aaaaaa;
@@ -47,7 +47,6 @@
 
 .about-me .content {
   margin-top: 3rem;
-  margin-bottom: 3rem;
   padding: 2rem;
   background-color: rgba(255,255,255,0.05);
   border-radius: 15px;
@@ -544,6 +543,44 @@
   width: 200%;
 }
 
+.animated-headline {
+  text-align: center;
+  overflow: hidden;
+}
+
+.word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+.customstrong .word {
+  position: relative;
+  font-weight: 900;
+  font-size: 1.05em;
+  background: linear-gradient(to right, #00ffd5, #ff00b3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: pulseGradient 3s infinite ease-in-out;
+  
+}
+
+
+@keyframes pulseGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+
 @keyframes scroll {
   0% {
     transform: translateX(120%); /* Mueve todos los slides fuera de la vista hacia la derecha */
@@ -623,6 +660,12 @@
     margin-bottom: 30px;
     margin-left: 18%;
   }
+
+  .about-me .content {
+   
+    font-size: 30px !important;
+  }
+  
 
 
   

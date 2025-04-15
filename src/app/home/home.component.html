@@ -14,22 +14,23 @@
 
 }@else {
 
-<div class="text-center container-fluid img-welcome ">
-  <!-- <video loop muted autoplay oncanplay="this.play()" onloadedmetadata="this.muted = true" class="myvideo">
-    <source src="/assets/videohome.mp4" type="video/mp4">
-</video> -->
-<div class="image-overlay"></div>
+<div class="text-center container-fluid img-welcome">
 
+  <div class="background-layer" [ngStyle]="{ 'background-image': 'url(' + currentImage + ')' }"
+    [class.visible]="imageLoaded"></div>
+  <div class="background-layer" [ngStyle]="{ 'background-image': 'url(' + nextImage + ')' }"
+    [class.visible]="!imageLoaded"></div>
 
+  <div class="text-overlay" > </div>
   <div class="content container-fluid">
 
     <div class="search">
       <br>
-      <h1 class="text-white ">Encuentra y reserva el mejor Restaurant.</h1>
+      <h1 class="text-white customh">Encuentra y reserva el mejor Restaurant.</h1>
       <br>
-      <input type="search" class="form-control form-control-sm rounded"
-        placeholder="Buscar Restaurantes ..." aria-label="Buscar" aria-describedby="search-addon"
-        style="max-width: 760px;" (input)="buscar($any($event.target).value)">
+      <input type="search" class="form-control form-control-sm rounded" placeholder="Buscar Restaurantes ..."
+        aria-label="Buscar" aria-describedby="search-addon" style="max-width: 760px;"
+        (input)="buscar($any($event.target).value)">
       @if (resultadosBusqueda.length > 0) {
       <div class="search-container">
         <ul class="list-group">
@@ -37,7 +38,7 @@
           <li class="list-group-item">
             <a [routerLink]="['/restaurant', restaurantes.id, 'detail']"
               [innerHTML]="highlightSearchTerm(restaurantes.name, searchTerm)">{{ restaurantes.name }}</a>
-          </li> 
+          </li>
           }
         </ul>
         @if (puedeMostrarMas) {
@@ -87,19 +88,20 @@
 
 <div class="container-fluid">
 
-  <div style="text-align: center;">
+  <div data-aos="fade-up" style="text-align: center;">
     <h1 class="category-title">Recien Añadidos</h1>
   </div>
-  
+
   <div class="container" id="custom-cards">
 
-    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch py-5">
+    <div data-aos="fade-up" class="row row-cols-1 row-cols-lg-3 align-items-stretch py-5">
       @for (restaurant of restaurants; track $index) {
       <div class="col mt-3">
         <a [routerLink]="['/restaurant', restaurant.id, 'detail']">
           <div class="card card-cover h-150 w-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative">
-            <div class="image-overlay" [style.background-image]="'url(' + (restaurant.imageUrl.startsWith('http') ? restaurant.imageUrl : 'https://biteapp.store:8080/files/' + restaurant.imageUrl) + ')'"
-                        style="background-size: cover; background-position: center; height: 200px;">
+            <div class="image-overlay"
+              [style.background-image]="'url(' + (restaurant.imageUrl.startsWith('http') ? restaurant.imageUrl : 'https://biteapp.store:8080/files/' + restaurant.imageUrl) + ')'"
+              style="background-size: cover; background-position: center; height: 200px;">
             </div>
             <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1 position-relative">
               <h3 class="mt-auto mb-3 text-center fs-5 fw-bold"> {{ restaurant.name }}</h3>
@@ -114,7 +116,7 @@
             </div>
           </div>
         </a>
-        
+
       </div>
       }
     </div>
@@ -126,10 +128,11 @@
 
   <div class="container" id="custom-cards">
     <div style="text-align: center;">
-      <h1 class="category-title">Recomendaciones</h1>
+      <h1 data-aos="fade-up" class="category-title">Recomendaciones</h1>
     </div>
-    
-    <div class="row row-cols-1 row-cols-md-3 g-3 justify-content-center align-items-center py-3 mt-3">
+
+    <div data-aos="fade-up"
+      class="row row-cols-1 row-cols-md-3 g-3 justify-content-center align-items-center py-3 mt-3">
 
 
       <div class="col ">
@@ -226,7 +229,7 @@
 <!-- Parallax Hero Banner -->
 <div class="parallax-banner d-flex align-items-center justify-content-center">
   <div class="overlay"></div>
-  <div class="container position-relative text-white">
+  <div data-aos="fade-up" class="container position-relative text-white">
     <div class="row align-items-center justify-content-between">
       <div class="col-2 vertical-text d-md-flex">¡NO TE LÍES!</div>
       <div class="col-8 text-center">
@@ -245,10 +248,10 @@
   <div style="text-align: center;">
     <h1 class="custom-title category-title">Experiencias</h1>
   </div>
-  
+
   <div class="container" id="custom-cards">
 
-    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch py-5">
+    <div data-aos="fade-up" class="row row-cols-1 row-cols-lg-3 align-items-stretch py-5">
 
       <div class="col mt-3">
         <div class="card card-cover h-100 w-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative">
