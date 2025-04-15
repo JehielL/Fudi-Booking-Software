@@ -65,7 +65,7 @@ export class HomeComponent implements OnInit {
   
   currentImage: string = this.backgroundImages[0];
   nextImage: string = '';
-  imageLoaded: boolean = true;
+  imageFading: boolean = false;
   
   cambiarFondoCadaXSegundos(): void {
     let currentIndex = 0;
@@ -76,14 +76,13 @@ export class HomeComponent implements OnInit {
       img.src = this.backgroundImages[nextIndex];
   
       img.onload = () => {
-        this.nextImage = this.backgroundImages[nextIndex];
-        this.imageLoaded = false;
+        this.imageFading = true; // activa clase fade-in
   
         setTimeout(() => {
-          this.currentImage = this.nextImage;
-          this.imageLoaded = true;
+          this.currentImage = this.backgroundImages[nextIndex];
+          this.imageFading = false; // resetea animación
           currentIndex = nextIndex;
-        }, 2000); // Debe coincidir con el CSS: transition: 2s
+        }, 1000); // tiempo para hacer el fade-out visual
       };
     }, 8000);
   }

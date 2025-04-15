@@ -17,11 +17,11 @@
 <div class="text-center container-fluid img-welcome">
 
   <div class="background-layer" [ngStyle]="{ 'background-image': 'url(' + currentImage + ')' }"
-    [class.visible]="imageLoaded"></div>
-  <div class="background-layer" [ngStyle]="{ 'background-image': 'url(' + nextImage + ')' }"
-    [class.visible]="!imageLoaded"></div>
+    [class.fade-in]="imageFading">
+  </div>
 
-  <div class="text-overlay" > </div>
+
+  <div class="text-overlay"> </div>
   <div class="content container-fluid">
 
     <div class="search">

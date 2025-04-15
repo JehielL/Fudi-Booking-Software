@@ -103,10 +103,15 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0;
+  opacity: 1; 
   transition: opacity 2s ease-in-out;
   z-index: 0;
 }
+
+.background-layer.fade-in {
+  opacity: 0.3; /* o 0.5 si querés un difuminado sutil */
+}
+
 
 .background-layer.visible {
   opacity: 1;
