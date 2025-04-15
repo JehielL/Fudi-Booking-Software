@@ -19,7 +19,11 @@ export class AboutUsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    Aos.init();
+    Aos.init({
+      duration: 1000,
+      easing: 'ease-out',
+      once: true 
+    });
     window.scrollTo(0, 0); 
 
     setTimeout(() => {
