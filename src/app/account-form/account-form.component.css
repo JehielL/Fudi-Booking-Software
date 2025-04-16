@@ -52,8 +52,7 @@ a:not([href]):not([tabindex]):focus {
 }
 
 code {
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-  font-size: 1em;
+ font-family: Manrope, sans-serif !important;
 }
 
 img {

@@ -27,7 +27,7 @@ export class AboutUsComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     Aos.init({
-      duration: 1000,
+      duration: 2000,
       easing: 'ease-out',
       once: true
     });
@@ -109,8 +109,8 @@ export class AboutUsComponent implements OnInit, AfterViewChecked {
         },
         opacity: 0,
         y: 50,
-        stagger: 0.05, // más suave si lo reduces
-        duration: 0.6,
+        stagger: 0.09, // más suave si lo reduces
+        duration: 1,
         ease: 'power3.out'
       });
     }

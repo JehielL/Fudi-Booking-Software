@@ -1,6 +1,7 @@
 main {
     padding-top: 80px;
     flex: 1; 
+    font-family: Manrope, sans-serif !important;
 }
 .page-container {
     min-height: 100vh; 

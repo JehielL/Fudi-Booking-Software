@@ -42,7 +42,8 @@ export class HomeComponent implements OnInit {
     'https://wallpapercat.com/w/full/4/b/4/584703-3840x2160-desktop-4k-cafe-wallpaper-photo.jpg',
     'https://images.unsplash.com/photo-1504674900247-0877df9cc836',
     'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe',
-    'https://images.unsplash.com/photo-1470337458703-46ad1756a187'
+    'https://images.unsplash.com/photo-1470337458703-46ad1756a187',
+    'https://images.pexels.com/photos/941861/pexels-photo-941861.jpeg?cs=srgb&dl=pexels-chanwalrus-941861.jpg&fm=jpg',
   ];
   
   currentBackgroundIndex: number = 0;
