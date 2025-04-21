@@ -19,6 +19,11 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
         localStorage.removeItem('jwt_token');
         router.navigate(['/user/login']);
       }
+
+      else if (error.status === 500){
+        localStorage.removeItem('jwt_token');
+        router.navigate(['/user/login']);
+      }
       return throwError(() => error);
     })
   );
