@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CarruselComponent } from '../carrusel/carrusel.component';
 import { AuthenticationService } from '../services/authentication.service';
@@ -9,11 +9,11 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-home-sin-log',
   standalone: true,
-  imports: [RouterLink, CarruselComponent, CommonModule],
+  imports: [CommonModule],
   templateUrl: './home-sin-log.component.html',
   styleUrl: './home-sin-log.component.css'
 })
-export class HomeSinLogComponent {
+export class HomeSinLogComponent implements OnInit {
 
   currentBackgroundIndex = 0;
   upcomingBackgroundIndex: number = 1;
@@ -33,7 +33,6 @@ export class HomeSinLogComponent {
   ];
   
   ngOnInit(): void {
-    this.startBackgroundSequence();
     window.scrollTo(0, 0); 
   }
   constructor(private httpClient: HttpClient, authService: AuthenticationService, router: Router) {

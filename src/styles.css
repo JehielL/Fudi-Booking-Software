@@ -19,6 +19,11 @@ main {
 
 
 
+.dropdown-menu {
+  z-index: 2000;
+  margin-top: 0.5rem;
+  border-radius: 0.5rem;
+}
 
 
 .dots-container {

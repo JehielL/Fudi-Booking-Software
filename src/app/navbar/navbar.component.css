@@ -24,15 +24,20 @@
 }
 
 .nav-item:last-child {
-  flex-shrink: 1; /* Permite que se reduzca para caber en la navbar */
-  max-width: 250px; /* Evita que crezca demasiado */
+  flex-shrink: 1;
+  max-width: 250px; 
 }
 
 .nav-item:last-child .dropdown-menu {
   right: 0;
   left: auto;
-  max-width: 250px;
-  white-space: nowrap; /* Evita que el texto cause desbordamiento */
+  min-width: 220px;
+  max-width: 100%;
+  z-index: 1050;
+  margin: top 8px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  white-space: nowrap;
 }
 
 
@@ -42,7 +47,6 @@
   gap: 5px;
   font-size: 1rem;
   padding: 8px 12px;
-  color: #ffffff;
 }
 .btn-primary:hover {
   background-position: right center; 
@@ -52,6 +56,7 @@
 .navbar-nav .dropdown-toggle{
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 .navbar-collapse[_ngcontent-ng-c1227068899]{
   width: 100% !important;; 
@@ -63,29 +68,48 @@
 .nav-item {
   display: flex;
   align-items: center;
-  color: #000000 !important;
   transition: all 0.5s;
   font-weight: bold;
   border-radius: 20px;
   padding: 5px;
+}
+.bi-whatsapp{
+  text-decoration: none;
+  color: green; 
+  font-size: 1.1rem;
+}
+
+a{
+  text-decoration: none;
+}
+
+.whatsapp-contact a {
+  font-weight: 500;
+  color: #ffffff !important;
+  text-decoration: none;  
 }
 
 .search {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative; /* Permite que los resultados se ubiquen sin desplazar otros elementos */
+  position: relative;
   padding: 5px;
-  margin-top: 0; /* Elimina la separación vertical que hacía que la navbar se moviera */
+  margin-top: 0;
   margin-right: -150px;
 }
-.user-container{
-  margin-left: 70vh;
+
+.user-profile{
+  margin-left:auto;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: white !important;
 }
 
 /* Asegurar que la barra de búsqueda esté bien alineada */
 .search input {
-  height: 36px; /* Igualar la altura de los elementos */
+  height: 36px; 
   padding: 8px 15px;
   border-radius: 20px;
   border: 1px solid #ccc;
@@ -94,13 +118,13 @@
 /* Posicionar los resultados de búsqueda debajo del input sin mover otros elementos */
 .search-container {
   position: absolute;
-  top: 100%; /* Asegura que los resultados aparezcan debajo */
+  top: 100%; 
   left: 0;
   width: 100%;
   background: white;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  z-index: 1000; /* Asegura que los resultados estén sobre otros elementos */
+  z-index: 1000;
   max-height: 300px;
   overflow-y: auto;
 }
@@ -147,16 +171,17 @@
   top: 50%;
   transform: translateY(-50%);
   margin-left: 20px;
-  max-width: calc(100% - 100px); /* Limita el ancho del logo para evitar desbordamiento */
+  max-width: calc(100% - 100px);
 }
 
 .navbar-toggler {
-  z-index: 1;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 20px;
+  display: block !important;
+  position: relative !important;
+  z-index: 2001;
+  margin-left: auto;
 }
+
+
 
 .bi {
   font-size: 1rem;
@@ -241,10 +266,7 @@
   max-width: 60px;
 }
 
-.user-profile{
-  
-  margin-left: 50vh;
-}
+
 
 @media (max-width: 991px) {
   .navbar {
@@ -258,6 +280,11 @@
       margin-top: 0px;
 }
 
+.whatsapp-contact,
+  .user-profile {
+    width: 100%;
+    margin-left:30px;
+  }
 .navbar-nav {
     flex-direction: column;
     width: 100%;
@@ -273,9 +300,10 @@
 .nav-item:last-child .dropdown-menu {
     width: 100%;
 }
-.user-profile{
+.user-profile {
+  margin-left: 10px !important;
+  margin-bottom: 20px;
   
-  margin-left: 0vh !important;
 }
 
 
@@ -287,23 +315,39 @@
 
 }
 
+@media (min-width: 992px) {
+  .navbar-toggler {
+    display: none !important;
+  }
+}
+
+
 @media (max-width: 991px) {
   
 
   .navbar-toggler {
-      top: 50%; /* Ajuste la posición del botón de hamburguesa */
+      top: 50%; 
       transform: translateY(-50%);
-      z-index: 1; /* Asegura que el botón de hamburguesa esté sobre el contenido */
+      z-index: 1; 
   }
 
   .navbar-collapse {
       position: absolute;
       top: 100%; /* Coloca el menú desplegable debajo del botón de hamburguesa */
       right: 0; /* Alinea el menú desplegable a la derecha */
-      width: 50%;
+      width: 100%;
       background-color: #181F1C;
       border-radius: 0 0 20px 20px; 
-      z-index: 0;
+      z-index: 1050;
+  }
+  
+
+  .navbar-collapse.collapse:not(.show) {
+    display: none !important;
+  }
+
+  .navbar-collapse.show {
+    display: block !important;
   }
   
 

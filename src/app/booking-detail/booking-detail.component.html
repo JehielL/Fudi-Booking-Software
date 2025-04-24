@@ -29,15 +29,13 @@
         <div class="card overflow-hidden rounded-4">
 
 
-          @if (booking.restaurant.imageUrl.includes('http')) {
-          <!-- Si es url externa entonces ya trae la ruta completa absoluta-->
-          <img [src]="booking.restaurant.imageUrl" alt="" style="width: 100%;">
+          @if (booking.restaurant && booking.restaurant.imageUrl && booking.restaurant.imageUrl.includes('http')) {
+            <img [src]="booking.restaurant.imageUrl" alt="" style="width: 100%;">
           }
-          @else{
-          <!-- Si es url interna entonces hay que añadir delante del localhost:8080/files -->
-          <img class="" [src]="'https://biteapp.store:8080/files/' + booking.restaurant.imageUrl" alt="">
-
+          @else if (booking.restaurant && booking.restaurant.imageUrl) {
+            <img [src]="'http://localhost:8080/files/' + booking.restaurant.imageUrl" alt="">
           }
+          
 
         </div>
       </div>
@@ -170,9 +168,9 @@
 
                 <strong>¿Qué sucede si el restaurante cancela mi reserva?</strong> <br>
 
-                BiteFood no se hace responsable por cancelaciones por parte del restaurante. Actuamos como un
+                Fudï no se hace responsable por cancelaciones por parte del restaurante. Actuamos como un
                 servicio de intermediación para facilitar tus reservas. Sin embargo, cada restaurante puede cancelar, y
-                es únicamente responsabilidad del restaurante. En BiteFood nos comprometemos a la satisfacción del
+                es únicamente responsabilidad del restaurante. En Fudï nos comprometemos a la satisfacción del
                 cliente, por lo cual, cuando un restaurante cancela sin previo aviso, recibe una baja puntuación por
                 parte de nuestro staff.
               </ng-template>
@@ -201,11 +199,11 @@
           <div ngbAccordionCollapse>
             <div ngbAccordionBody>
               <ng-template>
-                <strong>¿Cómo maneja BiteFood las cancelaciones por parte del restaurante?</strong> <br>
-                En caso de que un restaurante cancele tu reserva, BiteFood tomará las medidas necesarias para garantizar tu satisfacción. Contactaremos contigo para discutir tus opciones y ayudarte a encontrar una alternativa satisfactoria. BiteFood se compromete a garantizar que los clientes reciban un servicio de calidad y una experiencia gastronómica excepcional. <br>
+                <strong>¿Cómo maneja Fudï las cancelaciones por parte del restaurante?</strong> <br>
+                En caso de que un restaurante cancele tu reserva, Fudï tomará las medidas necesarias para garantizar tu satisfacción. Contactaremos contigo para discutir tus opciones y ayudarte a encontrar una alternativa satisfactoria. Fudï se compromete a garantizar que los clientes reciban un servicio de calidad y una experiencia gastronómica excepcional. <br>
 
                 <strong>¿Recibiré algún tipo de compensación si mi reserva es cancelada por el restaurante?</strong> <br>
-                Si tu reserva es cancelada por el restaurante, haremos todo lo posible para encontrar una solución alternativa que se adapte a tus necesidades. BiteFood está comprometido con la satisfacción del cliente, y haremos todo lo posible para garantizar que tu experiencia sea lo más placentera posible.
+                Si tu reserva es cancelada por el restaurante, haremos todo lo posible para encontrar una solución alternativa que se adapte a tus necesidades. Fudï está comprometido con la satisfacción del cliente, y haremos todo lo posible para garantizar que tu experiencia sea lo más placentera posible.
               </ng-template>
             </div>
           </div>

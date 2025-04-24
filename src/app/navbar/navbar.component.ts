@@ -48,13 +48,13 @@ export class NavbarComponent implements OnInit{
     this.authService.isLoggedin.subscribe(isLoggedin => {
       this.isLoggedin = isLoggedin;
       if(this.isLoggedin) {
-        this.httpClient.get<User>('https://biteapp.store:8080/users/account')
+        this.httpClient.get<User>('http://localhost:8080/users/account')
           .subscribe(user => {
             this.user = user;
             if (this.user.imgUser.startsWith('http')) {
               this.avatarUrl = user.imgUser;
             } else {
-              this.avatarUrl = 'https://biteapp.store:8080/files/' + user.imgUser;
+              this.avatarUrl = 'http://localhost:8080/files/' + user.imgUser;
             }
           });
       }
@@ -67,7 +67,7 @@ export class NavbarComponent implements OnInit{
       if (avatarUrl.startsWith('http')) {
         this.avatarUrl = avatarUrl;
       } else {
-        this.avatarUrl = 'https://biteapp.store:8080/files/' + avatarUrl;
+        this.avatarUrl = 'http://localhost:8080/files/' + avatarUrl;
       }
     
     });
@@ -78,6 +78,18 @@ export class NavbarComponent implements OnInit{
   onWindowScroll() {
     this.isScrolled = window.pageYOffset > 20;
   }
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+  const clickedInside = (event.target as HTMLElement).closest('.navbar');
+  if (!clickedInside && !this.collapsed) {
+    this.closeNavbar();
+  }
+}
+
+closeNavbar() {
+  this.collapsed = true;
+}
+
 
 
   getUserAvatar() {
@@ -97,10 +109,13 @@ export class NavbarComponent implements OnInit{
   toggleCocinasDropdown() {
     this.showCocinasDropdown = !this.showCocinasDropdown;
   }
-
+  toggleNavbar() {
+    this.collapsed = !this.collapsed;
+  }
+  
 
    loadRestaurants() {
-      const apiUrl = 'https://biteapp.store:8080/restaurant';
+      const apiUrl = 'http://localhost:8080/restaurant';
       timer(500).pipe(
         switchMap(() => this.httpClient.get<Restaurant[]>(apiUrl)),
         delay(500)

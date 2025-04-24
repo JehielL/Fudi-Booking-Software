@@ -69,39 +69,44 @@ export class BookingFormComponent implements OnInit {
   ngOnInit(): void {
     window.scrollTo(0, 0);
     this.showSpinner = true;
-  
+
     this.activatedRoute.params.subscribe(params => {
+
       const id = params['id'];
-  
       if (!id) return;
-  
-      // Primero intentamos cargar el restaurante
-      this.httpClient.get<Restaurant>(`https://biteapp.store:8080/restaurant/${id}`).subscribe(
-        restaurant => {
+
+      this.httpClient.get<Restaurant>(`http://localhost:8080/restaurant/${id}`).subscribe({
+
+        next: restaurant => {
           this.restaurant = restaurant;
-          this.isUpdate = false; // Estamos creando una nueva reserva
+          this.isUpdate = false;
           this.showSpinner = false;
+
         },
-        error => {
-          // Si el restaurante no existe, intentamos con una reserva
-          this.httpClient.get<Booking>(`https://biteapp.store:8080/bookings/${id}`).subscribe(
-            bookingFromBackend => {
-              this.isUpdate = true; // Estamos editando una reserva existente
+        error: () => {
+
+          this.httpClient.get<Booking>(`http://localhost:8080/bookings/${id}`).subscribe({
+            next: bookingFromBackend => {
+              this.isUpdate = true;
               this.bookingForm.patchValue(bookingFromBackend);
               this.restaurant = bookingFromBackend.restaurant;
               this.showSpinner = false;
+
             },
-            () => {
-              // Si tampoco es una reserva válida, mostramos un formulario limpio
-              this.isUpdate = false;
+            error: () => {
+              console.error('Error al cargar la reserva o el restaurante:');
               this.showSpinner = false;
             }
-          );
+          })
         }
-      );
-    });
+
+      })
+
+
+    }
+    )
   }
-  
+
 
   compareObjects(o1: any, o2: any): boolean {
 
@@ -114,25 +119,43 @@ export class BookingFormComponent implements OnInit {
 
 
   save() {
-    if (!this.restaurant)
+    if (!this.restaurant) {
+      alert('Debe seleccionar un restaurante');
       return;
+    }
+
     const booking: Booking = this.bookingForm.value as Booking;
     booking.restaurant = this.restaurant;
 
     if (this.isUpdate) {
-      const url = 'https://biteapp.store:8080/bookings/' + booking.id;
-      this.httpClient.put<Booking>(url, booking).subscribe(bookingFromBackend => {
-        this.router.navigate(['/bookings', bookingFromBackend.id, 'detail']);
+      if (!booking.id || booking.id === 0) {
+        alert('ID inválido, no se puede actualizar');
+        return;
+      }
+
+      const url = `http://localhost:8080/bookings/${booking.id}`;
+      this.httpClient.put<Booking>(url, booking).subscribe({
+        next: updated => {
+          this.router.navigate(['/bookings', updated.id, 'detail']);
+        },
+        error: err => {
+          console.error('❌ Error al actualizar reserva', err);
+          alert('Error al actualizar reserva');
+        }
       });
 
     } else {
-      const url = 'https://biteapp.store:8080/bookings';
-      this.httpClient.post<Booking>(url, booking).subscribe(bookingFromBackend => {
-        this.router.navigate(['/bookings', bookingFromBackend.id, 'detail']);
+      const url = 'http://localhost:8080/bookings';
+      this.httpClient.post<Booking>(url, booking).subscribe({
+        next: created => {
+          this.router.navigate(['/bookings', created.id, 'detail']);
+        },
+        error: err => {
+          console.error('❌ Error al crear reserva', err);
+          alert('Error al crear la reserva');
+        }
       });
     }
+  }
 
-
-
-  };
 }

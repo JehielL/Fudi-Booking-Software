@@ -1,10 +1,10 @@
-## BITEFOOD
+## Fudï
 
-Bienvenido a BiteFood, la solución integral para reservas en restaurantes que no solo facilita a los usuarios la búsqueda y reserva de mesas, sino que también ofrece a los restaurantes una plataforma robusta para mejorar su visibilidad y gestionar sus reservas efectivamente.
+Bienvenido a Fudï, la solución integral para reservas en restaurantes que no solo facilita a los usuarios la búsqueda y reserva de mesas, sino que también ofrece a los restaurantes una plataforma robusta para mejorar su visibilidad y gestionar sus reservas efectivamente.
 
 ## 🌟 Propósito
 
-BiteFood tiene como objetivo simplificar el proceso de reserva para usuarios finales y proporcionar a los restaurantes una herramienta poderosa para publicitarse y gestionar sus espacios de manera más eficiente. Con nuestro sistema, ambos usuarios y restaurantes pueden disfrutar de una experiencia de reserva mejorada, optimizando tiempos y recursos.
+Fudï tiene como objetivo simplificar el proceso de reserva para usuarios finales y proporcionar a los restaurantes una herramienta poderosa para publicitarse y gestionar sus espacios de manera más eficiente. Con nuestro sistema, ambos usuarios y restaurantes pueden disfrutar de una experiencia de reserva mejorada, optimizando tiempos y recursos.
 
 ## Servidor de desarrollo
 
@@ -16,7 +16,7 @@ Navega a `http://localhost:4200/`. La aplicación se recargará automáticamente
 
 Este proyecto utiliza las siguientes librerías y framework en el Frontend:
 
-- BiteFood fue generado con ![Angular](https://img.shields.io/badge/Angular-DD0031?style=flat-square&logo=angular&logoColor=white)
+- Fudï fue generado con ![Angular](https://img.shields.io/badge/Angular-DD0031?style=flat-square&logo=angular&logoColor=white)
  versión 17.0.6.
 - ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=flat-square&logo=bootstrap&logoColor=white)
   : Para el diseño de botones, carruseles, y la personalización de tarjetas (cartas).

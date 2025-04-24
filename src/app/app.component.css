@@ -12,6 +12,10 @@ main {
 
 
 @media only screen and (max-width: 768px) {
- 
+  main {
+    padding-top: 100px !important;
+    flex: 1; 
+    font-family: Manrope, sans-serif !important;
+}
 
 }
