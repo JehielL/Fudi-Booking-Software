@@ -39,7 +39,7 @@ export class UserListComponent implements OnInit{
     AOS.init();
   }
   loadUsers(): void {
-    const apiUrl = 'https://tell-dl-suffering-understood.trycloudflare.com/user';
+    const apiUrl = 'https://gore-metabolism-engine-effects.trycloudflare.com/user';
     this.httpClient.get<User[]>(apiUrl)
     .subscribe(users => this.users = users);
       this.users.filter(users =>

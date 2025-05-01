@@ -46,7 +46,7 @@ export class CarruselComponent implements OnInit {
     window.scrollTo(0, 0); 
   }
   loadRestaurantsDirectly1() {
-    const Url = 'https://tell-dl-suffering-understood.trycloudflare.com/restaurant';
+    const Url = 'https://gore-metabolism-engine-effects.trycloudflare.com/restaurant';
     this.httpClient.get<Restaurant[]>(Url).subscribe(restaurants => 
       this.restaurants = restaurants);
   }

@@ -26,7 +26,7 @@ export class DiscountsComponent implements OnInit{
     window.scrollTo(0, 0); 
   }
   loadRestaurants(){
-    const apiURL = 'https://tell-dl-suffering-understood.trycloudflare.com/restaurant';
+    const apiURL = 'https://gore-metabolism-engine-effects.trycloudflare.com/restaurant';
     this.httpClient.get<Restaurant[]>(apiURL).subscribe(restaurants => {
       this.restaurants = restaurants;
   });

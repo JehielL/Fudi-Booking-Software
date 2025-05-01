@@ -55,7 +55,7 @@ export class RestaurantListComponent implements OnInit {
   }
 
   loadMyRestaurants(): void {
-    const myRestaurantsUrl = 'https://tell-dl-suffering-understood.trycloudflare.com/my-restaurants';
+    const myRestaurantsUrl = 'https://gore-metabolism-engine-effects.trycloudflare.com/my-restaurants';
     timer(500).pipe(
       switchMap(() => this.httpClient.get<Restaurant[]>(myRestaurantsUrl)),
     ).subscribe(restaurants => {
@@ -72,7 +72,7 @@ export class RestaurantListComponent implements OnInit {
   }
 
   filtrarRestaurantesPorTipoCocina(tipoCocina: string): void {
-    const url = `https://tell-dl-suffering-understood.trycloudflare.com/restaurant-list/${tipoCocina}`;
+    const url = `https://gore-metabolism-engine-effects.trycloudflare.com/restaurant-list/${tipoCocina}`;
     timer(500).pipe(
       switchMap( () => this.httpClient.get<Restaurant[]>(url))
     ).subscribe(restaurants => {
@@ -88,7 +88,7 @@ export class RestaurantListComponent implements OnInit {
   }
 
   loadRestaurantsDirectly() {
-    const apiUrl = 'https://tell-dl-suffering-understood.trycloudflare.com/restaurant';
+    const apiUrl = 'https://gore-metabolism-engine-effects.trycloudflare.com/restaurant';
 
     timer(600).pipe(
       switchMap(() => this.httpClient.get<Restaurant[]>(apiUrl))

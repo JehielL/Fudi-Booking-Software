@@ -60,7 +60,7 @@ export class UserFormComponent implements OnInit {
   save() {
     const user: User = this.registerUserForm.value as unknown as User;
     console.log(user)
-    const url = 'https://tell-dl-suffering-understood.trycloudflare.com/users/register';
+    const url = 'https://gore-metabolism-engine-effects.trycloudflare.com/users/register';
     timer(500).pipe(
       switchMap(() => this.httpClient.post<User>(url, user))
     ).subscribe(backendUser => {

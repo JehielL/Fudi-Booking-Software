@@ -79,7 +79,7 @@ export class LoginMainComponent implements OnInit {
       password: this.loginForm.get('password')?.value ?? '',
     };
 
-    this.httpClient.post<Token>('https://tell-dl-suffering-understood.trycloudflare.com/users/login', login).subscribe({
+    this.httpClient.post<Token>('https://gore-metabolism-engine-effects.trycloudflare.com/users/login', login).subscribe({
       next: (response) => {
         console.log(response.token);
         this.authService.saveToken(response.token);

@@ -44,7 +44,7 @@ export class AvatarFormComponent implements OnInit {
 
       // EDICION
 
-      this.httpClient.get<User>('https://tell-dl-suffering-understood.trycloudflare.com/users/account' + id).subscribe(user => {
+      this.httpClient.get<User>('https://gore-metabolism-engine-effects.trycloudflare.com/users/account' + id).subscribe(user => {
         this.userForm.reset({
           imgMenu: this.user?.imgUser,
         });  
@@ -57,7 +57,7 @@ export class AvatarFormComponent implements OnInit {
   }
 
   getUser() {
-    this.httpClient.get<User>('https://tell-dl-suffering-understood.trycloudflare.com/users/account')
+    this.httpClient.get<User>('https://gore-metabolism-engine-effects.trycloudflare.com/users/account')
       .subscribe(user => this.user = user);
   }
 
@@ -94,10 +94,10 @@ export class AvatarFormComponent implements OnInit {
 
 
     if (this.isUpdate) {
-      this.httpClient.put<User>('https://tell-dl-suffering-understood.trycloudflare.com/users/account/avatar/' + this.user?.id, formData)
+      this.httpClient.put<User>('https://gore-metabolism-engine-effects.trycloudflare.com/users/account/avatar/' + this.user?.id, formData)
         .subscribe(user => this.navigateToList());
     } else {
-      this.httpClient.post<User>('https://tell-dl-suffering-understood.trycloudflare.com/users/account/avatar/', formData)
+      this.httpClient.post<User>('https://gore-metabolism-engine-effects.trycloudflare.com/users/account/avatar/', formData)
         .subscribe(dish => this.navigateToList());
     }
 
