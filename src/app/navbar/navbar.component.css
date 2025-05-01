@@ -105,6 +105,7 @@ a{
   align-items: center;
   cursor: pointer;
   color: white !important;
+  position: relative;
 }
 
 /* Asegurar que la barra de búsqueda esté bien alineada */
@@ -314,6 +315,16 @@ a{
 
 
 }
+
+.user-profile .dropdown-menu {
+  position: absolute !important;
+  right: 0 !important;
+  top: 100% !important;
+  z-index: 3000 !important;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
 
 @media (min-width: 992px) {
   .navbar-toggler {

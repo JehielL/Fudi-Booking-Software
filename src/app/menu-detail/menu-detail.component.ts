@@ -69,19 +69,19 @@ export class MenuDetailComponent implements OnInit {
         this.showSpinner = false;
       }, 1000);
      
-      const ratingsUrl = 'http://localhost:8080/menus/filter-by-menu/' + id;
-      const userUrl = 'http://localhost:8080/user/' + id;
+      const ratingsUrl = 'https://tell-dl-suffering-understood.trycloudflare.com/menus/filter-by-menu/' + id;
+      const userUrl = 'https://tell-dl-suffering-understood.trycloudflare.com/user/' + id;
       
       
 
-      const url = 'http://localhost:8080/menus/' + id;
+      const url = 'https://tell-dl-suffering-understood.trycloudflare.com/menus/' + id;
       this.httpClient.get<Menu>(url).subscribe(m => {
         this.menu = m;
         this.loadRatings();
       });      this.httpClient.get<Rating[]>(ratingsUrl).subscribe(ratings => this.ratings = ratings);
       this.httpClient.get<User[]>(userUrl).subscribe(users => this.users = users);
 
-      this.httpClient.get<Dish[]>('http://localhost:8080/dishes/filter-by-menu/' + id)
+      this.httpClient.get<Dish[]>('https://tell-dl-suffering-understood.trycloudflare.com/dishes/filter-by-menu/' + id)
       .subscribe(dishes => this.dishes = dishes);
 
       this.checkCanEdit(id);
@@ -92,7 +92,7 @@ export class MenuDetailComponent implements OnInit {
   }
 
   checkCanEdit(id: number): void {
-    this.httpClient.get<boolean>(`http://localhost:8080/menus/can-edit/${id}`)
+    this.httpClient.get<boolean>(`https://tell-dl-suffering-understood.trycloudflare.com/menus/can-edit/${id}`)
     .subscribe(canEdit => {
         this.canEdit = canEdit;
     }, error => {
@@ -101,7 +101,7 @@ export class MenuDetailComponent implements OnInit {
 }
 
   delete(menu: Menu) {
-    const url = 'http://localhost:8080/menus/' + menu.id;
+    const url = 'https://tell-dl-suffering-understood.trycloudflare.com/menus/' + menu.id;
     this.httpClient.delete(url).subscribe(response => {
       this.menu = undefined;
       this.showDeleteMenuMessage = true;
@@ -122,24 +122,24 @@ export class MenuDetailComponent implements OnInit {
 
     };
 
-    this.httpClient.post<Rating>('http://localhost:8080/ratings', rating).subscribe(rating => {
+    this.httpClient.post<Rating>('https://tell-dl-suffering-understood.trycloudflare.com/ratings', rating).subscribe(rating => {
       this.ratingForm.reset();
       this.loadRatings();
     });
 
-    this.httpClient.get<Rating[]>('http://localhost:8080/menus/filter-by-menu/' + this.menu?.id)
+    this.httpClient.get<Rating[]>('https://tell-dl-suffering-understood.trycloudflare.com/menus/filter-by-menu/' + this.menu?.id)
       .subscribe(ratings => this.ratings = ratings);
   }
 
   loadRatings() {
     if (!this.menu) return;
 
-    this.httpClient.get<Rating[]>('http://localhost:8080/menus/filter-by-menu/' + this.menu.id)
+    this.httpClient.get<Rating[]>('https://tell-dl-suffering-understood.trycloudflare.com/menus/filter-by-menu/' + this.menu.id)
       .subscribe(ratings => this.ratings = ratings);
   }
 
   deleteRating(rating: Rating) {
-    this.httpClient.delete('http://localhost:8080/ratings/' + rating.id)
+    this.httpClient.delete('https://tell-dl-suffering-understood.trycloudflare.com/ratings/' + rating.id)
     .subscribe({
       next: response => {
         this.loadRatings();

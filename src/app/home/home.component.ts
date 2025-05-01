@@ -91,7 +91,7 @@ export class HomeComponent implements OnInit {
   
 
   loadRestaurants() {
-    const apiUrl = 'http://localhost:8080/restaurant';
+    const apiUrl = 'https://tell-dl-suffering-understood.trycloudflare.com/restaurant';
     timer(500).pipe(
       switchMap(() => this.httpClient.get<Restaurant[]>(apiUrl)),
       delay(500)

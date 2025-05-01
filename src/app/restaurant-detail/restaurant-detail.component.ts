@@ -56,26 +56,26 @@ export class RestaurantDetailComponent implements OnInit {
       if (!id) return;
       window.scrollTo(0, 0); 
 
-      const restaurantUrl = `http://localhost:8080/restaurant/${id}`;
+      const restaurantUrl = `https://tell-dl-suffering-understood.trycloudflare.com/restaurant/${id}`;
       timer(500).pipe(
         switchMap(() => this.httpClient.get<Restaurant>(restaurantUrl))).subscribe(restaurant => {
         this.restaurant = restaurant;
         this.showSpinner = false;
 
         timer(500).pipe(
-          switchMap(() => this.httpClient.get<boolean>('http://localhost:8080/restaurants/can-edit/' + id)
+          switchMap(() => this.httpClient.get<boolean>('https://tell-dl-suffering-understood.trycloudflare.com/restaurants/can-edit/' + id)
         )).subscribe(canEdit => {
           this.canEdit = canEdit;
           this.showSpinner = false;
         });
 
-        const menusUrl = `http://localhost:8080/menus/byRestaurant/${id}`;
+        const menusUrl = `https://tell-dl-suffering-understood.trycloudflare.com/menus/byRestaurant/${id}`;
         timer(500).pipe(
           switchMap(() =>this.httpClient.get<Menu[]>(menusUrl)))
           .subscribe(Menus => this.menus = Menus);
           this.showSpinner = false;
 
-        const apiUrl = 'http://localhost:8080/restaurant';
+        const apiUrl = 'https://tell-dl-suffering-understood.trycloudflare.com/restaurant';
         timer(500).pipe(
           switchMap(() => this.httpClient.get<Restaurant[]>(apiUrl))).subscribe(restaurants => {
           this.restaurants = restaurants;
@@ -85,7 +85,7 @@ export class RestaurantDetailComponent implements OnInit {
 
         
       });
-      this.httpClient.get<Booking[]>('http://localhost:8080/bookings/filter-by-restaurant/' + id)
+      this.httpClient.get<Booking[]>('https://tell-dl-suffering-understood.trycloudflare.com/bookings/filter-by-restaurant/' + id)
     .subscribe(bookings => this.bookings = bookings);
     });
   }

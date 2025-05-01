@@ -39,7 +39,7 @@ export class UserListComponent implements OnInit{
     AOS.init();
   }
   loadUsers(): void {
-    const apiUrl = 'http://localhost:8080/user';
+    const apiUrl = 'https://tell-dl-suffering-understood.trycloudflare.com/user';
     this.httpClient.get<User[]>(apiUrl)
     .subscribe(users => this.users = users);
       this.users.filter(users =>
