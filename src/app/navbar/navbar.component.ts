@@ -48,13 +48,13 @@ export class NavbarComponent implements OnInit{
     this.authService.isLoggedin.subscribe(isLoggedin => {
       this.isLoggedin = isLoggedin;
       if(this.isLoggedin) {
-        this.httpClient.get<User>('https://gore-metabolism-engine-effects.trycloudflare.com/users/account')
+        this.httpClient.get<User>('http://localhost:8080/users/account')
           .subscribe(user => {
             this.user = user;
             if (this.user.imgUser.startsWith('http')) {
               this.avatarUrl = user.imgUser;
             } else {
-              this.avatarUrl = 'https://gore-metabolism-engine-effects.trycloudflare.com/files/' + user.imgUser;
+              this.avatarUrl = 'http://localhost:8080/files/' + user.imgUser;
             }
           });
       }
@@ -67,7 +67,7 @@ export class NavbarComponent implements OnInit{
       if (avatarUrl.startsWith('http')) {
         this.avatarUrl = avatarUrl;
       } else {
-        this.avatarUrl = 'https://gore-metabolism-engine-effects.trycloudflare.com/files/' + avatarUrl;
+        this.avatarUrl = 'http://localhost:8080/files/' + avatarUrl;
       }
     
     });
@@ -115,7 +115,7 @@ closeNavbar() {
   
 
    loadRestaurants() {
-      const apiUrl = 'https://gore-metabolism-engine-effects.trycloudflare.com/restaurant';
+      const apiUrl = 'http://localhost:8080/restaurant';
       timer(500).pipe(
         switchMap(() => this.httpClient.get<Restaurant[]>(apiUrl)),
         delay(500)

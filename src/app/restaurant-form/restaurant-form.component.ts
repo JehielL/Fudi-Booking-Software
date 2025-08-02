@@ -79,7 +79,7 @@ export class RestaurantFormComponent implements OnInit {
 
   loadRestaurant(id: string): void {
    
-       this.httpClient.get<Restaurant>(`https://gore-metabolism-engine-effects.trycloudflare.com/restaurant/${id}`).subscribe(restaurant => {
+       this.httpClient.get<Restaurant>(`http://localhost:8080/restaurant/${id}`).subscribe(restaurant => {
       this.restaurantForm.patchValue(restaurant);
     });
   }
@@ -121,7 +121,7 @@ export class RestaurantFormComponent implements OnInit {
     const id = this.restaurantForm.get('id')?.value;
     if (id && this.isUpdate) {
       timer(500).pipe(
-        switchMap( () => this.httpClient.put<Restaurant>(`https://gore-metabolism-engine-effects.trycloudflare.com/restaurant/${id}`, formData)))
+        switchMap( () => this.httpClient.put<Restaurant>(`http://localhost:8080/restaurant/${id}`, formData)))
             .subscribe(response => {
               
                 this.router.navigate(['/restaurant', response.id, 'detail']);
@@ -130,7 +130,7 @@ export class RestaurantFormComponent implements OnInit {
             });
     } else {
       timer(500).pipe(
-        switchMap( () => this.httpClient.post<Restaurant>('https://gore-metabolism-engine-effects.trycloudflare.com/restaurant', formData)))
+        switchMap( () => this.httpClient.post<Restaurant>('http://localhost:8080/restaurant', formData)))
             .subscribe(response => {
                 this.router.navigate(['/restaurant', response.id, 'detail']);
                 this.showSpinner = false;

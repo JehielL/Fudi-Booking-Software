@@ -16,10 +16,16 @@
 
 <div class="text-center container-fluid img-welcome">
 
-  <div class="background-layer" [ngStyle]="{ 'background-image': 'url(' + currentImage + ')' }"
-    [class.fade-in]="imageFading">
+  <!-- Capa de fondo base - siempre visible -->
+  <div class="background-layer" 
+       [ngStyle]="{ 'background-image': 'url(' + currentImage + ')' }">
   </div>
-
+  
+  <!-- Capa de fondo superior - aparece sobre la base -->
+  <div class="background-layer-next" 
+       [ngStyle]="{ 'background-image': 'url(' + nextImage + ')' }"
+       [class.show]="showNextLayer">
+  </div>
 
   <div class="text-overlay"> </div>
   <div class="content container-fluid">
@@ -100,7 +106,7 @@
         <a [routerLink]="['/restaurant', restaurant.id, 'detail']">
           <div class="card card-cover h-150 w-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative">
             <div class="image-overlay"
-              [style.background-image]="'url(' + (restaurant.imageUrl.startsWith('http') ? restaurant.imageUrl : 'https://gore-metabolism-engine-effects.trycloudflare.com/files/' + restaurant.imageUrl) + ')'"
+              [style.background-image]="'url(' + (restaurant.imageUrl.startsWith('http') ? restaurant.imageUrl : 'http://localhost:8080/files/' + restaurant.imageUrl) + ')'"
               style="background-size: cover; background-position: center; height: 200px;">
             </div>
             <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1 position-relative">

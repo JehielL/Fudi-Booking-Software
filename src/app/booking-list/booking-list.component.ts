@@ -57,10 +57,10 @@ export class BookingListComponent implements OnInit {
 
       window.scrollTo(0, 0); 
       
-      const userUrl = 'https://gore-metabolism-engine-effects.trycloudflare.com/user/' + id;
+      const userUrl = 'http://localhost:8080/user/' + id;
       this.httpClient.get<User[]>(userUrl).subscribe(users => this.users = users);
 
-      const url = 'https://gore-metabolism-engine-effects.trycloudflare.com/bookings/filter-by-user/' + id;
+      const url = 'http://localhost:8080/bookings/filter-by-user/' + id;
       this.httpClient.get<Booking[]>(url).subscribe(bookings => this.bookings = bookings);
       
       
@@ -72,7 +72,7 @@ export class BookingListComponent implements OnInit {
 
   delete(booking: Booking) {
 
-    const url = 'https://gore-metabolism-engine-effects.trycloudflare.com/bookings/' + booking.id;
+    const url = 'http://localhost:8080/bookings/' + booking.id;
     this.httpClient.delete(url).subscribe(() => {
       this.showDeleteBookingMessage = true;
     })

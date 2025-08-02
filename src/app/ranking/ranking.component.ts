@@ -24,7 +24,7 @@ export class RankingComponent implements OnInit{
     this.loadTopRestaurants();
   }
   loadTopRestaurants() {
-    const apiUrl = 'https://gore-metabolism-engine-effects.trycloudflare.com/restaurant';
+    const apiUrl = 'http://localhost:8080/restaurant';
     timer(500).pipe(
       switchMap(() =>  this.httpClient.get<Restaurant[]>(apiUrl)),
     ).subscribe(restaurants => {

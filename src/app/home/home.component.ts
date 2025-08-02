@@ -66,32 +66,39 @@ export class HomeComponent implements OnInit {
   
   currentImage: string = this.backgroundImages[0];
   nextImage: string = '';
-  imageFading: boolean = false;
+  showNextLayer: boolean = false;
   
   cambiarFondoCadaXSegundos(): void {
     let currentIndex = 0;
   
     setInterval(() => {
       const nextIndex = (currentIndex + 1) % this.backgroundImages.length;
+      
+      // Precargar la imagen
       const img = new Image();
       img.src = this.backgroundImages[nextIndex];
   
       img.onload = () => {
-        this.imageFading = true; // activa clase fade-in
-  
+        // Asignar la nueva imagen a la capa superior
+        this.nextImage = this.backgroundImages[nextIndex];
+        
+        // Activar el crossfade
+        this.showNextLayer = true;
+        
+        // Después del crossfade, intercambiar capas
         setTimeout(() => {
           this.currentImage = this.backgroundImages[nextIndex];
-          this.imageFading = false; // resetea animación
+          this.showNextLayer = false;
           currentIndex = nextIndex;
-        }, 1000); // tiempo para hacer el fade-out visual
+        }, 2500); // Duración de la transición CSS
       };
-    }, 8000);
+    }, 5000);
   }
   
   
 
   loadRestaurants() {
-    const apiUrl = 'https://gore-metabolism-engine-effects.trycloudflare.com/restaurant';
+    const apiUrl = 'http://localhost:8080/restaurant';
     timer(500).pipe(
       switchMap(() => this.httpClient.get<Restaurant[]>(apiUrl)),
       delay(500)

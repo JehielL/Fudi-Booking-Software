@@ -75,7 +75,7 @@ export class BookingFormComponent implements OnInit {
       const id = params['id'];
       if (!id) return;
 
-      this.httpClient.get<Restaurant>(`https://gore-metabolism-engine-effects.trycloudflare.com/restaurant/${id}`).subscribe({
+      this.httpClient.get<Restaurant>(`http://localhost:8080/restaurant/${id}`).subscribe({
 
         next: restaurant => {
           this.restaurant = restaurant;
@@ -85,7 +85,7 @@ export class BookingFormComponent implements OnInit {
         },
         error: () => {
 
-          this.httpClient.get<Booking>(`https://gore-metabolism-engine-effects.trycloudflare.com/bookings/${id}`).subscribe({
+          this.httpClient.get<Booking>(`http://localhost:8080/bookings/${id}`).subscribe({
             next: bookingFromBackend => {
               this.isUpdate = true;
               this.bookingForm.patchValue(bookingFromBackend);
@@ -133,7 +133,7 @@ export class BookingFormComponent implements OnInit {
         return;
       }
 
-      const url = `https://gore-metabolism-engine-effects.trycloudflare.com/bookings/${booking.id}`;
+      const url = `http://localhost:8080/bookings/${booking.id}`;
       this.httpClient.put<Booking>(url, booking).subscribe({
         next: updated => {
           this.router.navigate(['/bookings', updated.id, 'detail']);
@@ -145,7 +145,7 @@ export class BookingFormComponent implements OnInit {
       });
 
     } else {
-      const url = 'https://gore-metabolism-engine-effects.trycloudflare.com/bookings';
+      const url = 'http://localhost:8080/bookings';
       this.httpClient.post<Booking>(url, booking).subscribe({
         next: created => {
           this.router.navigate(['/bookings', created.id, 'detail']);

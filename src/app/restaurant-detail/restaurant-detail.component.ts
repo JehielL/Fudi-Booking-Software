@@ -56,26 +56,26 @@ export class RestaurantDetailComponent implements OnInit {
       if (!id) return;
       window.scrollTo(0, 0); 
 
-      const restaurantUrl = `https://gore-metabolism-engine-effects.trycloudflare.com/restaurant/${id}`;
+      const restaurantUrl = `http://localhost:8080/restaurant/${id}`;
       timer(500).pipe(
         switchMap(() => this.httpClient.get<Restaurant>(restaurantUrl))).subscribe(restaurant => {
         this.restaurant = restaurant;
         this.showSpinner = false;
 
         timer(500).pipe(
-          switchMap(() => this.httpClient.get<boolean>('https://gore-metabolism-engine-effects.trycloudflare.com/restaurants/can-edit/' + id)
+          switchMap(() => this.httpClient.get<boolean>('http://localhost:8080/restaurants/can-edit/' + id)
         )).subscribe(canEdit => {
           this.canEdit = canEdit;
           this.showSpinner = false;
         });
 
-        const menusUrl = `https://gore-metabolism-engine-effects.trycloudflare.com/menus/byRestaurant/${id}`;
+        const menusUrl = `http://localhost:8080/menus/byRestaurant/${id}`;
         timer(500).pipe(
           switchMap(() =>this.httpClient.get<Menu[]>(menusUrl)))
           .subscribe(Menus => this.menus = Menus);
           this.showSpinner = false;
 
-        const apiUrl = 'https://gore-metabolism-engine-effects.trycloudflare.com/restaurant';
+        const apiUrl = 'http://localhost:8080/restaurant';
         timer(500).pipe(
           switchMap(() => this.httpClient.get<Restaurant[]>(apiUrl))).subscribe(restaurants => {
           this.restaurants = restaurants;
@@ -85,7 +85,7 @@ export class RestaurantDetailComponent implements OnInit {
 
         
       });
-      this.httpClient.get<Booking[]>('https://gore-metabolism-engine-effects.trycloudflare.com/bookings/filter-by-restaurant/' + id)
+      this.httpClient.get<Booking[]>('http://localhost:8080/bookings/filter-by-restaurant/' + id)
     .subscribe(bookings => this.bookings = bookings);
     });
   }

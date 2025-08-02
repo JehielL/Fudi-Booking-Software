@@ -30,7 +30,7 @@ export class MenuListComponent {
     }, 1000);
     window.scrollTo(0, 0); 
 
-    this.httpClient.get<Menu[]>('https://gore-metabolism-engine-effects.trycloudflare.com/menus')
+    this.httpClient.get<Menu[]>('http://localhost:8080/menus')
       .subscribe(menus => this.menus = menus);
     this.menus.filter(menu =>
       menu.title.toLowerCase().includes(this.searchTerm.toLowerCase()));

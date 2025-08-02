@@ -42,7 +42,7 @@ export class BookingDetailComponent implements OnInit {
   }
 
   delete(booking: Booking) {
-    const url = 'https://gore-metabolism-engine-effects.trycloudflare.com/bookings/' + booking.id;
+    const url = 'http://localhost:8080/bookings/' + booking.id;
     this.httpClient.delete(url).subscribe(response => {
       this.booking = undefined;
       this.showDeleteBookingMessage = true;
@@ -55,7 +55,7 @@ export class BookingDetailComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       const id = params['id'];
       if (!id) return;
-      const url = 'https://gore-metabolism-engine-effects.trycloudflare.com/bookings/' + id;
+      const url = 'http://localhost:8080/bookings/' + id;
       this.httpClient.get<Booking>(url).subscribe({
 
         next: b => {
