@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../Interfaces/user.model';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-avatar-form',
   standalone: true,
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './avatar-form.component.html',
   styleUrl: './avatar-form.component.css'
 })

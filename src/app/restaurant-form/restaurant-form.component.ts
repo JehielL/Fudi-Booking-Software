@@ -14,7 +14,7 @@ import { combineLatest, delay, switchMap, timer } from 'rxjs';
 @Component({
   selector: 'app-restaurant-from',
   standalone: true,
-  imports: [ReactiveFormsModule,RouterLink,DatePipe],
+  imports: [ReactiveFormsModule,RouterLink],
   templateUrl: './restaurant-form.component.html',
   styleUrl: './restaurant-form.component.css'
 })

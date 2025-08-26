@@ -1,14 +1,14 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { User } from '../Interfaces/user.model';
 import AOS from 'aos';
 @Component({
   selector: 'app-user-detail',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule, NgbAlertModule ],
+  imports: [ ReactiveFormsModule, NgbAlertModule ],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.css'
 })

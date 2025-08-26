@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Menu } from '../Interfaces/menu.model';
 import { Restaurant } from '../Interfaces/restaurant.model';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import {  DatePipe } from '@angular/common';
 import { AuthenticationService } from '../services/authentication.service';
 import { User } from '../Interfaces/user.model';
 
@@ -14,7 +14,7 @@ import { User } from '../Interfaces/user.model';
 @Component({
   selector: 'app-booking-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CurrencyPipe, DatePipe],
+  imports: [ReactiveFormsModule, DatePipe],
   templateUrl: './booking-form.component.html',
   styleUrl: './booking-form.component.css'
 })

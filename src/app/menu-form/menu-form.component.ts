@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { Menu } from '../Interfaces/menu.model';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -9,7 +9,7 @@ import AOS from 'aos';
 @Component({
   selector: 'app-menu-form',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './menu-form.component.html',
   styleUrl: './menu-form.component.css'
 })

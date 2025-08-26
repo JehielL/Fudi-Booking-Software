@@ -15,7 +15,7 @@ import { RestaurantType } from '../Interfaces/restaurantType.model';
 @Component({
   selector: 'app-menu-detail',
   standalone: true,
-  imports: [ RouterLink, DatePipe, NgbAccordionModule, NgbAlert, NgbRatingModule, ReactiveFormsModule],
+  imports: [ RouterLink, NgbAccordionModule, NgbAlert, NgbRatingModule, ReactiveFormsModule],
   templateUrl: './menu-detail.component.html',
   styleUrl: './menu-detail.component.css'
 })

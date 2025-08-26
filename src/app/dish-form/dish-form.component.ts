@@ -11,7 +11,7 @@ import { AuthenticationService } from '../services/authentication.service';
 @Component({
   selector: 'app-dish-form',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './dish-form.component.html',
   styleUrl: './dish-form.component.css'
 })
