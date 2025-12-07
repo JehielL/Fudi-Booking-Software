@@ -25,17 +25,18 @@
   --info: #3b82f6;
   --info-light: #60a5fa;
 
-  --bg-primary: #f8fafc;
-  --bg-secondary: #ffffff;
-  --bg-sidebar: linear-gradient(180deg, #1e1e2e 0%, #2d2d44 100%);
+  /* Palette aligned with navbar/footer; base tone #140F2D for cohesion */
+  --bg-primary: #140F2D;
+  --bg-secondary: #1b1636;
+  --bg-sidebar: linear-gradient(180deg, #140F2D 0%, #0f0b25 100%);
 
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
-  --text-muted: #94a3b8;
-  --text-light: #cbd5e1;
+  --text-primary: #e8ebf5;
+  --text-secondary: #cdd3e3;
+  --text-muted: #a5aec6;
+  --text-light: #f1f3fb;
   --text-white: #ffffff;
 
-  --border-color: #e2e8f0;
+  --border-color: rgba(255, 255, 255, 0.08);
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);

@@ -171,9 +171,9 @@ a {
   flex-direction: column;
   align-items: stretch;
   justify-content: space-between;
-  gap: 10px;
+  gap: 12px;
   height: 100%;
-  padding: 16px 18px 14px;
+  padding: 18px;
   border-radius: 16px;
   color: #ffffff;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.45) 45%, rgba(0, 0, 0, 0.2) 100%);
@@ -184,7 +184,8 @@ a {
 .card-head {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
+  width: 100%;
 }
 
 .card-footer {
@@ -192,6 +193,16 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.card-footer .contact {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
 }
 
 .card .list-unstyled {
@@ -225,11 +236,12 @@ a {
 
 .meta-row {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
   flex-wrap: wrap;
   z-index: 2;
   color: #ffffff;
+  width: 100%;
 }
 
 .pill {
@@ -240,16 +252,22 @@ a {
   border-radius: 999px;
   font-size: 13px;
   line-height: 1;
-  background: rgba(0, 0, 0, 0.45);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 138, 61, 0.16);
+  color: #fff4ec;
+  border: 1px solid rgba(255, 138, 61, 0.35);
   backdrop-filter: blur(10px);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
   text-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
 }
 
-.type-pill i { color: #FFA33C; }
-.rating-pill i { color: #FFD54F; }
+.type-pill i { color: #FF8A3D; }
+.rating-pill {
+  background: rgba(242, 201, 76, 0.22);
+  border-color: rgba(242, 201, 76, 0.45);
+  color: #fff7d8;
+}
+
+.rating-pill i { color: #F2C94C; }
 
 
 .btn-custom {
@@ -257,13 +275,15 @@ a {
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   color: #fdfdfd;
   padding: 9px 18px;
-  margin-right: 10px;
+  margin-right: 0;
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   box-shadow: 0 14px 36px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.25);
   font-weight: 600;
   letter-spacing: 0.12px;
   backdrop-filter: blur(6px);
+  min-width: 140px;
+  margin-left: auto;
 }
 
 .btn-custom:hover {
@@ -295,4 +315,130 @@ a {
 
 .bi-telephone-fill, .bi-star-fill, .bi-fire {
   animation: fireAnimation 3s infinite;
+}
+
+/* Skeleton Loading */
+.skeleton-card {
+  background: #2a2a2a;
+  border-color: #333;
+  height: 100%;
+  min-height: 260px;
+}
+
+.skeleton-text {
+  height: 20px;
+  background: #3a3a3a;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.title-skeleton {
+  width: 70%;
+  height: 28px;
+  margin-bottom: 12px;
+}
+
+.contact-skeleton {
+  width: 40%;
+}
+
+.skeleton-pill {
+  width: 60px;
+  height: 24px;
+  background: #3a3a3a;
+  border-radius: 999px;
+}
+
+.skeleton-btn {
+  width: 140px;
+  height: 40px;
+  background: #3a3a3a;
+  border-radius: 18px;
+  margin-left: auto;
+}
+
+.skeleton-search {
+  height: 48px;
+  background: #f0f0f0;
+  border-radius: 18px;
+  margin-bottom: 24px;
+}
+
+.skeleton-card, .skeleton-text, .skeleton-pill, .skeleton-btn, .skeleton-search {
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-card::after, .skeleton-text::after, .skeleton-pill::after, .skeleton-btn::after, .skeleton-search::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.05) 20%,
+    rgba(255, 255, 255, 0.1) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  animation: shimmer 2s infinite;
+}
+
+.skeleton-search::after {
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.4) 20%,
+    rgba(255, 255, 255, 0.7) 60%,
+    rgba(255, 255, 255, 0)
+  );
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Highlight Search Term */
+.highlight-text {
+  background-color: rgba(255, 215, 0, 0.4);
+  color: #fff;
+  font-weight: bold;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+/* Search Dropdown Improvements */
+.search-container {
+  border: none;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.list-group-item {
+  border-color: rgba(0,0,0,0.05);
+  background: transparent;
+}
+
+.list-group-item:hover {
+  background-color: rgba(0,0,0,0.03);
+  color: #000;
+}
+
+.list-group-item:hover a {
+    color: #000;
+}
+
+/* Card Refinements */
+.card {
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+}
+
+.card:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }

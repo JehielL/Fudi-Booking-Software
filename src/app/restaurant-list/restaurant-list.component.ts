@@ -4,109 +4,100 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Restaurant } from '../Interfaces/restaurant.model';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { RestaurantType } from '../Interfaces/restaurantType.model';
-import { combineLatest, switchMap, timer } from 'rxjs';
+import { combineLatest, timer, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-restaurant-list',
   templateUrl: './restaurant-list.component.html',
   styleUrls: ['./restaurant-list.component.css'],
   standalone: true,
-  imports: [ReactiveFormsModule,RouterLink,FormsModule]
+  imports: [ReactiveFormsModule, RouterLink, FormsModule]
 })
 export class RestaurantListComponent implements OnInit {
   restaurants: Restaurant[] = [];
   resultadosBusqueda: Restaurant[] = [];
   restaurantType = RestaurantType;
   searchTerm: string = '';
-  maxResultados: number = 5; 
+  maxResultados: number = 5;
   minResultados: number = 5;
   showSpinner = true;
   isEmpty = false;
-
+  puedeMostrarMas: boolean = false;
 
   constructor(private httpClient: HttpClient,
     private activatedRoute: ActivatedRoute,
-    private router: Router) {}
-  puedeMostrarMas: boolean = false;
- ;
-  
+    private router: Router) { }
 
- 
   ngOnInit(): void {
-    window.scrollTo(0, 0); 
+    window.scrollTo(0, 0);
     combineLatest([
       this.activatedRoute.params,
       this.activatedRoute.queryParams
     ]).subscribe(([params, queryParams]) => {
-      
+
       const tipoCocina = params['tipoCocina'];
       const view = queryParams['view'];
-  
-      if(view === 'mine') {
+
+      if (view === 'mine') {
         this.loadMyRestaurants();
       } else if (tipoCocina) {
         this.filtrarRestaurantesPorTipoCocina(tipoCocina);
       } else {
         this.loadRestaurantsDirectly();
       }
-
-    
     });
   }
 
   loadMyRestaurants(): void {
     const myRestaurantsUrl = 'http://localhost:8080/my-restaurants';
-    timer(500).pipe(
-      switchMap(() => this.httpClient.get<Restaurant[]>(myRestaurantsUrl)),
+    timer(2000).pipe(
+      switchMap(() => this.httpClient.get<Restaurant[]>(myRestaurantsUrl))
     ).subscribe(restaurants => {
-     this.restaurants = restaurants;
-     this.showSpinner = false;
-     if(this.restaurants.length== 0){
-      this.isEmpty= true;
-      this.router.navigate(['/not-restaurant']);
-     }else{
-      this.isEmpty=false;
-     }
+      this.restaurants = restaurants;
+      this.showSpinner = false;
+      if (this.restaurants.length == 0) {
+        this.isEmpty = true;
+        this.router.navigate(['/not-restaurant']);
+      } else {
+        this.isEmpty = false;
+      }
     });
-
   }
 
   filtrarRestaurantesPorTipoCocina(tipoCocina: string): void {
     const url = `http://localhost:8080/restaurant-list/${tipoCocina}`;
-    timer(500).pipe(
-      switchMap( () => this.httpClient.get<Restaurant[]>(url))
+    timer(2000).pipe(
+      switchMap(() => this.httpClient.get<Restaurant[]>(url))
     ).subscribe(restaurants => {
       this.restaurants = restaurants;
       this.showSpinner = false;
-      if(this.restaurants.length== 0){
-        this.isEmpty= true;
+      if (this.restaurants.length == 0) {
+        this.isEmpty = true;
         this.router.navigate(['/not-restaurant']);
-       }else{
-        this.isEmpty=false;
-       }
-    }); 
+      } else {
+        this.isEmpty = false;
+      }
+    });
   }
 
   loadRestaurantsDirectly() {
     const apiUrl = 'http://localhost:8080/restaurant';
 
-    timer(600).pipe(
+    timer(2000).pipe(
       switchMap(() => this.httpClient.get<Restaurant[]>(apiUrl))
     ).subscribe(restaurants => {
       this.restaurants = restaurants;
       this.showSpinner = false;
-      if(this.restaurants.length== 0){
-        this.isEmpty= true;
+      if (this.restaurants.length == 0) {
+        this.isEmpty = true;
         this.router.navigate(['/not-restaurant']);
-       }else{
-        this.isEmpty=false;
-       }
+      } else {
+        this.isEmpty = false;
+      }
       this.restaurants.filter(restaurants =>
         restaurants.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
     });
-    
   }
-  
 
   buscar(termino: string): void {
     this.searchTerm = termino;
@@ -116,11 +107,10 @@ export class RestaurantListComponent implements OnInit {
   filtrarResultados(): void {
     const resultadosFiltrados = this.searchTerm
       ? this.restaurants.filter(restaurant =>
-          restaurant.name.toLowerCase().includes(this.searchTerm.toLowerCase()))
+        restaurant.name.toLowerCase().includes(this.searchTerm.toLowerCase()))
       : [];
     this.puedeMostrarMas = resultadosFiltrados.length > this.maxResultados;
     this.resultadosBusqueda = resultadosFiltrados.slice(0, this.maxResultados);
-   
   }
 
   mostrarMas(): void {
@@ -137,8 +127,9 @@ export class RestaurantListComponent implements OnInit {
 
     const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`(${escapedSearchTerm})`, 'gi');
-    return name.replace(regex, `$1`);
-  } 
+    return name.replace(regex, `<span class="highlight-text">$1</span>`);
+  }
+
   getRestaurantType(type?: RestaurantType): string {
     if (type === undefined) return 'No especificado';
     const typeAsString: string = RestaurantType[type as unknown as keyof typeof RestaurantType];

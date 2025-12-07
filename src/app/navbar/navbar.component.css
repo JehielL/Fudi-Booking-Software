@@ -242,8 +242,21 @@ a{
 
 
 .bg-custom{
-  background-color: #181F1C;
-  opacity: 0.9;
+  background: linear-gradient(135deg, #140F2D 0%, #1b1636 60%, #201a42 100%);
+  opacity: 0.97;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.32);
+}
+
+.navbar .nav-link,
+.navbar .dropdown-toggle,
+.navbar .navbar-brand {
+  color: #eef1f7 !important;
+}
+
+.navbar .nav-link:hover,
+.navbar .dropdown-toggle:hover {
+  color: #FF8A3D !important;
 }
 
 

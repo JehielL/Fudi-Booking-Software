@@ -1,7 +1,7 @@
 .footer-custom {
-  background-color: #181F1C;
-  opacity: 0.9;
-  color: #aaaaaa !important;
+  background: linear-gradient(135deg, #140F2D 0%, #1b1636 60%, #201a42 100%);
+  opacity: 0.97;
+  color: #eef1f7 !important;
   text-align: center; /* Centra el contenido del footer */
   padding: 30px;
   position: sticky;
@@ -15,7 +15,7 @@ body.scrolled .footer-custom {
 }
 
 .footer-custom .nav li a {
-  color: #ffffff;
+  color: #eef1f7;
 }
 
 .nav-item {
@@ -23,18 +23,18 @@ body.scrolled .footer-custom {
 }
 
 .footer-custom a {
-  color: #ffffff !important;
+  color: #eef1f7 !important;
   transition: all 0.5s;
   font-weight: bold;
 }
 
 .footer-custom h5 {
-  color: #926644!important;
+  color: #FF8A3D!important;
   transition: all 0.5s;
 }
 
 .footer-custom a:hover {
-  color: #926644 !important;
+  color: #FF8A3D !important;
 }
 
 
