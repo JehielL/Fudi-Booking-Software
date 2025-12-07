@@ -16,373 +16,529 @@
 
 @if (menu)
 {
+<div class="menu-hero-section">
+  <div class="container">
+    <div class="row g-4 align-items-start">
 
-<div class="container">
-
-  <div class="row">
-
-    <div class="col-md-4 col-sm-12 mt-5">
-      <div class="container mt-5 mb-5">
-        <div class="card overflow-hidden rounded-4" [routerLink]="['/restaurant', menu.restaurant.id, 'detail']" >
-          
-
+      <!-- Imagen del menú -->
+      <div class="col-md-5">
+        <div class="menu-image-wrapper" [routerLink]="['/restaurant', menu.restaurant.id, 'detail']">
           @if (menu.imgMenu.startsWith('http')) {
-          <!-- Si es url externa entonces ya trae la ruta completa absoluta-->
-          <img class="" [src]="menu.imgMenu" alt="">
+          <img class="menu-image" [src]="menu.imgMenu" alt="{{menu.title}}">
+          } @else {
+          <img class="menu-image" [src]="'http://localhost:8080/files/' + menu.imgMenu" alt="{{menu.title}}">
           }
-          @else{
-          <!-- Si es url interna entonces hay que añadir delante del localhost:8080/files -->
-          <img class="" [src]="'http://localhost:8080/files/' + menu.imgMenu" alt="">
-
-          }
-
+          <div class="image-overlay">
+            <span class="view-restaurant">
+              <i class="bi bi-arrow-right-circle-fill"></i>
+              Ver Restaurante
+            </span>
+          </div>
         </div>
       </div>
-    </div>
 
-
-
-    <div class="col-lg-8 col-md-8 col-sm-12">
-      <!--Icon grid-->
-      <div class="container px-4 py-5" id="icon-grid">
-        <h2 class="pb-2 border-bottom">Menú id: {{menu.id}}</h2>
-
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4 py-5">
-
-          <div class="col d-flex align-items-start">
-            <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Nombre del menú</h3>
-              <p>{{menu.title}}</p>
-            </div>
+      <!-- Información del menú -->
+      <div class="col-md-7">
+        <div class="menu-info-card">
+          <div class="menu-header">
+            <h1 class="menu-title">{{menu.title}}</h1>
           </div>
 
-          <div class="col d-flex align-items-start">
-
-            <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Descripción</h3>
-              <p>{{menu.description}} </p>
+          <div class="menu-details-grid">
+            <!-- Descripción -->
+            <div class="detail-item">
+              <div class="detail-label">
+                <i class="bi bi-card-text"></i>
+                Descripción
+              </div>
+              <div class="detail-value">{{menu.description}}</div>
             </div>
-          </div>
 
-
-          <div class="col d-flex align-items-start">
-
-            <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Alergias</h3>
-              @if (menu.alergys) {
-              <span class="badge text-bg-success mt-3">Alergias</span>
-              } @else{
-              <span class="badge text-bg-danger mt-3">No alergias</span>
-              }
-            </div>
-          </div>
-          <div class="col d-flex align-items-start">
-
-            <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Restaurant</h3>
-              <br>
-              <a class="badge text-bg-secondary text-decoration-none"
-                [routerLink]="['/restaurant', menu.restaurant.id, 'detail']">
-                {{menu.restaurant.name}}
-              </a>
-            </div>
-          </div>
-          <div class="col d-flex align-items-start">
-
-            <div>
-              <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Disponible</h3>
-              <div>
-
-                @if (menu.active) {
-                <span class="badge text-bg-success mt-3">Sí</span>
-                } @else{
-                <span class="badge text-bg-danger mt-3">No</span>
-                }
+            <!-- Restaurante -->
+            <div class="detail-item">
+              <div class="detail-label">
+                <i class="bi bi-shop"></i>
+                Restaurante
+              </div>
+              <div class="detail-value">
+                <a class="restaurant-link" [routerLink]="['/restaurant', menu.restaurant.id, 'detail']">
+                  {{menu.restaurant.name}}
+                  <i class="bi bi-arrow-right"></i>
+                </a>
               </div>
             </div>
-          </div>
-          <div class="col d-flex align-items-start">
 
-            <div class="col d-flex align-items-start">
-
-              <div>
-
-                <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Categoria Restaurant</h3>
-                <span class="badge text-bg-success mt-3">{{getRestaurantType(menu.restaurantType)}}</span>
-
+            <!-- Categoría -->
+            <div class="detail-item">
+              <div class="detail-label">
+                <i class="bi bi-tag"></i>
+                Categoría
+              </div>
+              <div class="detail-value">
+                <span class="category-badge">{{getRestaurantType(menu.restaurantType)}}</span>
               </div>
             </div>
           </div>
 
+          <div class="detail-badges">
+            @if (menu.active) {
+            <span class="status-badge active">
+              <i class="bi bi-check-circle-fill"></i>
+              Disponible
+            </span>
+            } @else {
+            <span class="status-badge inactive">
+              <i class="bi bi-x-circle-fill"></i>
+              No disponible
+            </span>
+            }
 
-        </div>
-      </div>
-      @if (canEdit) {
-      <div class="buttons">
-
-
-
-        <button class="btn btn-outline-success ms-2" [routerLink]="['/menus', menu.id, 'update']">Editar
-          Menú</button>
-
-
-        <button class="btn btn-outline-danger ms-2" (click)="openModal(modal, menu)">
-          Borrar
-        </button>
-
-      </div>
-      }
-
-    </div>
-  </div>
-
-  <ng-template #modal let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title">Despublicar Menú</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cancelar')"></button>
-    </div>
-    <div class="modal-body">
-      <p>
-        Esta acción va a despublicar el Menú, por lo que ya no será accesible ni se podrá comprar.
-        ¿Está de acuerdo?
-      </p>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-success" (click)="modal.close('Aceptar')">
-        <i class="bi bi-check-lg me-2"></i>
-        Aceptar
-      </button>
-      <button type="button" class="btn btn-danger" (click)="modal.close('Cancelar')">
-        <i class="bi bi-x-circle me-2"></i>
-        Cancelar
-      </button>
-    </div>
-  </ng-template>
-
-
-  <div class="menu-section py-4">
-
-    <div class="row">
-      <div class="container px-4 py-5 custom-background" id="custom-cards">
-
-        <h2 class="pb-2 custom-title">Platos Relevantes.</h2>
-        <div class="horizontal-bars"></div>
-      </div>
-
-
-      @for (dish of dishes; track dish.id ) {
-      <div class="col-md-4 mb-3">
-        <div class="card h-100">
-
-          @if (dish.imgDish.startsWith('http')) {
-          <!-- Si es url externa entonces ya trae la ruta completa absoluta-->
-          <img class="card-img-top" [src]="dish.imgDish" alt="">
-          }
-          @else{
-          <!-- Si es url interna entonces hay que añadir delante del localhost:8080/files -->
-          <img class="card-img-top" [src]="'http://localhost:8080/files/' + dish.imgDish" alt="">
-
-          }
-
-
-
-          <div class="card-body">
-            <h5 class="card-title"> {{dish.title}}</h5>
-            <p class="card-text">{{dish.description}}</p>
-            <div class="card-footer">
-              <small class="text-muted">Precio: {{dish.price}} €</small>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      }
-      <section class="py-7 py-md-9 border-bottom">
-        <div class="container">
-          <div class="row justify-content-center">
-            <h2 class="pb-2 custom-title">Toda nuestra carta.</h2>
-            <div class="horizontal-bars"></div>
+            @if (menu.alergys) {
+            <span class="status-badge warning">
+              <i class="bi bi-exclamation-triangle-fill"></i>
+              Contiene alérgenos
+            </span>
+            } @else {
+            <span class="status-badge safe">
+              <i class="bi bi-shield-check"></i>
+              Sin alérgenos
+            </span>
+            }
           </div>
 
           @if (canEdit) {
-          <button type="button" [routerLink]="['/dishes',menu.id, 'create']" class="cssbuttons-io-button">
-            <i class="fa-solid fa-plus"></i> <span class="button-text">   Nuevo elemento </span>
-          </button>
-
+          <div class="menu-actions">
+            <button class="action-btn edit-btn" [routerLink]="['/menus', menu.id, 'update']">
+              <i class="bi bi-pencil-square"></i>
+              Editar
+            </button>
+            <button class="action-btn delete-btn" (click)="openModal(modal, menu)">
+              <i class="bi bi-trash"></i>
+              Eliminar
+            </button>
+          </div>
           }
-
-
-
-
         </div>
-        <div class="row">
-          @for (dish of dishes; track dish.id) {
-          <div class="col-md-4">
-            <!-- Content -->
-            <div class="tab-content" id="menuContent">
-              <div class="tab-pane fade show active" id="mains" role="tabpanel" aria-labelledby="mainsTab">
-                <div class="row">
-                  <div class="row-12">
-                    <div class="py-3 border-bottom">
-                      <div class="row">
-                        <div class="col-2 align-self-center">
-                          <!-- Image -->
-                          <div class="ratio ratio-1x1">
-                            @if (dish.imgDish.startsWith('http')) {
-                            <!-- Si es url externa entonces ya trae la ruta completa absoluta-->
-                            <img class="card-img" [src]="dish.imgDish" alt="">
-                            }
-                            @else{
-                            <!-- Si es url interna entonces hay que añadir delante del localhost:8080/files -->
-                            <img class="card-img" [src]="'http://localhost:8080/files/' + dish.imgDish" alt="">
-                            }
-                          </div>
-                        </div>
-                        <div class="col-7">
-                          <!-- Heading -->
-                          <h5 class="mb-2">{{dish.title}}</h5>
-                          <!-- Text -->
+      </div>
 
+    </div>
+  </div>
+</div>
 
+<ng-template #modal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Despublicar Menú</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cancelar')"></button>
+  </div>
+  <div class="modal-body">
+    <p>
+      Esta acción va a despublicar el Menú, por lo que ya no será accesible ni se podrá comprar.
+      ¿Está de acuerdo?
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="modal.close('Aceptar')">
+      <i class="bi bi-check-lg me-2"></i>
+      Aceptar
+    </button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Cancelar')">
+      <i class="bi bi-x-circle me-2"></i>
+      Cancelar
+    </button>
+  </div>
+</ng-template>
 
-                          <p class="mb-0">{{dish.description}}</p>
-                        </div>
-                        <div class="col-2">
-                          <!-- Price -->
-                          <div class="fs-4 font-serif text-center text-body-emphasis">{{dish.price}}€</div>
-                        </div>
-                        <div class="col-3 align-self-center">
-                          <!-- Other content -->
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+<section class="dishes-section">
+  <div class="container">
+    <!-- Header de sección estilo social -->
+    <div class="dishes-section-header">
+      <div class="section-tag">
+        <i class="bi bi-fire"></i>
+        <span>Destacados</span>
+      </div>
+      <h2 class="dishes-main-title">Platos Relevantes</h2>
+      <p class="dishes-main-subtitle">Los favoritos de nuestros clientes</p>
+    </div>
+
+    <!-- Grid de platos tipo Instagram -->
+    <div class="dishes-grid">
+      @for (dish of dishes; track dish.id; let i = $index) {
+      <article class="dish-card">
+        <div class="dish-card-image">
+          @if (dish.imgDish.startsWith('http')) {
+          <img [src]="dish.imgDish" alt="{{dish.title}}">
+          } @else {
+          <img [src]="'http://localhost:8080/files/' + dish.imgDish" alt="{{dish.title}}">
+          }
+          
+          <!-- Overlay con gradiente -->
+          <div class="dish-card-overlay">
+            <div class="dish-card-actions">
+              <button class="dish-action-btn like-btn" title="Me gusta">
+                <i class="bi bi-heart"></i>
+              </button>
             </div>
+          </div>
+
+          <!-- Badge de precio -->
+          <div class="dish-price-badge">
+            <span class="price-amount">{{dish.price}}€</span>
+          </div>
+
+          <!-- Tag de posición si es destacado -->
+          @if (i < 3) {
+          <div class="dish-rank-badge">
+            <i class="bi bi-trophy-fill"></i>
+            <span>#{{i + 1}}</span>
           </div>
           }
         </div>
 
-
-
-      </section>
-
-
-
-
-
-
-
-
-    </div>
-  </div>
-
-
-
-</div>
-}
-
-
-
-<div class="container py-5 ">
-  <div class="row">
-    <div class="col">
-      <h3>Listado de valoraciones</h3>
-      <div>
-
-        <ul class="list-unstyled">
-
-          @for (rating of ratings; track rating.id) {
-
-          <li>
-
-            @if (rating.user?.imgUser) {
-
-
-
-            <a
-              class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top ">
-
-
-
-
-
-
-
-              <img
-                [src]="rating.user?.imgUser?.startsWith('http') ? rating.user?.imgUser : ('http://localhost:8080/files/' + rating.user?.imgUser)"
-                class="custom-picture" [routerLink]="['/user', user?.id, 'detail']" alt="logo" height="80" width="80">
-
-
-
-
-              <div class="col-lg-8">
-                <h6 class="mb-0">
-
-
-                  <h5>{{rating.user?.firstName}} {{rating.user?.lastName}}</h5>
-                  <ngb-rating [(rate)]="rating.score" [max]="5" [readonly]="true">
-                    <ng-template let-fill="fill" let-index="index">
-
-                      <i class="bi-star{{ fill === 100 ? '-fill' : '' }} fs-3" style="color: #ffc845;"></i>
-                    </ng-template>
-                  </ngb-rating>
-                  @if (isAdmin) {
-
-                  <i class="bi bi-x-circle-fill fs-3 ms-3 text-danger" style="cursor:pointer;"
-                    (click)="deleteRating(rating)"></i>
-                  }
-
-                </h6>
-                <p class="mb-0">{{user?.firstName}}</p>
-                <small class="text-body-secondary">{{rating.comment}}</small>
-              </div>
-            </a>
-            }
-          </li>
-
-
-          }
-
-
-
-        </ul>
-      </div>
-
+        <div class="dish-card-content">
+          <h3 class="dish-card-title">{{dish.title}}</h3>
+          <p class="dish-card-description">{{dish.description}}</p>
+          
+          <div class="dish-card-footer">
+            <div class="dish-stats">
+              <span class="dish-stat">
+                <i class="bi bi-hand-thumbs-up-fill"></i>
+                Popular
+              </span>
+            </div>
+          </div>
+        </div>
+      </article>
+      }
     </div>
 
-  </div>
-  <div class="row">
-    <div class="col">
-      <h3>Añade una valoración</h3>
-
-      <form [formGroup]="ratingForm" (ngSubmit)="save()">
-
-        <ngb-rating [max]="5" formControlName="score">
-          <ng-template let-fill="fill" let-index="index">
-            <i class="bi-star{{ fill === 100 ? '-fill' : '' }} fs-3" style="color: #ffc845;"></i>
-          </ng-template>
-        </ngb-rating>
-
-        <div class="form-floating mb-3">
-          <textarea class="form-control" placeholder="Introduza un comentario" id="comment" formControlName="comment"
-            style="min-height: 100px;">
-
-              </textarea>
-          <label for="comment">Agregar Comentario</label>
+    <!-- Sección del menú completo -->
+    <div class="full-menu-wrapper">
+      <div class="full-menu-header">
+        <div class="menu-header-content">
+          <div class="section-tag secondary">
+            <i class="bi bi-book"></i>
+            <span>Carta Completa</span>
+          </div>
+          <h2 class="menu-section-title">Toda nuestra carta</h2>
+          <p class="menu-section-subtitle">Explora todas las opciones disponibles</p>
         </div>
 
+        @if (canEdit) {
+        <button type="button" [routerLink]="['/dishes', menu.id, 'create']" class="add-dish-btn">
+          <i class="bi bi-plus-lg"></i>
+          <span>Nuevo plato</span>
+        </button>
+        }
+      </div>
 
+      <!-- Lista de platos estilo feed -->
+      <div class="menu-feed">
+        @for (dish of dishes; track dish.id) {
+        <article class="menu-feed-item">
+          <div class="feed-item-image">
+            @if (dish.imgDish.startsWith('http')) {
+            <img [src]="dish.imgDish" alt="{{dish.title}}">
+            } @else {
+            <img [src]="'http://localhost:8080/files/' + dish.imgDish" alt="{{dish.title}}">
+            }
+          </div>
+          
+          <div class="feed-item-content">
+            <div class="feed-item-header">
+              <h4 class="feed-item-title">{{dish.title}}</h4>
+              <span class="feed-item-price">{{dish.price}}€</span>
+            </div>
+            <p class="feed-item-description">{{dish.description}}</p>
+            
+            <div class="feed-item-actions">
+              <button class="feed-action like-btn">
+                <i class="bi bi-heart"></i>
+              </button>
+            </div>
+          </div>
+        </article>
+        }
 
-        <button class="btn btn-outline-dark rounded " type="submit"><span class="text-green">Enviar
-            comentario</span></button>
-      </form>
-
+        @if (dishes.length === 0) {
+        <div class="empty-menu-state">
+          <i class="bi bi-emoji-frown"></i>
+          <p>No hay platos disponibles en este menú</p>
+        </div>
+        }
+      </div>
     </div>
   </div>
+</section>
 
+<div class="ratings-section">
+  <div class="container py-5">
+    <div class="section-header text-center">
+      <h2 class="section-title">Experiencias de Nuestros Clientes</h2>
+      <p class="section-subtitle">Descubre lo que opinan quienes ya disfrutaron de este menú</p>
+    </div>
+
+    <div class="ratings-two-columns">
+      <!-- Columna izquierda: Formulario -->
+      <div class="ratings-form-column">
+        <div class="add-rating-section">
+          <div class="add-rating-header">
+            <i class="bi bi-star-fill header-icon"></i>
+            <h3 class="add-rating-title">Comparte tu Experiencia</h3>
+            <p class="add-rating-subtitle">Tu opinión nos ayuda a mejorar cada día</p>
+          </div>
+
+          <form [formGroup]="ratingForm" (ngSubmit)="save()" class="rating-form">
+
+            <div class="form-group">
+              <label class="form-label">
+                <i class="bi bi-star-fill me-2"></i>
+                Tu Calificación
+              </label>
+              <div class="rating-input-wrapper">
+                <ngb-rating [max]="5" formControlName="score">
+                  <ng-template let-fill="fill" let-index="index">
+                    <i class="bi-star{{ fill === 100 ? '-fill' : '' }}" style="color: #ffc845; font-size: 1.5rem;"></i>
+                  </ng-template>
+                </ngb-rating>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="comment">
+                <i class="bi bi-chat-dots-fill me-2"></i>
+                Cuéntanos tu Experiencia
+              </label>
+              <textarea 
+                class="form-control modern-textarea" 
+                placeholder="¿Qué te pareció? Comparte tu opinión..." 
+                id="comment" 
+                formControlName="comment"
+                rows="4"></textarea>
+              @if (ratingForm.get('comment')?.invalid && ratingForm.get('comment')?.touched) {
+              <p class="form-error">El comentario es obligatorio (máximo 1000 caracteres).</p>
+              }
+            </div>
+
+            <!-- Sección de subida de imágenes -->
+            <div class="form-group">
+              <label class="form-label">
+                <i class="bi bi-camera-fill me-2"></i>
+                Agregar Fotos (Opcional)
+              </label>
+              <p class="form-helper-text">Comparte hasta 3 imágenes de tu experiencia</p>
+          
+              <div class="upload-images-grid">
+                <!-- Imagen 1 -->
+                <div class="upload-card">
+                  @if (!previewImage1) {
+                    <label for="image1" class="upload-label">
+                      <div class="upload-content">
+                        <i class="bi bi-camera-fill upload-icon"></i>
+                        <span class="upload-text">Foto 1</span>
+                      </div>
+                    </label>
+                    <input 
+                      type="file" 
+                      id="image1" 
+                      class="upload-input" 
+                      accept="image/*" 
+                      (change)="onImageSelected($event, 1)">
+                  } @else {
+                    <div class="upload-preview">
+                      <img [src]="previewImage1" alt="Preview 1" class="preview-image">
+                      <button 
+                        type="button" 
+                        class="remove-image-btn" 
+                        (click)="removeImage(1)">
+                        <i class="bi bi-x-circle-fill"></i>
+                      </button>
+                    </div>
+                  }
+                </div>
+
+                <!-- Imagen 2 -->
+                <div class="upload-card">
+                  @if (!previewImage2) {
+                    <label for="image2" class="upload-label">
+                      <div class="upload-content">
+                        <i class="bi bi-camera-fill upload-icon"></i>
+                        <span class="upload-text">Foto 2</span>
+                      </div>
+                    </label>
+                    <input 
+                      type="file" 
+                      id="image2" 
+                      class="upload-input" 
+                      accept="image/*" 
+                      (change)="onImageSelected($event, 2)">
+                  } @else {
+                    <div class="upload-preview">
+                      <img [src]="previewImage2" alt="Preview 2" class="preview-image">
+                      <button 
+                        type="button" 
+                        class="remove-image-btn" 
+                        (click)="removeImage(2)">
+                        <i class="bi bi-x-circle-fill"></i>
+                      </button>
+                    </div>
+                  }
+                </div>
+
+                <!-- Imagen 3 -->
+                <div class="upload-card">
+                  @if (!previewImage3) {
+                    <label for="image3" class="upload-label">
+                      <div class="upload-content">
+                        <i class="bi bi-camera-fill upload-icon"></i>
+                        <span class="upload-text">Foto 3</span>
+                      </div>
+                    </label>
+                    <input 
+                      type="file" 
+                      id="image3" 
+                      class="upload-input" 
+                      accept="image/*" 
+                      (change)="onImageSelected($event, 3)">
+                  } @else {
+                    <div class="upload-preview">
+                      <img [src]="previewImage3" alt="Preview 3" class="preview-image">
+                      <button 
+                        type="button" 
+                        class="remove-image-btn" 
+                        (click)="removeImage(3)">
+                        <i class="bi bi-x-circle-fill"></i>
+                      </button>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+
+            <button class="submit-rating-btn" type="submit" [disabled]="ratingForm.invalid">
+              <i class="bi bi-send-fill me-2"></i>
+              <span>Publicar Valoración</span>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Columna derecha: Lista de ratings scrolleable -->
+      <div class="ratings-list-column">
+        <div class="ratings-list-header">
+          <h4 class="ratings-list-title">
+            <i class="bi bi-chat-quote-fill me-2"></i>
+            Opiniones ({{ratings.length}})
+          </h4>
+        </div>
+        
+        <ul class="ratings-list list-unstyled">
+          @for (rating of ratings; track rating.id) {
+          <li class="rating-card">
+            <div class="rating-card-content">
+              <!-- Header con usuario -->
+              <div class="rating-header">
+                <div class="user-info">
+                  <div class="avatar-wrapper">
+                    @if (hasUserAvatar(rating.user?.imgUser)) {
+                    <img
+                      [src]="resolveUserAvatar(rating.user?.imgUser)"
+                      class="user-avatar"
+                      [routerLink]="['/user', rating.user!.id, 'detail']"
+                      alt="Usuario">
+                    } @else if (rating.user) {
+                    <a class="avatar-placeholder" [routerLink]="['/user', rating.user!.id, 'detail']">{{ getUserInitials(rating.user) }}</a>
+                    } @else {
+                    <div class="avatar-placeholder avatar-placeholder-static">{{ getUserInitials(rating.user) }}</div>
+                    }
+                  </div>
+                  <div class="user-details">
+                    <h5 class="user-name">{{rating.user?.firstName}} {{rating.user?.lastName}}</h5>
+                    <div class="rating-stars-wrapper">
+                      <ngb-rating [(rate)]="rating.score" [max]="5" [readonly]="true">
+                        <ng-template let-fill="fill" let-index="index">
+                          <i class="bi-star{{ fill === 100 ? '-fill' : '' }}" style="color: #ffc845; font-size: 1rem;"></i>
+                        </ng-template>
+                      </ngb-rating>
+                      @if (isAdmin) {
+                      <button class="delete-rating-btn" (click)="deleteRating(rating)">
+                        <i class="bi bi-trash-fill"></i>
+                      </button>
+                      }
+                    </div>
+                  </div>
+                </div>
+                @if (rating.score != null) {
+                <div class="rating-meta">
+                  <span class="rating-score-pill">{{rating.score | number:'1.1-1'}}</span>
+                </div>
+                }
+              </div>
+
+              <!-- Comentario -->
+              <div class="rating-comment">
+                <p>{{rating.comment}}</p>
+              </div>
+
+              <!-- Footer con like -->
+              <div class="rating-footer">
+                <button 
+                  class="rating-like-btn" 
+                  [class.liked]="isRatingLiked(rating.id)"
+                  [disabled]="isLikeLoading(rating.id)"
+                  (click)="toggleLike(rating)"
+                  title="Me gusta este comentario">
+                  <i class="bi" [class.bi-heart-fill]="isRatingLiked(rating.id)" [class.bi-heart]="!isRatingLiked(rating.id)"></i>
+                  <span class="like-count">{{rating.likesCount || 0}}</span>
+                </button>
+              </div>
+              
+              <!-- Galería de imágenes -->
+              @if (rating.images?.length) {
+                <div class="rating-gallery">
+                  <div class="gallery-grid">
+                    @for (image of rating.images; track image.id) {
+                    <div class="gallery-card" (click)="openImageLightbox(resolveRatingImage(image))">
+                      <div class="gallery-card-inner">
+                        <img 
+                          [src]="resolveRatingImage(image)" 
+                          alt="Imagen de valoración"
+                          class="gallery-image">
+                        <div class="gallery-overlay">
+                          <i class="bi bi-zoom-in"></i>
+                        </div>
+                      </div>
+                    </div>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          </li>
+          }
+
+          @if (ratings.length === 0) {
+          <li class="no-ratings-message">
+            <i class="bi bi-chat-left-dots"></i>
+            <p>Aún no hay valoraciones. ¡Sé el primero en opinar!</p>
+          </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- Lightbox para imágenes -->
+@if (lightboxImage) {
+<div class="image-lightbox" (click)="closeLightbox()">
+  <div class="lightbox-content" (click)="$event.stopPropagation()">
+    <button class="lightbox-close" (click)="closeLightbox()">
+      <i class="bi bi-x-lg"></i>
+    </button>
+    <img [src]="lightboxImage" alt="Imagen ampliada" class="lightbox-image">
+  </div>
+</div>
+}
 
 
 <div class="container mb-5">
@@ -484,4 +640,6 @@
     </div>
   </div>
 </div>
+
+}
 }

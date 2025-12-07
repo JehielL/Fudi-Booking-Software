@@ -1,0 +1,137 @@
+<div class="time-slot-picker">
+  <!-- Loading State -->
+  @if (loading) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando disponibilidad...</p>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error && !loading) {
+    <div class="error-state">
+      <i class="bi bi-exclamation-triangle"></i>
+      <p>{{ error }}</p>
+      <button class="btn-retry" (click)="refresh()">
+        <i class="bi bi-arrow-clockwise"></i> Reintentar
+      </button>
+    </div>
+  }
+
+  <!-- Closed State -->
+  @if (!loading && !error && availability && !availability.isOpen) {
+    <div class="closed-state">
+      <i class="bi bi-calendar-x"></i>
+      <h4>Restaurante cerrado</h4>
+      @if (availability.closedReason) {
+        <p>{{ availability.closedReason }}</p>
+      } @else {
+        <p>El restaurante no abre este día</p>
+      }
+    </div>
+  }
+
+  <!-- No Slots State -->
+  @if (!loading && !error && availability?.isOpen && !hasSlots) {
+    <div class="no-slots-state">
+      <i class="bi bi-clock-history"></i>
+      <h4>Sin horarios disponibles</h4>
+      <p>No hay slots configurados para este día</p>
+    </div>
+  }
+
+  <!-- Slots Grid -->
+  @if (!loading && !error && availability?.isOpen && hasSlots) {
+    <div class="slots-container">
+      <!-- Header con info -->
+      <div class="slots-header">
+        <span class="available-count">
+          <i class="bi bi-check-circle"></i>
+          {{ availableCount }} horarios disponibles
+        </span>
+        <button class="btn-refresh" (click)="refresh()" title="Actualizar disponibilidad">
+          <i class="bi bi-arrow-clockwise"></i>
+        </button>
+      </div>
+
+      <!-- Mañana -->
+      @if (morningSlots.length > 0) {
+        <div class="slot-section">
+          <h5 class="section-title">
+            <i class="bi bi-sunrise"></i> Mañana
+          </h5>
+          <div class="slots-grid">
+            @for (slot of morningSlots; track slot.time) {
+              <button 
+                class="slot-btn"
+                [class]="getSlotStatusClass(slot)"
+                [disabled]="!canSelectSlot(slot)"
+                (click)="selectSlot(slot)"
+              >
+                <span class="slot-time">{{ formatSlotTime(slot.time) }}</span>
+                <span class="slot-capacity">{{ getCapacityText(slot) }}</span>
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Tarde -->
+      @if (afternoonSlots.length > 0) {
+        <div class="slot-section">
+          <h5 class="section-title">
+            <i class="bi bi-sun"></i> Tarde
+          </h5>
+          <div class="slots-grid">
+            @for (slot of afternoonSlots; track slot.time) {
+              <button 
+                class="slot-btn"
+                [class]="getSlotStatusClass(slot)"
+                [disabled]="!canSelectSlot(slot)"
+                (click)="selectSlot(slot)"
+              >
+                <span class="slot-time">{{ formatSlotTime(slot.time) }}</span>
+                <span class="slot-capacity">{{ getCapacityText(slot) }}</span>
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Noche -->
+      @if (eveningSlots.length > 0) {
+        <div class="slot-section">
+          <h5 class="section-title">
+            <i class="bi bi-moon-stars"></i> Noche
+          </h5>
+          <div class="slots-grid">
+            @for (slot of eveningSlots; track slot.time) {
+              <button 
+                class="slot-btn"
+                [class]="getSlotStatusClass(slot)"
+                [disabled]="!canSelectSlot(slot)"
+                (click)="selectSlot(slot)"
+              >
+                <span class="slot-time">{{ formatSlotTime(slot.time) }}</span>
+                <span class="slot-capacity">{{ getCapacityText(slot) }}</span>
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Leyenda -->
+      <div class="slots-legend">
+        <span class="legend-item available">
+          <span class="legend-dot"></span> Disponible
+        </span>
+        <span class="legend-item limited">
+          <span class="legend-dot"></span> Pocas plazas
+        </span>
+        <span class="legend-item full">
+          <span class="legend-dot"></span> Completo
+        </span>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,174 @@
+<div class="schedule-config">
+  <!-- Header -->
+  <div class="config-header">
+    <div class="header-info">
+      <h3><i class="bi bi-clock-history"></i> Horarios Semanales</h3>
+      <p>Configura los días y horarios de apertura de tu restaurante</p>
+    </div>
+    <div class="header-actions">
+      @if (hasUnsavedChanges) {
+        <span class="unsaved-badge">
+          <i class="bi bi-exclamation-circle"></i>
+          Cambios sin guardar
+        </span>
+      }
+      <button 
+        class="btn-save" 
+        [disabled]="!hasUnsavedChanges || saving"
+        (click)="saveSchedules()"
+      >
+        @if (saving) {
+          <span class="spinner-small"></span>
+          Guardando...
+        } @else {
+          <i class="bi bi-check-lg"></i>
+          Guardar cambios
+        }
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  @if (loading) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando horarios...</p>
+    </div>
+  }
+
+  <!-- Schedule Table -->
+  @if (!loading) {
+    <div class="schedule-table-wrapper">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th class="col-day">Día</th>
+            <th class="col-status">Estado</th>
+            <th class="col-time">Apertura</th>
+            <th class="col-time">Cierre</th>
+            <th class="col-capacity">Aforo Total</th>
+            <th class="col-capacity">Por Slot</th>
+            <th class="col-interval">Intervalo</th>
+            <th class="col-actions">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of schedules; track row.dayOfWeek) {
+            <tr [class.closed]="!row.isOpen" [class.has-changes]="row.hasChanges">
+              <td class="col-day">
+                <span class="day-name">{{ row.dayLabel }}</span>
+              </td>
+              <td class="col-status">
+                <label class="toggle-switch">
+                  <input 
+                    type="checkbox" 
+                    [checked]="row.isOpen"
+                    (change)="toggleDay(row)"
+                  >
+                  <span class="toggle-slider"></span>
+                  <span class="toggle-label">{{ row.isOpen ? 'Abierto' : 'Cerrado' }}</span>
+                </label>
+              </td>
+              <td class="col-time">
+                <input 
+                  type="time" 
+                  [(ngModel)]="row.openTime"
+                  [disabled]="!row.isOpen"
+                  (change)="onScheduleChange(row)"
+                  class="time-input"
+                >
+              </td>
+              <td class="col-time">
+                <input 
+                  type="time" 
+                  [(ngModel)]="row.closeTime"
+                  [disabled]="!row.isOpen"
+                  (change)="onScheduleChange(row)"
+                  class="time-input"
+                >
+              </td>
+              <td class="col-capacity">
+                <input 
+                  type="number" 
+                  [(ngModel)]="row.maxCapacity"
+                  [disabled]="!row.isOpen"
+                  (change)="onScheduleChange(row)"
+                  min="1"
+                  max="500"
+                  class="number-input"
+                >
+              </td>
+              <td class="col-capacity">
+                <input 
+                  type="number" 
+                  [(ngModel)]="row.maxCapacityPerSlot"
+                  [disabled]="!row.isOpen"
+                  (change)="onScheduleChange(row)"
+                  min="1"
+                  max="100"
+                  class="number-input"
+                >
+              </td>
+              <td class="col-interval">
+                <select 
+                  [(ngModel)]="row.slotIntervalMinutes"
+                  [disabled]="!row.isOpen"
+                  (change)="onScheduleChange(row)"
+                  class="interval-select"
+                >
+                  <option [value]="15">15 min</option>
+                  <option [value]="30">30 min</option>
+                  <option [value]="45">45 min</option>
+                  <option [value]="60">60 min</option>
+                </select>
+              </td>
+              <td class="col-actions">
+                <div class="action-dropdown">
+                  <button class="btn-action-menu" title="Copiar a...">
+                    <i class="bi bi-copy"></i>
+                  </button>
+                  <div class="dropdown-menu">
+                    <button (click)="copyToAllDays(row)">
+                      <i class="bi bi-calendar-week"></i>
+                      Copiar a todos los días
+                    </button>
+                    <button (click)="copyToWeekdays(row)">
+                      <i class="bi bi-briefcase"></i>
+                      Copiar a días laborables
+                    </button>
+                    <button (click)="copyToWeekend(row)">
+                      <i class="bi bi-sun"></i>
+                      Copiar a fin de semana
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Summary -->
+    <div class="schedule-summary">
+      <div class="summary-item">
+        <i class="bi bi-calendar-check"></i>
+        <span><strong>{{ openDaysCount }}</strong> días abierto</span>
+      </div>
+      <div class="summary-item">
+        <i class="bi bi-info-circle"></i>
+        <span>Los clientes verán la disponibilidad en tiempo real basada en estos horarios</span>
+      </div>
+    </div>
+
+    <!-- Help Text -->
+    <div class="help-section">
+      <h4><i class="bi bi-lightbulb"></i> Consejos</h4>
+      <ul>
+        <li><strong>Aforo Total:</strong> Capacidad máxima del restaurante</li>
+        <li><strong>Por Slot:</strong> Máximo de personas que pueden reservar en el mismo horario</li>
+        <li><strong>Intervalo:</strong> Duración de cada slot de reserva (ej: cada 30 minutos)</li>
+      </ul>
+    </div>
+  }
+</div>

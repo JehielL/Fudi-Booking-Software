@@ -20,16 +20,16 @@
       
       @for (booking of bookings; track booking.id) {
   
-      @if(booking.restaurant.imageUrl.startsWith('http')) {
+      @if(booking.restaurant?.imageUrl?.startsWith('http')) {
       <div class="card-container p-3 ">
         <div class="card card-cover overflow-hidden text-bg-dark rounded-4 shadow-lg">
-          <div class="background-image" [style.background-image]="'url(' + booking?.restaurant?.imageUrl + ')'"></div>
+          <div class="background-image" [style.background-image]="'url(' + booking.restaurant?.imageUrl + ')'"></div>
           <div class="container-fluid custom">
             <div class="row mt-3 ms-2">
               <div class="col-md-4">
-                <a [routerLink]="['/user', booking.user.id, 'detail']"
+                <a [routerLink]="['/user', booking.user?.id, 'detail']"
                   style="cursor: pointer; color:white;   text-decoration: none;">
-                  <h3>{{booking?.user?.firstName }} {{booking?.user?.lastName}}</h3>
+                  <h3>{{booking.user?.firstName || 'Cliente'}} {{booking.user?.lastName || ''}}</h3>
                 </a>
   
                 <h6>Fecha de reserva:</h6>
@@ -85,13 +85,13 @@
       <div class="card-container p-3 ">
         <div class="card card-cover overflow-hidden text-bg-dark rounded-4 shadow-lg">
           <div class="background-image"
-            [style.background-image]="'url(http://localhost:8080/files/' + booking.restaurant.imageUrl + ')'"></div>
+            [style.background-image]="'url(http://localhost:8080/files/' + (booking.restaurant?.imageUrl || '') + ')'"></div>
           <div class="container-fluid custom">
             <div class="row mt-3 ms-2">
               <div class="col-md-4">
-                <h3>{{booking?.user?.firstName}} {{booking?.user?.lastName}}</h3>
+                <h3>{{booking.user?.firstName || 'Cliente'}} {{booking.user?.lastName || ''}}</h3>
                 <h6>Fecha de reserva:</h6>
-                <p>{{booking?.createDate | date: 'dd/MM/yy' }}</p>
+                <p>{{booking.bookingDate || (booking.createDate | date: 'dd/MM/yy') }}</p>
   
               </div>
               <div class="col-md-4">

@@ -1,0 +1,329 @@
+/* ========================================
+   TIME SLOT PICKER COMPONENT
+   ======================================== */
+
+.time-slot-picker {
+  --slot-available: #D1FAE5;
+  --slot-available-text: #065F46;
+  --slot-limited: #FEF3C7;
+  --slot-limited-text: #92400E;
+  --slot-full: #FEE2E2;
+  --slot-full-text: #991B1B;
+  --slot-selected: #10B981;
+  --slot-selected-text: #ffffff;
+  
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ========================================
+   STATES
+   ======================================== */
+
+.loading-state,
+.error-state,
+.closed-state,
+.no-slots-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  color: #64748b;
+}
+
+.loading-state .spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-state i,
+.closed-state i,
+.no-slots-state i {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.error-state i { color: #ef4444; }
+.closed-state i { color: #f59e0b; }
+.no-slots-state i { color: #94a3b8; }
+
+.error-state h4,
+.closed-state h4,
+.no-slots-state h4 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.error-state p,
+.closed-state p,
+.no-slots-state p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.btn-retry {
+  margin-top: 16px;
+  padding: 8px 16px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s;
+}
+
+.btn-retry:hover {
+  background: #5a67d8;
+}
+
+/* ========================================
+   SLOTS CONTAINER
+   ======================================== */
+
+.slots-container {
+  padding: 16px;
+}
+
+.slots-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.available-count {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #10b981;
+  font-weight: 500;
+}
+
+.available-count i {
+  font-size: 16px;
+}
+
+.btn-refresh {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.btn-refresh:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+/* ========================================
+   SLOT SECTIONS
+   ======================================== */
+
+.slot-section {
+  margin-bottom: 24px;
+}
+
+.slot-section:last-of-type {
+  margin-bottom: 16px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.section-title i {
+  font-size: 16px;
+  color: #667eea;
+}
+
+/* ========================================
+   SLOTS GRID
+   ======================================== */
+
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+}
+
+.slot-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 8px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 70px;
+}
+
+.slot-btn:focus {
+  outline: none;
+}
+
+.slot-btn:focus-visible {
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+/* Available */
+.slot-btn.available {
+  background: var(--slot-available);
+  color: var(--slot-available-text);
+}
+
+.slot-btn.available:hover:not(:disabled) {
+  background: #A7F3D0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+/* Limited */
+.slot-btn.limited {
+  background: var(--slot-limited);
+  color: var(--slot-limited-text);
+}
+
+.slot-btn.limited:hover:not(:disabled) {
+  background: #FDE68A;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+}
+
+/* Full */
+.slot-btn.full {
+  background: var(--slot-full);
+  color: var(--slot-full-text);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Selected */
+.slot-btn.selected {
+  background: var(--slot-selected);
+  color: var(--slot-selected-text);
+  border-color: #059669;
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* Disabled */
+.slot-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.slot-time {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.slot-capacity {
+  font-size: 11px;
+  margin-top: 4px;
+  opacity: 0.9;
+}
+
+/* ========================================
+   LEGEND
+   ======================================== */
+
+.slots-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+  justify-content: center;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+.legend-item.available .legend-dot {
+  background: var(--slot-available);
+  border: 1px solid var(--slot-available-text);
+}
+
+.legend-item.limited .legend-dot {
+  background: var(--slot-limited);
+  border: 1px solid var(--slot-limited-text);
+}
+
+.legend-item.full .legend-dot {
+  background: var(--slot-full);
+  border: 1px solid var(--slot-full-text);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 480px) {
+  .slots-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  
+  .slot-btn {
+    padding: 10px 6px;
+    min-height: 60px;
+  }
+  
+  .slot-time {
+    font-size: 14px;
+  }
+  
+  .slot-capacity {
+    font-size: 10px;
+  }
+  
+  .slots-legend {
+    gap: 12px;
+  }
+}

@@ -1,140 +1,609 @@
-
-<body class="bg-body-tertiary">
-
-<div class="container">
-
-  <main>
- 
-    <div class="py-5 text-center">
-      <img class="d-block mx-auto mb-4"  src="/assets/img/bi-removebg-preview.png" alt="" style="max-width: 80px;">
-      <h2>Personaliza tu cuenta</h2>
-      <p class="lead">actualiza tus datos para que sea mas facil reconocerte.</p>
+<div class="dashboard-wrapper">
+  <!-- Loading State -->
+  @if (loading) {
+    <div class="loading-overlay">
+      <div class="loading-content">
+        <div class="spinner-modern"></div>
+        <p>Cargando tu panel...</p>
+      </div>
     </div>
-   @if (users) {
+  }
 
-        <div class="row g-5">
-            <div class="col-md-5 col-lg-4 order-md-last">
-              <img src="{{users.imgUser}}" class="custom-picture"  style="cursor: pointer; margin-left: 25px;" alt="logo" height="80" width="80" >
-              <a [routerLink]="['/user', users.id, 'detail']" style="cursor: pointer; margin-left: 25px;">
-                <img src="{{users.imgUser}}" class="custom-picture" alt="logo" height="80" width="80">
-              </a>
-              <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-primary">Tus preferencias</span>
-                <span class="badge bg-primary rounded-pill">3</span>
-              </h4>
-              <ul class="list-group mb-3">
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                  <div>
-                    <h6 class="my-0">Restaurante favorito</h6>
-                    <small class="text-body-secondary">jehiel</small>
-                  </div>
-           
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                  <div>
-                    <h6 class="my-0">restaurante favorito</h6>
-                    <small class="text-body-secondary">jehiel</small>
-                  </div>
-            
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                  <div>
-                    <h6 class="my-0">Third item</h6>
-                    <small class="text-body-secondary">Brief description</small>
-                  </div>
-              
-                </li>
-              </ul>
-      
-              <form class="card p-2">
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="añada favoritos">
-                  <button type="submit" class="btn btn-secondary">añadir</button>
-                </div>
-              </form>
-               
-            </div>
-            
-            <div class="col-md-7 col-lg-8">
-              <h4 class="mb-3">Billing address</h4>
-              <form [formGroup]="registerUserForm" (ngSubmit)="save()" class="needs-validation" novalidate="">
-                <div class="row g-3">
-                  <div class="col-sm-6">
-                    <label for="firstName" class="form-label">Nombres</label>
-                    <input type="text" class="form-control" id="firstName" placeholder="{{users.firstName}}" value="firstName" required="">
-                    <div class="invalid-feedback">
-                      Valid first name is required.
-                    </div>
-                  </div>
-      
-                  <div class="col-sm-6">
-                    <label for="lastName" class="form-label">Apellidos</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="{{users.lastName}}" value="lastName" required="">
-                    <div class="invalid-feedback">
-                      Valid last name is required.
-                    </div>
-                  </div>
-      
-      
-                  <div class="col-12">
-                    <label for="email" class="form-label">Email <span class="text-body-secondary">(Optional)</span></label>
-                    <input type="email" class="form-control" id="email" placeholder="{{users.email}}">
-                    <div class="invalid-feedback">
-                      Please enter a valid email address for shipping updates.
-                    </div>
-                  </div>
-      
-                <div class="my-3">
-                  <label for="form-check" class="form-label">Genero</label>
-      
-                  <div class="form-check">
-                    <input  name="gender" type="radio" class="form-check-input"  required="">
-                    <label class="form-check-label" for="credit">Masculino</label>
-                  </div>
-                  <div class="form-check">
-                    <input name="paymentMethod" type="radio" class="form-check-input" required="">
-                    <label class="form-check-label" for="debit">Femenino</label>
-                  </div>
-      
-                </div>
-                <label class="form-check-label" for="photo">Foto de perfil</label>
-                <div class="input-group">
-                  <input type="file" class="form-control" id="photo" (change)="onFileChange($event)">
-                  <span>         <div class="col-lg-4 custom-col">
-                    @if (photoPreview) {
-                    <h2 class="my-5 text-center">Foto seleccionada</h2>
-                    <img class="img-fluid" alt="imguser" [src]="photoPreview">
-                    }
-                    @if (!photoPreview && users.imgUser) {
-                    <h2 class="my-5">Foto de portada</h2>
-                    <img class="img-fluid" alt="imguser" [src]="'http://localhost:8080/files/' + users.imgUser">
-                    }
-                  </div></span>
-                </div> 
-          
-                <hr class="my-4">
-      
-                <button class="w-100 btn btn-primary btn-lg" type="submit">Atualizar Datos</button>
-      
-             
-            
-            
-                </div>
-          
-            </form>
-          </div>
+  <!-- Error State -->
+  @if (error && !loading) {
+    <div class="error-container">
+      <div class="error-card">
+        <div class="error-icon">
+          <i class="bi bi-exclamation-triangle-fill"></i>
         </div>
-    
-   
-  }   
-  </main>
+        <h3>¡Ups! Algo salió mal</h3>
+        <p>{{ error }}</p>
+        <button class="btn-primary" (click)="refreshData()">
+          <i class="bi bi-arrow-clockwise"></i>
+          Intentar de nuevo
+        </button>
+      </div>
+    </div>
+  }
 
-  <footer class="my-5 pt-5 text-body-secondary text-center text-small">
-    <p class="mb-1">© 2025 Bite Food</p>
-  
-  
-  </footer>
+  <!-- Main Dashboard -->
+  @if (!loading && !error && user) {
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-header">
+        <div class="user-avatar">
+          @if (getUserAvatar()) {
+            <img [src]="getUserAvatar()" [alt]="user.firstName">
+          } @else {
+            <span class="avatar-initials">{{ getUserInitials() }}</span>
+          }
+        </div>
+        <div class="user-info">
+          <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+          <span class="user-email">{{ user.email }}</span>
+        </div>
+      </div>
 
+      <nav class="sidebar-nav">
+        <button 
+          class="nav-item" 
+          [class.active]="activeTab === 'overview'"
+          (click)="activeTab = 'overview'"
+        >
+          <i class="bi bi-house-fill"></i>
+          <span>Inicio</span>
+        </button>
+        <button 
+          class="nav-item" 
+          [class.active]="activeTab === 'bookings'"
+          (click)="activeTab = 'bookings'"
+        >
+          <i class="bi bi-calendar-check-fill"></i>
+          <span>Mis Reservas</span>
+          @if (stats.upcomingBookings > 0) {
+            <span class="nav-badge">{{ stats.upcomingBookings }}</span>
+          }
+        </button>
+        <button 
+          class="nav-item" 
+          [class.active]="activeTab === 'favorites'"
+          (click)="activeTab = 'favorites'"
+        >
+          <i class="bi bi-heart-fill"></i>
+          <span>Favoritos</span>
+          @if (stats.favoriteRestaurants > 0) {
+            <span class="nav-badge heart">{{ stats.favoriteRestaurants }}</span>
+          }
+        </button>
+        <button 
+          class="nav-item" 
+          [class.active]="activeTab === 'settings'"
+          (click)="activeTab = 'settings'"
+        >
+          <i class="bi bi-gear-fill"></i>
+          <span>Configuración</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a class="nav-item" routerLink="/restaurants">
+          <i class="bi bi-search"></i>
+          <span>Explorar restaurantes</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1 class="page-title">
+            @switch (activeTab) {
+              @case ('overview') { <i class="bi bi-house-fill"></i> Inicio }
+              @case ('bookings') { <i class="bi bi-calendar-check-fill"></i> Mis Reservas }
+              @case ('favorites') { <i class="bi bi-heart-fill"></i> Favoritos }
+              @case ('settings') { <i class="bi bi-gear-fill"></i> Configuración }
+            }
+          </h1>
+          <span class="greeting">{{ getGreeting() }}, {{ user.firstName }}!</span>
+        </div>
+        <div class="topbar-right">
+          <button class="btn-icon" (click)="refreshData()" title="Actualizar">
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
+          <a class="btn-primary-outline" routerLink="/restaurants">
+            <i class="bi bi-plus-lg"></i>
+            Nueva reserva
+          </a>
+        </div>
+      </header>
+
+      <!-- Tab Content -->
+      <div class="tab-content">
+
+        <!-- ==================== OVERVIEW TAB ==================== -->
+        @if (activeTab === 'overview') {
+          <div class="overview-grid">
+            <!-- Stats Cards -->
+            <section class="stats-row">
+              <div class="stat-card primary">
+                <div class="stat-icon">
+                  <i class="bi bi-calendar-week"></i>
+                </div>
+                <div class="stat-content">
+                  <span class="stat-value">{{ stats.upcomingBookings }}</span>
+                  <span class="stat-label">Próximas reservas</span>
+                </div>
+              </div>
+
+              <div class="stat-card success">
+                <div class="stat-icon">
+                  <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <div class="stat-content">
+                  <span class="stat-value">{{ stats.completedBookings }}</span>
+                  <span class="stat-label">Visitas completadas</span>
+                </div>
+              </div>
+
+              <div class="stat-card danger">
+                <div class="stat-icon">
+                  <i class="bi bi-heart-fill"></i>
+                </div>
+                <div class="stat-content">
+                  <span class="stat-value">{{ stats.favoriteRestaurants }}</span>
+                  <span class="stat-label">Restaurantes favoritos</span>
+                </div>
+              </div>
+
+              <div class="stat-card info">
+                <div class="stat-icon">
+                  <i class="bi bi-calendar-check"></i>
+                </div>
+                <div class="stat-content">
+                  <span class="stat-value">{{ stats.totalBookings }}</span>
+                  <span class="stat-label">Total reservas</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- Two Column Layout -->
+            <div class="two-column-grid">
+              <!-- Upcoming Bookings -->
+              <section class="panel upcoming-panel">
+                <div class="panel-header">
+                  <h3>
+                    <i class="bi bi-calendar-event text-primary"></i>
+                    Próximas reservas
+                  </h3>
+                  <button class="btn-link" (click)="activeTab = 'bookings'">Ver todas</button>
+                </div>
+                <div class="panel-body">
+                  @if (upcomingBookings.length === 0) {
+                    <div class="empty-state mini">
+                      <i class="bi bi-calendar-x"></i>
+                      <p>No tienes reservas próximas</p>
+                      <a class="btn-primary-sm" routerLink="/restaurants">Hacer una reserva</a>
+                    </div>
+                  } @else {
+                    <ul class="booking-list">
+                      @for (booking of upcomingBookings.slice(0, 4); track booking.id) {
+                        <li class="booking-item">
+                          <div class="booking-restaurant-img">
+                            @if (booking.restaurant?.imageUrl) {
+                              <img [src]="getRestaurantImage(booking.restaurant!)" [alt]="booking.restaurant?.name">
+                            } @else {
+                              <i class="bi bi-shop"></i>
+                            }
+                          </div>
+                          <div class="booking-info">
+                            <span class="booking-restaurant">{{ booking.restaurant?.name || 'Restaurante' }}</span>
+                            <span class="booking-meta">
+                              <i class="bi bi-calendar3"></i> {{ booking.bookingDate || formatDate(booking.createDate) }}
+                            </span>
+                            <span class="booking-meta">
+                              <i class="bi bi-people-fill"></i> {{ booking.numPeople || booking.numUsers || 1 }} personas
+                            </span>
+                          </div>
+                          <div class="booking-status">
+                            <span class="status-pill" [class]="getStatusConfig(getBookingStatus(booking)).bgClass">
+                              <i class="bi {{ getStatusConfig(getBookingStatus(booking)).icon }}"></i>
+                              {{ getStatusConfig(getBookingStatus(booking)).text }}
+                            </span>
+                          </div>
+                        </li>
+                      }
+                    </ul>
+                  }
+                </div>
+              </section>
+
+              <!-- Favorite Restaurants -->
+              <section class="panel favorites-panel">
+                <div class="panel-header">
+                  <h3>
+                    <i class="bi bi-heart-fill text-danger"></i>
+                    Restaurantes favoritos
+                  </h3>
+                  <button class="btn-link" (click)="activeTab = 'favorites'">Ver todos</button>
+                </div>
+                <div class="panel-body">
+                  @if (favoriteRestaurants.length === 0) {
+                    <div class="empty-state mini">
+                      <i class="bi bi-heart"></i>
+                      <p>No tienes restaurantes favoritos</p>
+                      <a class="btn-primary-sm" routerLink="/restaurants">Explorar restaurantes</a>
+                    </div>
+                  } @else {
+                    <div class="favorites-grid-mini">
+                      @for (restaurant of favoriteRestaurants.slice(0, 4); track restaurant.id) {
+                        <a class="favorite-card-mini" [routerLink]="['/restaurant', restaurant.id, 'detail']">
+                          <div class="fav-img">
+                            @if (getRestaurantImage(restaurant)) {
+                              <img [src]="getRestaurantImage(restaurant)" [alt]="restaurant.name">
+                            } @else {
+                              <i class="bi bi-shop"></i>
+                            }
+                          </div>
+                          <div class="fav-info">
+                            <span class="fav-name">{{ restaurant.name }}</span>
+                            <span class="fav-rating">
+                              <i class="bi bi-star-fill"></i>
+                              {{ restaurant.averageRating | number:'1.1-1' }}
+                            </span>
+                          </div>
+                        </a>
+                      }
+                    </div>
+                  }
+                </div>
+              </section>
+            </div>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions-section">
+              <h2 class="section-title">
+                <i class="bi bi-lightning-charge-fill"></i>
+                Acciones rápidas
+              </h2>
+              <div class="quick-actions-grid">
+                <a class="quick-action-card" routerLink="/restaurants" style="--accent-color: #667eea">
+                  <div class="action-icon">
+                    <i class="bi bi-search"></i>
+                  </div>
+                  <div class="action-content">
+                    <span class="action-label">Buscar restaurantes</span>
+                    <span class="action-description">Encuentra tu próximo destino</span>
+                  </div>
+                  <i class="bi bi-chevron-right action-arrow"></i>
+                </a>
+
+                <button class="quick-action-card" (click)="activeTab = 'bookings'" style="--accent-color: #10b981">
+                  <div class="action-icon">
+                    <i class="bi bi-calendar-check"></i>
+                  </div>
+                  <div class="action-content">
+                    <span class="action-label">Mis reservas</span>
+                    <span class="action-description">Gestiona tus citas</span>
+                  </div>
+                  <i class="bi bi-chevron-right action-arrow"></i>
+                </button>
+
+                <button class="quick-action-card" (click)="navigateToEditProfile()" style="--accent-color: #8b5cf6">
+                  <div class="action-icon">
+                    <i class="bi bi-person-gear"></i>
+                  </div>
+                  <div class="action-content">
+                    <span class="action-label">Editar perfil</span>
+                    <span class="action-description">Actualiza tus datos</span>
+                  </div>
+                  <i class="bi bi-chevron-right action-arrow"></i>
+                </button>
+
+                <button class="quick-action-card" (click)="activeTab = 'favorites'" style="--accent-color: #ef4444">
+                  <div class="action-icon">
+                    <i class="bi bi-heart"></i>
+                  </div>
+                  <div class="action-content">
+                    <span class="action-label">Mis favoritos</span>
+                    <span class="action-description">Restaurantes guardados</span>
+                  </div>
+                  <i class="bi bi-chevron-right action-arrow"></i>
+                </button>
+              </div>
+            </section>
+          </div>
+        }
+
+        <!-- ==================== BOOKINGS TAB ==================== -->
+        @if (activeTab === 'bookings') {
+          <div class="bookings-section">
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+              <button 
+                class="filter-tab" 
+                [class.active]="selectedBookingFilter === 'upcoming'"
+                (click)="filterBookings('upcoming')"
+              >
+                <i class="bi bi-calendar-week"></i>
+                Próximas
+                <span class="tab-count">{{ upcomingBookings.length }}</span>
+              </button>
+              <button 
+                class="filter-tab" 
+                [class.active]="selectedBookingFilter === 'history'"
+                (click)="filterBookings('history')"
+              >
+                <i class="bi bi-clock-history"></i>
+                Historial
+                <span class="tab-count">{{ historyBookings.length }}</span>
+              </button>
+              <button 
+                class="filter-tab" 
+                [class.active]="selectedBookingFilter === 'all'"
+                (click)="filterBookings('all')"
+              >
+                <i class="bi bi-list-ul"></i>
+                Todas
+                <span class="tab-count">{{ allBookings.length }}</span>
+              </button>
+            </div>
+
+            <!-- Bookings List -->
+            @if (filteredBookings.length === 0) {
+              <div class="empty-state">
+                <i class="bi bi-calendar-x"></i>
+                <h3>Sin reservas</h3>
+                <p>
+                  @if (selectedBookingFilter === 'upcoming') {
+                    No tienes reservas próximas programadas
+                  } @else if (selectedBookingFilter === 'history') {
+                    Aún no tienes historial de reservas
+                  } @else {
+                    No has realizado ninguna reserva
+                  }
+                </p>
+                <a class="btn-primary" routerLink="/restaurants">
+                  <i class="bi bi-plus-lg"></i>
+                  Hacer una reserva
+                </a>
+              </div>
+            } @else {
+              <div class="bookings-grid">
+                @for (booking of filteredBookings; track booking.id) {
+                  <article class="booking-card" [class]="getBookingStatus(booking).toLowerCase()">
+                    <div class="booking-card-header">
+                      <div class="restaurant-preview">
+                        @if (booking.restaurant?.imageUrl) {
+                          <img [src]="getRestaurantImage(booking.restaurant!)" [alt]="booking.restaurant?.name">
+                        } @else {
+                          <div class="restaurant-placeholder">
+                            <i class="bi bi-shop"></i>
+                          </div>
+                        }
+                      </div>
+                      <div class="booking-restaurant-info">
+                        <h3>{{ booking.restaurant?.name || 'Restaurante' }}</h3>
+                        <p class="restaurant-address">
+                          <i class="bi bi-geo-alt"></i>
+                          {{ booking.restaurant?.address || '' }}, {{ booking.restaurant?.city || '' }}
+                        </p>
+                      </div>
+                      <span class="status-badge" [class]="getStatusConfig(getBookingStatus(booking)).bgClass">
+                        <i class="bi {{ getStatusConfig(getBookingStatus(booking)).icon }}"></i>
+                        {{ getStatusConfig(getBookingStatus(booking)).text }}
+                      </span>
+                    </div>
+                    <div class="booking-card-body">
+                      <div class="booking-details-grid">
+                        <div class="detail-item">
+                          <i class="bi bi-calendar3"></i>
+                          <div>
+                            <span class="detail-label">Fecha</span>
+                            <span class="detail-value">{{ booking.bookingDate || formatDate(booking.createDate) }}</span>
+                          </div>
+                        </div>
+                        <div class="detail-item">
+                          <i class="bi bi-clock"></i>
+                          <div>
+                            <span class="detail-label">Hora</span>
+                            <span class="detail-value">{{ booking.bookingTime || formatTime(booking.createDate) }}</span>
+                          </div>
+                        </div>
+                        <div class="detail-item">
+                          <i class="bi bi-people-fill"></i>
+                          <div>
+                            <span class="detail-label">Personas</span>
+                            <span class="detail-value">{{ booking.numPeople || booking.numUsers || 1 }}</span>
+                          </div>
+                        </div>
+                        <div class="detail-item">
+                          <i class="bi" [class.bi-house]="booking.interior" [class.bi-sun]="!booking.interior"></i>
+                          <div>
+                            <span class="detail-label">Ubicación</span>
+                            <span class="detail-value">{{ booking.interior ? 'Interior' : 'Terraza' }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      @if (booking.observations) {
+                        <div class="booking-observations">
+                          <i class="bi bi-chat-left-text"></i>
+                          <span>{{ booking.observations }}</span>
+                        </div>
+                      }
+                      @if (booking.isPremium) {
+                        <div class="premium-tag">
+                          <i class="bi bi-gem"></i>
+                          Reserva Premium
+                        </div>
+                      }
+                    </div>
+                    <div class="booking-card-actions">
+                      <a class="btn-outline" [routerLink]="['/restaurant', booking.restaurant?.id, 'detail']">
+                        <i class="bi bi-eye"></i>
+                        Ver restaurante
+                      </a>
+                      @if (canCancel(booking)) {
+                        <button class="btn-danger-outline" (click)="openCancelModal(booking)">
+                          <i class="bi bi-x-circle"></i>
+                          Cancelar
+                        </button>
+                      }
+                    </div>
+                  </article>
+                }
+              </div>
+            }
+          </div>
+        }
+
+        <!-- ==================== FAVORITES TAB ==================== -->
+        @if (activeTab === 'favorites') {
+          <div class="favorites-section">
+            @if (favoriteRestaurants.length === 0) {
+              <div class="empty-state">
+                <i class="bi bi-heart"></i>
+                <h3>Sin favoritos</h3>
+                <p>Guarda tus restaurantes favoritos para acceder rápidamente a ellos</p>
+                <a class="btn-primary" routerLink="/restaurants">
+                  <i class="bi bi-search"></i>
+                  Explorar restaurantes
+                </a>
+              </div>
+            } @else {
+              <div class="favorites-grid">
+                @for (restaurant of favoriteRestaurants; track restaurant.id) {
+                  <article class="favorite-card">
+                    <div class="favorite-image">
+                      @if (getRestaurantImage(restaurant)) {
+                        <img [src]="getRestaurantImage(restaurant)" [alt]="restaurant.name">
+                      } @else {
+                        <div class="image-placeholder">
+                          <i class="bi bi-shop"></i>
+                        </div>
+                      }
+                      <button class="btn-remove-fav" (click)="removeFavorite(restaurant)" title="Quitar de favoritos">
+                        <i class="bi bi-heart-fill"></i>
+                      </button>
+                    </div>
+                    <div class="favorite-content">
+                      <h3>{{ restaurant.name }}</h3>
+                      <p class="favorite-type">{{ restaurant.restaurantType }}</p>
+                      <p class="favorite-location">
+                        <i class="bi bi-geo-alt"></i>
+                        {{ restaurant.city }}
+                      </p>
+                      <div class="favorite-footer">
+                        <span class="favorite-rating">
+                          <i class="bi bi-star-fill"></i>
+                          {{ restaurant.averageRating | number:'1.1-1' }}
+                        </span>
+                        <a class="btn-view" [routerLink]="['/restaurant', restaurant.id, 'detail']">
+                          Ver restaurante
+                          <i class="bi bi-arrow-right"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </article>
+                }
+              </div>
+            }
+          </div>
+        }
+
+        <!-- ==================== SETTINGS TAB ==================== -->
+        @if (activeTab === 'settings') {
+          <div class="settings-section">
+            <div class="settings-card">
+              <div class="settings-header">
+                <div class="settings-avatar">
+                  @if (getUserAvatar()) {
+                    <img [src]="getUserAvatar()" [alt]="user.firstName">
+                  } @else {
+                    <span class="avatar-initials large">{{ getUserInitials() }}</span>
+                  }
+                </div>
+                <div class="settings-info">
+                  <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+                  <p>{{ user.email }}</p>
+                </div>
+                <button class="btn-primary" (click)="navigateToEditProfile()">
+                  <i class="bi bi-pencil"></i>
+                  Editar perfil
+                </button>
+              </div>
+
+              <div class="settings-details">
+                <div class="detail-row">
+                  <span class="detail-label"><i class="bi bi-telephone"></i> Teléfono</span>
+                  <span class="detail-value">{{ user.phone || 'No especificado' }}</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label"><i class="bi bi-geo-alt"></i> Ciudad</span>
+                  <span class="detail-value">{{ user.city || 'No especificada' }}</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label"><i class="bi bi-calendar"></i> Fecha de nacimiento</span>
+                  <span class="detail-value">{{ user.birthdayDate ? formatDate(user.birthdayDate) : 'No especificada' }}</span>
+                </div>
+                @if (user.aboutMe) {
+                  <div class="detail-row full">
+                    <span class="detail-label"><i class="bi bi-person-lines-fill"></i> Sobre mí</span>
+                    <span class="detail-value">{{ user.aboutMe }}</span>
+                  </div>
+                }
+              </div>
+
+              <div class="settings-actions">
+                <button class="btn-outline" (click)="navigateToProfile()">
+                  <i class="bi bi-person"></i>
+                  Ver mi perfil público
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+
+      </div>
+    </main>
+  }
 </div>
-  
-</body>
+
+<!-- Cancel Booking Modal -->
+@if (showCancelModal && selectedBookingForCancel) {
+  <div class="modal-overlay" (click)="closeCancelModal()">
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2><i class="bi bi-x-circle text-danger"></i> Cancelar reserva</h2>
+        <button class="btn-close" (click)="closeCancelModal()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>¿Estás seguro de que quieres cancelar esta reserva?</p>
+        <div class="booking-preview">
+          <span><strong>{{ selectedBookingForCancel!.restaurant?.name || 'Restaurante' }}</strong></span>
+          <span>{{ selectedBookingForCancel!.bookingDate || formatDate(selectedBookingForCancel!.createDate) }}</span>
+          <span>{{ selectedBookingForCancel!.numPeople || selectedBookingForCancel!.numUsers || 1 }} personas</span>
+        </div>
+        <div class="form-group">
+          <label for="cancelReason">Motivo de cancelación (opcional)</label>
+          <textarea 
+            id="cancelReason" 
+            [(ngModel)]="cancelReason"
+            placeholder="Cuéntanos por qué cancelas..."
+            rows="3"
+          ></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="closeCancelModal()">Volver</button>
+        <button class="btn-danger" (click)="confirmCancel()">
+          <i class="bi bi-x-circle"></i>
+          Cancelar reserva
+        </button>
+      </div>
+    </div>
+  </div>
+}

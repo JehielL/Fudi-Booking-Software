@@ -1,0 +1,200 @@
+<div class="closed-dates">
+  <!-- Header -->
+  <div class="section-header">
+    <div class="header-info">
+      <h3><i class="bi bi-calendar-x"></i> Fechas Cerradas</h3>
+      <p>Gestiona los días que tu restaurante estará cerrado</p>
+    </div>
+    <button class="btn-add" (click)="openForm()">
+      <i class="bi bi-plus-lg"></i>
+      Añadir fecha
+    </button>
+  </div>
+
+  <!-- Loading -->
+  @if (loading) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando fechas...</p>
+    </div>
+  }
+
+  <!-- Content -->
+  @if (!loading) {
+    <!-- Empty State -->
+    @if (closedDates.length === 0 && !showForm) {
+      <div class="empty-state">
+        <i class="bi bi-calendar-check"></i>
+        <h4>Sin fechas cerradas</h4>
+        <p>Tu restaurante no tiene días especiales de cierre programados</p>
+        <button class="btn-add-first" (click)="openForm()">
+          <i class="bi bi-plus-lg"></i>
+          Añadir primera fecha
+        </button>
+      </div>
+    }
+
+    <!-- Add Form -->
+    @if (showForm) {
+      <div class="add-form">
+        <div class="form-header">
+          <h4>Nueva fecha cerrada</h4>
+          <button class="btn-close-form" (click)="closeForm()">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        
+        <div class="form-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="closedDate">Fecha *</label>
+              <input 
+                type="date" 
+                id="closedDate"
+                [(ngModel)]="newDate"
+                [min]="getMinDate()"
+                required
+              >
+            </div>
+            <div class="form-group flex-2">
+              <label for="closedReason">Motivo (opcional)</label>
+              <input 
+                type="text" 
+                id="closedReason"
+                [(ngModel)]="newReason"
+                placeholder="Ej: Vacaciones, Festivo local..."
+              >
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <label class="checkbox-group">
+              <input type="checkbox" [(ngModel)]="newIsRecurring">
+              <span class="checkmark"></span>
+              <span class="checkbox-label">
+                <strong>Repetir cada año</strong>
+                <small>Ideal para festivos como Navidad, Año Nuevo...</small>
+              </span>
+            </label>
+          </div>
+
+          <div class="quick-add">
+            <span>Añadir rápido:</span>
+            <button type="button" (click)="addChristmas()" class="btn-quick">
+              🎄 Navidad
+            </button>
+            <button type="button" (click)="addNewYear()" class="btn-quick">
+              🎆 Año Nuevo
+            </button>
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <button class="btn-cancel" (click)="closeForm()">Cancelar</button>
+          <button 
+            class="btn-save" 
+            [disabled]="!newDate || saving"
+            (click)="addClosedDate()"
+          >
+            @if (saving) {
+              <span class="spinner-small"></span>
+              Guardando...
+            } @else {
+              <i class="bi bi-check-lg"></i>
+              Guardar
+            }
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- Recurring Dates -->
+    @if (recurringDates.length > 0) {
+      <div class="dates-section">
+        <h4 class="section-title">
+          <i class="bi bi-arrow-repeat"></i>
+          Fechas recurrentes (cada año)
+        </h4>
+        <div class="dates-grid">
+          @for (cd of recurringDates; track cd.id) {
+            <div class="date-card recurring">
+              <div class="date-icon">
+                <i class="bi bi-calendar-heart"></i>
+              </div>
+              <div class="date-info">
+                <span class="date-value">{{ formatShortDate(cd.closedDate) }}</span>
+                @if (cd.reason) {
+                  <span class="date-reason">{{ cd.reason }}</span>
+                }
+                <span class="date-badge recurring">
+                  <i class="bi bi-arrow-repeat"></i> Cada año
+                </span>
+              </div>
+              <button class="btn-remove" (click)="removeClosedDate(cd)" title="Eliminar">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Upcoming Dates -->
+    @if (upcomingDates.length > 0) {
+      <div class="dates-section">
+        <h4 class="section-title">
+          <i class="bi bi-calendar-event"></i>
+          Próximos cierres
+        </h4>
+        <div class="dates-grid">
+          @for (cd of upcomingDates; track cd.id) {
+            @if (!cd.isRecurringYearly) {
+              <div class="date-card upcoming">
+                <div class="date-icon">
+                  <i class="bi bi-calendar-x"></i>
+                </div>
+                <div class="date-info">
+                  <span class="date-value">{{ formatShortDate(cd.closedDate) }}</span>
+                  @if (cd.reason) {
+                    <span class="date-reason">{{ cd.reason }}</span>
+                  }
+                </div>
+                <button class="btn-remove" (click)="removeClosedDate(cd)" title="Eliminar">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            }
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Past Dates (collapsed by default) -->
+    @if (pastDates.length > 0) {
+      <details class="dates-section past">
+        <summary class="section-title clickable">
+          <i class="bi bi-clock-history"></i>
+          Fechas pasadas ({{ pastDates.length }})
+        </summary>
+        <div class="dates-grid">
+          @for (cd of pastDates; track cd.id) {
+            <div class="date-card past">
+              <div class="date-icon">
+                <i class="bi bi-calendar-check"></i>
+              </div>
+              <div class="date-info">
+                <span class="date-value">{{ formatShortDate(cd.closedDate) }}</span>
+                @if (cd.reason) {
+                  <span class="date-reason">{{ cd.reason }}</span>
+                }
+              </div>
+              <button class="btn-remove" (click)="removeClosedDate(cd)" title="Eliminar">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          }
+        </div>
+      </details>
+    }
+  }
+</div>

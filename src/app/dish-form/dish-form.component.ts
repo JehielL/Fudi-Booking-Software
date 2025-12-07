@@ -1,7 +1,8 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Dish } from '../Interfaces/dish.model';
 import { Menu } from '../Interfaces/menu.model';
 import AOS from 'aos';
@@ -11,7 +12,7 @@ import { AuthenticationService } from '../services/authentication.service';
 @Component({
   selector: 'app-dish-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './dish-form.component.html',
   styleUrl: './dish-form.component.css'
 })
@@ -146,7 +147,7 @@ export class DishFormComponent implements OnInit {
   }
 
 
-  private navigateToList() {
+  navigateToList() {
     this.router.navigate(['/menus', this.menu?.id, 'detail']);
   }
 

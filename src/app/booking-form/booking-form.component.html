@@ -1,5 +1,4 @@
 @if (showSpinner) {
-
   <section class="dots-container">
     <div class="dot"></div>
     <div class="dot"></div>
@@ -7,117 +6,266 @@
     <div class="dot"></div>
     <div class="dot"></div>
   </section>
+} @else {
 
-}@else {
-<div class="container-fluid">
-  <h1 class="custom-title">¡ Reservar ahora !</h1>
-  <div class="row">
-    <div class="col mt-5 ">
-      <div class="card card-cover rounded-4 shadow-lg bg-dark text-white">
-        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-          <h3 class="mt-2 mb-4 display-6 lh-1 fw-bold"></h3>
-          <div class="reservation-info">
-            <p> Reserva a nombre de: {{ user?.firstName }} {{ user?.lastName }}</p>
-            <p> Fecha de reservación: {{ bookingForm.get('createDate')?.value  | date:'dd/MM/yy HH:mm'}}</p>
-            <p> Numero de Clientes: {{ bookingForm.get('numUsers')?.value }}</p>
-            <p>Observaciones: {{ bookingForm.get('observations')?.value }}</p>
-            <p>Estado de reserva: {{ bookingForm.get('status')?.value }}</p>
-            <p>Numero de mesa: {{ bookingForm.get('numTable')?.value }}</p>
-            <p>Interior: {{ bookingForm.get('interior')?.value }}</p>
-            <p>Servicios Extra: {{bookingForm.get('extraService')?.value}}</p>
-          </div>
-          <ul class="d-flex list-unstyled mt-3">
-            
-          </ul>
+<div class="booking-page">
+  <!-- Header con imagen del restaurante -->
+  <header class="booking-header smoke-hero">
+    <div class="header-overlay"></div>
+    <div class="header-content">
+      <div class="restaurant-badge">
+        <i class="bi bi-shop"></i>
+      </div>
+      <h1 class="restaurant-name">{{ restaurant?.name || 'Reservar Mesa' }}</h1>
+      @if (restaurant?.address) {
+        <p class="restaurant-location">
+          <i class="bi bi-geo-alt"></i> {{ restaurant?.address }}
+        </p>
+      }
+    </div>
+  </header>
+
+  <!-- Resumen de reserva flotante -->
+  <div class="booking-summary-card">
+    <div class="summary-header">
+      <i class="bi bi-bookmark-check"></i>
+      <span>Resumen de tu reserva</span>
+    </div>
+    <div class="summary-grid">
+      <div class="summary-item">
+        <i class="bi bi-person-circle"></i>
+        <div class="summary-text">
+          <span class="label">A nombre de</span>
+          <span class="value">{{ user?.firstName }} {{ user?.lastName }}</span>
+        </div>
+      </div>
+      <div class="summary-item">
+        <i class="bi bi-calendar-event"></i>
+        <div class="summary-text">
+          <span class="label">Fecha</span>
+          <span class="value">{{ formatDateDisplay(bookingForm.get('bookingDate')?.value) }}</span>
+        </div>
+      </div>
+      <div class="summary-item">
+        <i class="bi bi-clock"></i>
+        <div class="summary-text">
+          <span class="label">Hora</span>
+          <span class="value">{{ bookingForm.get('bookingTime')?.value || '--:--' }}</span>
+        </div>
+      </div>
+      <div class="summary-item">
+        <i class="bi bi-people"></i>
+        <div class="summary-text">
+          <span class="label">Personas</span>
+          <span class="value">{{ bookingForm.get('numPeople')?.value }} personas</span>
+        </div>
+      </div>
+      <div class="summary-item">
+        <i class="bi bi-pin-map"></i>
+        <div class="summary-text">
+          <span class="label">Ubicación</span>
+          <span class="value">{{ bookingForm.get('interior')?.value ? 'Interior' : 'Terraza' }}</span>
         </div>
       </div>
     </div>
-    <div class="col form-side">
+  </div>
 
-      @if (isUpdate) {
-      <h3 class="mt-5 mb-5 text-center">Actualizar reserva existente con id: {{bookingForm.get('id')?.value}}</h3>
-      }
-      
-      @if (restaurant ) {
-        <h2 class="mt-5 mb-5  custom-title">Reserva de {{restaurant.name}}</h2>
-      } @else if (restaurant) {
-        <h2 class="mt-5 mb-5  custom-title">Reservar en {{restaurant.name}</h2>
-      }
+  <!-- Formulario principal -->
+  <main class="booking-main">
+    <form [formGroup]="bookingForm" (ngSubmit)="save()" class="booking-form">
+      <input type="hidden" formControlName="id">
 
-      <form [formGroup]="bookingForm" (ngSubmit)="save()">
+      <!-- Paso 1: Fecha y personas -->
+      <section class="form-section">
+        <div class="section-header">
+          <span class="step-number">1</span>
+          <h3>¿Cuándo y cuántos?</h3>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="bookingDate">
+              <i class="bi bi-calendar3"></i> Fecha
+            </label>
+            <input 
+              type="date" 
+              id="bookingDate" 
+              formControlName="bookingDate" 
+              required
+              (change)="onDateChange()"
+              class="modern-input">
+          </div>
+          <div class="form-group">
+            <label for="numPeople">
+              <i class="bi bi-people-fill"></i> Personas
+            </label>
+            <div class="people-selector">
+              <button type="button" class="people-btn" (click)="decrementPeople()">
+                <i class="bi bi-dash"></i>
+              </button>
+              <input 
+                type="number" 
+                id="numPeople" 
+                formControlName="numPeople" 
+                min="1" 
+                max="20"
+                class="people-input"
+                readonly>
+              <button type="button" class="people-btn" (click)="incrementPeople()">
+                <i class="bi bi-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <input type="hidden" formControlName="id">
-      
-        <div class="form-floating mb-3">
-          <input type="datetime-local" class="form-control" id="createDate" formControlName="createDate">
-          <label for="createDate">Fecha de Reservación.</label>
+      <!-- Paso 2: Horario -->
+      <section class="form-section">
+        <div class="section-header">
+          <span class="step-number">2</span>
+          <h3>Elige tu horario</h3>
+        </div>
+        
+        @if (showTimeSlotPicker && restaurant?.id && bookingForm.get('bookingDate')?.value) {
+          <app-time-slot-picker
+            [restaurantId]="restaurant!.id"
+            [date]="bookingForm.get('bookingDate')!.value!"
+            [numPeople]="bookingForm.get('numPeople')?.value || 2"
+            (slotSelected)="onSlotSelected($event)">
+          </app-time-slot-picker>
+          
+          @if (selectedSlot) {
+            <div class="selected-slot-badge">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>{{ selectedSlot.time }} - {{ selectedSlot.remainingCapacity }} plazas disponibles</span>
+            </div>
+          }
+        } @else {
+          <div class="form-group">
+            <label for="bookingTime">
+              <i class="bi bi-clock-fill"></i> Hora
+            </label>
+            <input 
+              type="time" 
+              id="bookingTime" 
+              formControlName="bookingTime" 
+              required
+              class="modern-input">
+          </div>
+          <p class="hint-text">
+            <i class="bi bi-info-circle"></i> 
+            Selecciona primero una fecha para ver los horarios disponibles
+          </p>
+        }
+      </section>
+
+      <!-- Paso 3: Preferencias -->
+      <section class="form-section">
+        <div class="section-header">
+          <span class="step-number">3</span>
+          <h3>Preferencias</h3>
+        </div>
+        
+        <!-- Selector Interior/Terraza -->
+        <div class="location-toggle">
+          <button 
+            type="button" 
+            class="location-btn" 
+            [class.active]="bookingForm.get('interior')?.value"
+            (click)="setInterior(true)">
+            <i class="bi bi-house-door"></i>
+            <span>Interior</span>
+          </button>
+          <button 
+            type="button" 
+            class="location-btn" 
+            [class.active]="!bookingForm.get('interior')?.value"
+            (click)="setInterior(false)">
+            <i class="bi bi-sun"></i>
+            <span>Terraza</span>
+          </button>
         </div>
 
-        <div class="form-floating mb-3">
-          <input type="number" class="form-control" id="numUsers" formControlName="numUsers" step="1">
-          <label for="numUsers">Numero de Usuarios</label>
+        <div class="form-row">
+          <div class="form-group full-width">
+            <label for="observations">
+              <i class="bi bi-chat-text"></i> Observaciones
+            </label>
+            <input 
+              type="text" 
+              id="observations" 
+              formControlName="observations" 
+              placeholder="Ej: Celebración de cumpleaños, aniversario..."
+              class="modern-input">
+          </div>
         </div>
 
-        <div class="mb-3">
-          <label for="observations" class="form-label">Observaciones de reserva</label>
-          <input type="text" class="form-control" id="observations" formControlName="observations">
+        <div class="form-row">
+          <div class="form-group full-width">
+            <label for="specialRequests">
+              <i class="bi bi-star"></i> Peticiones especiales
+            </label>
+            <input 
+              type="text" 
+              id="specialRequests" 
+              formControlName="specialRequests" 
+              placeholder="Ej: Mesa cerca de ventana, silla para bebé..."
+              class="modern-input">
+          </div>
         </div>
+      </section>
 
-        @if (isAdmin) {
-          <div class="form-floating mb-3">
-            <input type="number" class="form-control" id="numTable" formControlName="numTable" step="1">
-            <label for="numTable">Numero de mesa</label>
+      <!-- Paso 4: Contacto (opcional) -->
+      <section class="form-section collapsible">
+        <div class="section-header clickable" (click)="toggleContactSection()">
+          <span class="step-number optional">+</span>
+          <h3>Datos de contacto <span class="optional-badge">Opcional</span></h3>
+          <i class="bi" [class.bi-chevron-down]="!showContactSection" [class.bi-chevron-up]="showContactSection"></i>
+        </div>
+        
+        @if (showContactSection) {
+          <div class="form-row animated">
+            <div class="form-group">
+              <label for="contactName">
+                <i class="bi bi-person"></i> Nombre
+              </label>
+              <input 
+                type="text" 
+                id="contactName" 
+                formControlName="contactName" 
+                placeholder="Nombre de contacto"
+                class="modern-input">
+            </div>
+            <div class="form-group">
+              <label for="contactPhone">
+                <i class="bi bi-telephone"></i> Teléfono
+              </label>
+              <input 
+                type="tel" 
+                id="contactPhone" 
+                formControlName="contactPhone" 
+                placeholder="+34 600 000 000"
+                class="modern-input">
+            </div>
           </div>
         }
-        
+      </section>
 
-
- <!--
-        <div class="form-floating mb-3">
-          <select class="form-select" id="restaurant" formControlName="restaurant" [compareWith]="compareObjects">
-
-
-    
-            @if (restaurant) {
-            <option [ngValue]="restaurant">{{restaurant.name}}</option>
-            <label for="restaurant">Restaurant asociado</label>
-            }
-
-          </select>
-         
-        </div>-->
-        <div class="form-check mb-3">
-          <input class="form-check-input" type="checkbox" id="status" formControlName="status">
-          <label class="form-check-label" for="status" style="cursor:pointer;">
-            Reserva confirmada(sí o no)
-          </label>
-        </div>
-        <div class="form-check mb-3">
-          <input class="form-check-input" type="checkbox" id="interior" formControlName="interior">
-          <label class="form-check-label" for="interior">
-            Interior
-          </label>
-        </div>
-       
-        <div class="form floating mb-3 mt-3">
-          <label for="extraService">Servicios Adicionales</label>
-          <select class="form-select" id="extraService" formControlName="extraService" >
-            <option value="Vallet Parking">Vallet Parking</option>
-            <option value="Bar incluido">Bar incluido</option>
-            <option value="Ropero">Ropero</option>
-          </select>
-          
-        </div>
-
+      <!-- Botón de envío -->
+      <div class="submit-section">
         @if (isUpdate) {
-
-          
-        <button class="btn" type="submit">Actualizar</button>
+          <button type="submit" class="submit-btn update">
+            <i class="bi bi-pencil-square"></i>
+            <span>Actualizar Reserva</span>
+          </button>
         } @else {
-        <button class="btn " type="submit">Crear</button>
+          <button type="submit" class="submit-btn">
+            <i class="bi bi-check2-circle"></i>
+            <span>Confirmar Reserva</span>
+          </button>
         }
-      </form>
-    </div>
-  </div>
+      </div>
+    </form>
+  </main>
 </div>
+
 }

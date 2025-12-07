@@ -375,3 +375,285 @@ a{
 
   
 }
+
+/* ===== MEJORAS PARA DROPDOWNS ===== */
+
+/* Dropdown Menu - Diseño mejorado (aplica a TODOS los dropdowns) */
+.dropdown-menu,
+[ngbDropdownMenu] {
+    background: #ffffff !important;
+    border: 1px solid rgba(146, 102, 68, 0.2) !important;
+    border-radius: 12px !important;
+    box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.18),
+        0 2px 8px rgba(0, 0, 0, 0.12) !important;
+    padding: 8px !important;
+    margin-top: 8px !important;
+    min-width: 220px !important;
+    
+    /* Animación suave de entrada */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.95);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    pointer-events: none;
+}
+
+.dropdown-menu.show,
+[ngbDropdownMenu].show {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) scale(1) !important;
+    pointer-events: auto !important;
+}
+
+/* Dropdown Items - Estilo mejorado (aplica a todos los items) */
+.dropdown-item,
+[ngbDropdownItem],
+.dropdown-menu a {
+    color: #1a1a1a !important;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 14.5px !important;
+    letter-spacing: 0.2px !important;
+    padding: 11px 15px !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-bottom: 3px !important;
+    background: #ffffff !important;
+}
+
+.dropdown-item:last-child,
+[ngbDropdownItem]:last-child,
+.dropdown-menu a:last-child {
+    margin-bottom: 0 !important;
+}
+
+.dropdown-item:hover,
+[ngbDropdownItem]:hover,
+.dropdown-menu a:hover {
+    background: #f5f0eb !important;
+    color: #8b5a3c !important;
+    transform: translateX(4px) !important;
+    font-weight: 600 !important;
+}
+
+.dropdown-item:active,
+[ngbDropdownItem]:active,
+.dropdown-menu a:active {
+    background: #ebe3db !important;
+    color: #6d3d22 !important;
+}
+
+/* Iconos en dropdown items */
+.dropdown-item i,
+[ngbDropdownItem] i,
+.dropdown-menu a i {
+    font-size: 16px !important;
+    width: 18px !important;
+    text-align: center !important;
+    opacity: 0.7 !important;
+    transition: opacity 0.2s ease !important;
+}
+
+.dropdown-item:hover i,
+[ngbDropdownItem]:hover i,
+.dropdown-menu a:hover i {
+    opacity: 1 !important;
+}
+
+/* Flecha del dropdown toggle con animación */
+.dropdown-toggle::after,
+[ngbDropdownToggle]::after {
+    transition: transform 0.3s ease !important;
+}
+
+.dropdown.show .dropdown-toggle::after,
+.show [ngbDropdownToggle]::after,
+[ngbDropdown].show .dropdown-toggle::after {
+    transform: rotate(180deg) !important;
+}
+
+/* Animación de entrada para cada item */
+.dropdown-menu.show .dropdown-item,
+.dropdown-menu.show [ngbDropdownItem],
+.dropdown-menu.show a,
+[ngbDropdownMenu].show .dropdown-item,
+[ngbDropdownMenu].show [ngbDropdownItem],
+[ngbDropdownMenu].show a {
+    animation: fadeInItem 0.3s ease forwards !important;
+    opacity: 0;
+}
+
+.dropdown-menu.show .dropdown-item:nth-child(1),
+.dropdown-menu.show [ngbDropdownItem]:nth-child(1),
+.dropdown-menu.show a:nth-child(1),
+[ngbDropdownMenu].show *:nth-child(1) { animation-delay: 0.05s !important; }
+
+.dropdown-menu.show .dropdown-item:nth-child(2),
+.dropdown-menu.show [ngbDropdownItem]:nth-child(2),
+.dropdown-menu.show a:nth-child(2),
+[ngbDropdownMenu].show *:nth-child(2) { animation-delay: 0.08s !important; }
+
+.dropdown-menu.show .dropdown-item:nth-child(3),
+.dropdown-menu.show [ngbDropdownItem]:nth-child(3),
+.dropdown-menu.show a:nth-child(3),
+[ngbDropdownMenu].show *:nth-child(3) { animation-delay: 0.11s !important; }
+
+.dropdown-menu.show .dropdown-item:nth-child(4),
+.dropdown-menu.show [ngbDropdownItem]:nth-child(4),
+.dropdown-menu.show a:nth-child(4),
+[ngbDropdownMenu].show *:nth-child(4) { animation-delay: 0.14s !important; }
+
+.dropdown-menu.show .dropdown-item:nth-child(5),
+.dropdown-menu.show [ngbDropdownItem]:nth-child(5),
+.dropdown-menu.show a:nth-child(5),
+[ngbDropdownMenu].show *:nth-child(5) { animation-delay: 0.17s !important; }
+
+.dropdown-menu.show .dropdown-item:nth-child(6),
+.dropdown-menu.show [ngbDropdownItem]:nth-child(6),
+.dropdown-menu.show a:nth-child(6),
+[ngbDropdownMenu].show *:nth-child(6) { animation-delay: 0.20s !important; }
+
+@keyframes fadeInItem {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Cursor pointer en elementos interactivos */
+.dropdown-toggle,
+.dropdown-item,
+[ngbDropdownToggle],
+[ngbDropdownItem],
+[ngbDropdownMenu] a {
+    cursor: pointer !important;
+}
+
+/* Separador visual entre grupos de items (si hay) */
+.dropdown-divider {
+    margin: 6px 0 !important;
+    border-top: 1px solid rgba(146, 102, 68, 0.1) !important;
+}
+
+/* Asegurar que app-kitchen y otros componentes dentro de dropdown también tengan el estilo */
+[ngbDropdownMenu] > * {
+    width: 100%;
+}
+
+[ngbDropdownMenu] app-kitchen {
+    display: block;
+    width: 100%;
+}
+
+/* Estilos específicos para el dropdown de kitchen - Con mayor especificidad */
+.navbar [ngbDropdownMenu] app-kitchen .cocinas-container,
+.navbar .dropdown-menu app-kitchen .cocinas-container {
+    position: static !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+.navbar [ngbDropdownMenu] app-kitchen ul,
+.navbar .dropdown-menu app-kitchen ul {
+    list-style-type: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    padding-right: 4px !important;
+    position: static !important;
+    width: 100% !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    max-height: 320px !important;
+    overflow-y: auto !important;
+    border-radius: 0 !important;
+}
+
+.navbar [ngbDropdownMenu] app-kitchen li,
+.navbar .dropdown-menu app-kitchen li {
+    padding: 11px 15px !important;
+    border-bottom: none !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+    margin-bottom: 3px !important;
+    color: #1a1a1a !important;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 14.5px !important;
+    letter-spacing: 0.2px !important;
+    background: #ffffff !important;
+}
+
+.navbar [ngbDropdownMenu] app-kitchen li:last-child,
+.navbar .dropdown-menu app-kitchen li:last-child {
+    margin-bottom: 0 !important;
+}
+
+.navbar [ngbDropdownMenu] app-kitchen li:hover,
+.navbar .dropdown-menu app-kitchen li:hover {
+    background: #f5f0eb !important;
+    color: #8b5a3c !important;
+    transform: translateX(4px) !important;
+    font-weight: 600 !important;
+}
+
+/* Scrollbar para kitchen dropdown */
+.navbar [ngbDropdownMenu] app-kitchen ul::-webkit-scrollbar,
+.navbar .dropdown-menu app-kitchen ul::-webkit-scrollbar {
+    width: 6px !important;
+}
+
+.navbar [ngbDropdownMenu] app-kitchen ul::-webkit-scrollbar-track,
+.navbar .dropdown-menu app-kitchen ul::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05) !important;
+    border-radius: 10px !important;
+}
+
+.navbar [ngbDropdownMenu] app-kitchen ul::-webkit-scrollbar-thumb,
+.navbar .dropdown-menu app-kitchen ul::-webkit-scrollbar-thumb {
+    background: rgba(146, 102, 68, 0.3) !important;
+    border-radius: 10px !important;
+}
+
+.navbar [ngbDropdownMenu] app-kitchen ul::-webkit-scrollbar-thumb:hover,
+.navbar .dropdown-menu app-kitchen ul::-webkit-scrollbar-thumb:hover {
+    background: rgba(146, 102, 68, 0.5) !important;
+}
+
+/* Animación para los items de kitchen */
+.navbar [ngbDropdownMenu].show app-kitchen li,
+.navbar .dropdown-menu.show app-kitchen li {
+    animation: fadeInItem 0.3s ease forwards !important;
+    opacity: 0;
+}
+
+.navbar [ngbDropdownMenu].show app-kitchen li:nth-child(1),
+.navbar .dropdown-menu.show app-kitchen li:nth-child(1) { animation-delay: 0.05s !important; }
+.navbar [ngbDropdownMenu].show app-kitchen li:nth-child(2),
+.navbar .dropdown-menu.show app-kitchen li:nth-child(2) { animation-delay: 0.08s !important; }
+.navbar [ngbDropdownMenu].show app-kitchen li:nth-child(3),
+.navbar .dropdown-menu.show app-kitchen li:nth-child(3) { animation-delay: 0.11s !important; }
+.navbar [ngbDropdownMenu].show app-kitchen li:nth-child(4),
+.navbar .dropdown-menu.show app-kitchen li:nth-child(4) { animation-delay: 0.14s !important; }
+.navbar [ngbDropdownMenu].show app-kitchen li:nth-child(5),
+.navbar .dropdown-menu.show app-kitchen li:nth-child(5) { animation-delay: 0.17s !important; }
+.navbar [ngbDropdownMenu].show app-kitchen li:nth-child(6),
+.navbar .dropdown-menu.show app-kitchen li:nth-child(6) { animation-delay: 0.20s !important; }
+.navbar [ngbDropdownMenu].show app-kitchen li:nth-child(7),
+.navbar .dropdown-menu.show app-kitchen li:nth-child(7) { animation-delay: 0.23s !important; }
+.navbar [ngbDropdownMenu].show app-kitchen li:nth-child(8),
+.navbar .dropdown-menu.show app-kitchen li:nth-child(8) { animation-delay: 0.26s !important; }
+.navbar [ngbDropdownMenu].show app-kitchen li:nth-child(9),
+.navbar .dropdown-menu.show app-kitchen li:nth-child(9) { animation-delay: 0.29s !important; }
+.navbar [ngbDropdownMenu].show app-kitchen li:nth-child(10),
+.navbar .dropdown-menu.show app-kitchen li:nth-child(10) { animation-delay: 0.32s !important; }

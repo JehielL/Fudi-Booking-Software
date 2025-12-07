@@ -16,38 +16,96 @@
   background-color: #0056b3; 
 }
 
+/* Estilos actualizados para dropdown del navbar */
 .cocinas-container {
-  position: absolute;
-  max-width: 200px;
-  width: 100%;
+  position: static !important;
+  max-width: 100% !important;
+  width: 100% !important;
 }
 
 ul {
-  list-style-type: none;
-  margin: 0;
-  position: relative;
-  width: 100%;
-  background: white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  max-height: 300px;
-  overflow-y: auto;
-  border-radius: 0 0 5px 5px;
+  list-style-type: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  padding-right: 4px !important;
+  position: static !important;
+  width: 100% !important;
+  box-shadow: none !important;
+  max-height: 320px !important;
+  overflow-y: auto !important;
+  border-radius: 0 !important;
+}
+
+/* Scrollbar personalizado */
+ul::-webkit-scrollbar {
+  width: 6px !important;
+}
+
+ul::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-radius: 10px !important;
+}
+
+ul::-webkit-scrollbar-thumb {
+  background: rgba(146, 102, 68, 0.3) !important;
+  border-radius: 10px !important;
+}
+
+ul::-webkit-scrollbar-thumb:hover {
+  background: rgba(146, 102, 68, 0.5) !important;
 }
 
 li {
-  padding: 10px 15px; /* Aumento del padding para dar más espacio */
-  border-bottom: 1px solid #eee;
-  transition: background-color 0.3s ease;
+  padding: 11px 15px !important;
+  border-bottom: none !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+  margin-bottom: 3px !important;
+  color: #1a1a1a !important;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 14.5px !important;
+  letter-spacing: 0.2px !important;
+  background: #ffffff !important;
 }
 
 li:last-child {
-  border-bottom: none;
+  border-bottom: none !important;
+  margin-bottom: 0 !important;
 }
 
 li:hover {
-  background-color: #f0f0f0;
+  background: #f5f0eb !important;
+  color: #8b5a3c !important;
+  transform: translateX(4px) !important;
+  font-weight: 600 !important;
+}
+
+/* Animación de entrada para los items */
+@keyframes fadeInItem {
+  from {
+    opacity: 1;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 li {
-  cursor: pointer;
+  animation: fadeInItem 0.3s ease forwards;
+  opacity: 1;
 }
+
+li:nth-child(1) { animation-delay: 0.05s; }
+li:nth-child(2) { animation-delay: 0.08s; }
+li:nth-child(3) { animation-delay: 0.11s; }
+li:nth-child(4) { animation-delay: 0.14s; }
+li:nth-child(5) { animation-delay: 0.17s; }
+li:nth-child(6) { animation-delay: 0.20s; }
+li:nth-child(7) { animation-delay: 0.23s; }
+li:nth-child(8) { animation-delay: 0.26s; }
+li:nth-child(9) { animation-delay: 0.29s; }
+li:nth-child(10) { animation-delay: 0.32s; }

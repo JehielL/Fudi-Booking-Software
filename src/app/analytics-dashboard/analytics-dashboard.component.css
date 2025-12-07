@@ -1,0 +1,606 @@
+/* ===========================================
+   ANALYTICS DASHBOARD - ESTILOS MODERNOS
+   =========================================== */
+
+:host {
+  --primary: #FFA33C;
+  --primary-dark: #e8922e;
+  --secondary: #03e1d6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --dark: #1a1a2e;
+  --gray: #6c757d;
+  --light: #f8f9fa;
+  --radius: 16px;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.analytics-container {
+  padding: 1.5rem;
+}
+
+/* ============ HEADER ============ */
+.analytics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.header-title i {
+  font-size: 1.5rem;
+  color: var(--primary);
+}
+
+.header-title h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.restaurant-badge {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.refresh-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--dark);
+  transition: all 0.2s ease;
+}
+
+.refresh-btn:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.refresh-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.refresh-btn i.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ============ SELECTOR DE RANGO ============ */
+.range-selector {
+  background: white;
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+}
+
+.preset-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.preset-btn {
+  padding: 0.5rem 1rem;
+  border: 2px solid #e9ecef;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray);
+  transition: all 0.2s ease;
+}
+
+.preset-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.preset-btn.active {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  border-color: var(--primary);
+  color: white;
+}
+
+.custom-range {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.date-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.date-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.date-field label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray);
+  text-transform: uppercase;
+}
+
+.date-field input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.date-field input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.apply-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.apply-btn:hover {
+  background: var(--primary-dark);
+}
+
+.range-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e9ecef;
+  color: var(--gray);
+  font-size: 0.9rem;
+}
+
+.range-label i {
+  color: var(--primary);
+}
+
+/* ============ ESTADOS ============ */
+.loading-state,
+.error-state,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #e9ecef;
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-state p,
+.empty-state p {
+  margin-top: 1rem;
+  color: var(--gray);
+}
+
+.error-state i {
+  font-size: 3rem;
+  color: var(--danger);
+}
+
+.error-state p {
+  margin: 1rem 0;
+  color: var(--dark);
+  font-weight: 500;
+}
+
+.retry-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--danger);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.empty-state i {
+  font-size: 4rem;
+  color: #dee2e6;
+}
+
+.empty-state h3 {
+  margin: 1rem 0 0.5rem;
+  color: var(--dark);
+}
+
+/* ============ STATS GRID ============ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.3s ease;
+  border-left: 4px solid #e9ecef;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card.primary {
+  border-left-color: var(--primary);
+}
+
+.stat-card.success {
+  border-left-color: var(--success);
+}
+
+.stat-card.warning {
+  border-left-color: var(--warning);
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--light);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: var(--primary);
+}
+
+.stat-card.success .stat-icon { color: var(--success); }
+.stat-card.warning .stat-icon { color: var(--warning); }
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--gray);
+}
+
+/* ============ CHART SECTION ============ */
+.chart-section,
+.table-section {
+  background: white;
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1.25rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.section-title i {
+  color: var(--primary);
+}
+
+/* ============ BAR CHART ============ */
+.bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.bar-label {
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.day-name {
+  display: block;
+  font-weight: 600;
+  color: var(--dark);
+  font-size: 0.95rem;
+}
+
+.day-short {
+  display: none;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.bar-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  height: 36px;
+  background: #f1f3f5;
+  border-radius: 8px;
+  padding: 4px;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 4px;
+}
+
+.bar.highest {
+  box-shadow: 0 4px 12px rgba(255, 163, 60, 0.4);
+}
+
+.bar-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--dark);
+  white-space: nowrap;
+}
+
+.bar-value.outside {
+  position: relative;
+  left: 8px;
+}
+
+.bar-value .percentage {
+  color: var(--gray);
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+
+/* ============ DATA TABLE ============ */
+.data-table {
+  overflow-x: auto;
+}
+
+.data-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--gray);
+  border-bottom: 2px solid #e9ecef;
+}
+
+.data-table td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tr.highlight {
+  background: linear-gradient(135deg, rgba(255, 163, 60, 0.05) 0%, rgba(255, 163, 60, 0.02) 100%);
+}
+
+.day-label {
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.count-badge {
+  display: inline-block;
+  min-width: 40px;
+  text-align: center;
+  padding: 0.25rem 0.5rem;
+  background: var(--light);
+  border-radius: 6px;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.percentage-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 120px;
+}
+
+.percentage-bar .fill {
+  height: 8px;
+  background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.percentage-bar span {
+  font-size: 0.85rem;
+  color: var(--gray);
+  min-width: 40px;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-badge.high {
+  background: rgba(255, 163, 60, 0.15);
+  color: var(--primary-dark);
+}
+
+.status-badge.normal {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--success);
+}
+
+.status-badge.low {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--warning);
+}
+
+.status-badge.empty {
+  background: #f1f3f5;
+  color: var(--gray);
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+  .analytics-container {
+    padding: 1rem;
+  }
+  
+  .analytics-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .preset-buttons {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 0.5rem;
+  }
+  
+  .preset-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  
+  .date-inputs {
+    flex-direction: column;
+  }
+  
+  .date-field {
+    width: 100%;
+  }
+  
+  .date-field input {
+    width: 100%;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .bar-label {
+    width: 50px;
+  }
+  
+  .day-name {
+    display: none;
+  }
+  
+  .day-short {
+    display: block;
+  }
+  
+  .bar-value .percentage {
+    display: none;
+  }
+  
+  .data-table th:nth-child(4),
+  .data-table td:nth-child(4) {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stat-card {
+    padding: 1rem;
+  }
+  
+  .stat-value {
+    font-size: 1.25rem;
+  }
+}

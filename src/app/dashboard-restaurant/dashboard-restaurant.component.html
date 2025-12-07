@@ -1,0 +1,912 @@
+<div class="dashboard-wrapper">
+  <!-- Loading State -->
+  @if (loading) {
+    <div class="loading-overlay">
+      <div class="loading-content">
+        <div class="spinner-modern"></div>
+        <p>Cargando panel de control...</p>
+      </div>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error && !loading) {
+    <div class="error-container">
+      <div class="error-card">
+        <div class="error-icon">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+        </div>
+        <h3>¡Ups! Algo salió mal</h3>
+        <p>{{ error }}</p>
+        <button class="btn-primary" (click)="refreshData()">
+          <i class="bi bi-arrow-clockwise"></i>
+          Intentar de nuevo
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Main Dashboard -->
+  @if (!loading && !error && restaurant) {
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-header has-selector">
+        <div class="restaurant-avatar">
+          @if (getRestaurantImage()) {
+            <img [src]="getRestaurantImage()" [alt]="restaurantName">
+          } @else {
+            <i class="bi bi-shop"></i>
+          }
+        </div>
+        <div class="restaurant-info">
+          <h2>{{ restaurantName }}</h2>
+          <span class="status-badge online">
+            <span class="status-dot"></span>
+            Abierto
+          </span>
+        </div>
+        <button class="btn-switch-restaurant" (click)="toggleRestaurantSelector()" [class.active]="showRestaurantSelector">
+          <i class="bi bi-chevron-down"></i>
+        </button>
+      </div>
+
+      <!-- Selector de restaurantes -->
+      @if (showRestaurantSelector) {
+        <div class="restaurant-selector">
+          <div class="selector-header">
+            <i class="bi bi-building"></i>
+            <span>Mis restaurantes ({{ restaurants.length }})</span>
+          </div>
+          <ul class="restaurant-list">
+            @for (rest of restaurants; track rest.id) {
+              <li 
+                class="restaurant-option" 
+                [class.active]="rest.id === restaurantId"
+                (click)="selectRestaurant(rest)"
+              >
+                <div class="option-avatar">
+                  @if (rest.imageUrl) {
+                    <img [src]="rest.imageUrl.startsWith('http') ? rest.imageUrl : 'http://localhost:8080/files/' + rest.imageUrl" [alt]="rest.name">
+                  } @else {
+                    <i class="bi bi-shop"></i>
+                  }
+                </div>
+                <div class="option-info">
+                  <span class="option-name">{{ rest.name }}</span>
+                  <span class="option-type">{{ rest.restaurantType || 'Restaurante' }}</span>
+                </div>
+                @if (rest.id === restaurantId) {
+                  <i class="bi bi-check-circle-fill option-check"></i>
+                }
+              </li>
+            }
+            @if (restaurants.length === 0) {
+              <li class="restaurant-option empty">
+                <i class="bi bi-info-circle"></i>
+                <span>No tienes restaurantes</span>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+      <nav class="sidebar-nav">
+        <button 
+          class="nav-item" 
+          [class.active]="activeTab === 'overview'"
+          (click)="activeTab = 'overview'"
+        >
+          <i class="bi bi-grid-1x2-fill"></i>
+          <span>Resumen</span>
+        </button>
+        <button 
+          class="nav-item" 
+          [class.active]="activeTab === 'bookings'"
+          (click)="activeTab = 'bookings'"
+        >
+          <i class="bi bi-calendar-check-fill"></i>
+          <span>Reservas</span>
+          @if (pendingBookingsCount > 0) {
+            <span class="nav-badge">{{ pendingBookingsCount }}</span>
+          }
+        </button>
+        <button 
+          class="nav-item" 
+          [class.active]="activeTab === 'promotions'"
+          (click)="activeTab = 'promotions'"
+        >
+          <i class="bi bi-gift-fill"></i>
+          <span>Promociones</span>
+          @if (activePromotionsCount > 0) {
+            <span class="nav-badge success">{{ activePromotionsCount }}</span>
+          }
+        </button>
+        <button 
+          class="nav-item" 
+          [class.active]="activeTab === 'analytics'"
+          (click)="activeTab = 'analytics'"
+        >
+          <i class="bi bi-graph-up-arrow"></i>
+          <span>Analíticas</span>
+        </button>
+        <button 
+          class="nav-item" 
+          [class.active]="activeTab === 'settings'"
+          (click)="activeTab = 'settings'"
+        >
+          <i class="bi bi-clock-history"></i>
+          <span>Horarios</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a class="nav-item" [routerLink]="['/restaurant', restaurantId, 'detail']">
+          <i class="bi bi-eye"></i>
+          <span>Ver restaurante</span>
+        </a>
+        <a class="nav-item" [routerLink]="['/restaurants', restaurantId, 'update']">
+          <i class="bi bi-gear"></i>
+          <span>Configuración</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1 class="page-title">
+            @switch (activeTab) {
+              @case ('overview') { <i class="bi bi-grid-1x2-fill"></i> Resumen }
+              @case ('bookings') { <i class="bi bi-calendar-check-fill"></i> Reservas }
+              @case ('promotions') { <i class="bi bi-gift-fill"></i> Promociones }
+              @case ('analytics') { <i class="bi bi-graph-up-arrow"></i> Analíticas }
+              @case ('settings') { <i class="bi bi-clock-history"></i> Horarios y Disponibilidad }
+            }
+          </h1>
+          <span class="greeting">{{ getGreeting() }}, ¡bienvenido de vuelta!</span>
+        </div>
+        <div class="topbar-right">
+          <div class="datetime-widget">
+            <span class="time">{{ getCurrentTimeFormatted() }}</span>
+            <span class="date">{{ getCurrentDateFormatted() }}</span>
+          </div>
+          <button class="btn-icon" (click)="refreshData()" title="Actualizar datos">
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Tab Content -->
+      <div class="tab-content">
+
+        <!-- ==================== OVERVIEW TAB ==================== -->
+        @if (activeTab === 'overview') {
+          <div class="overview-grid">
+            <!-- Stats Cards Row -->
+            <section class="stats-row">
+              <div class="stat-card primary">
+                <div class="stat-icon">
+                  <i class="bi bi-calendar-day"></i>
+                </div>
+                <div class="stat-content">
+                  <span class="stat-value">{{ todayBookingsCount }}</span>
+                  <span class="stat-label">Reservas hoy</span>
+                </div>
+                <div class="stat-footer">
+                  <i class="bi bi-people-fill"></i> {{ todayPeople }} personas
+                </div>
+              </div>
+
+              <div class="stat-card warning">
+                <div class="stat-icon">
+                  <i class="bi bi-hourglass-split"></i>
+                </div>
+                <div class="stat-content">
+                  <span class="stat-value">{{ pendingBookingsCount }}</span>
+                  <span class="stat-label">Pendientes</span>
+                </div>
+                <div class="stat-footer">
+                  Requieren atención
+                </div>
+              </div>
+
+              <div class="stat-card success">
+                <div class="stat-icon">
+                  <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <div class="stat-content">
+                  <span class="stat-value">{{ monthlyConfirmed }}</span>
+                  <span class="stat-label">Confirmadas mes</span>
+                </div>
+                <div class="stat-footer">
+                  @if (getMonthlyOccupancyTrend() === 'up') {
+                    <span class="trend up"><i class="bi bi-arrow-up"></i> {{ getOccupancyPercentageChange() }}%</span>
+                  } @else if (getMonthlyOccupancyTrend() === 'down') {
+                    <span class="trend down"><i class="bi bi-arrow-down"></i> {{ getOccupancyPercentageChange() }}%</span>
+                  } @else {
+                    <span class="trend stable">Sin cambios</span>
+                  }
+                </div>
+              </div>
+
+              <div class="stat-card info">
+                <div class="stat-icon">
+                  <i class="bi bi-star-fill"></i>
+                </div>
+                <div class="stat-content">
+                  <span class="stat-value">{{ averageRating | number:'1.1-1' }}</span>
+                  <span class="stat-label">Valoración</span>
+                </div>
+                <div class="stat-footer">
+                  {{ totalReviews }} reseñas
+                </div>
+              </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions-section">
+              <h2 class="section-title">
+                <i class="bi bi-lightning-charge-fill"></i>
+                Acciones rápidas
+              </h2>
+              <div class="quick-actions-grid">
+                @for (action of quickActions; track action.label) {
+                  @if (action.route.length > 0) {
+                    <a class="quick-action-card" [routerLink]="action.route" [style.--accent-color]="action.color">
+                      <div class="action-icon">
+                        <i class="bi {{ action.icon }}"></i>
+                      </div>
+                      <div class="action-content">
+                        <span class="action-label">{{ action.label }}</span>
+                        <span class="action-description">{{ action.description }}</span>
+                      </div>
+                      <i class="bi bi-chevron-right action-arrow"></i>
+                    </a>
+                  } @else {
+                    <button class="quick-action-card" (click)="handleQuickAction(action)" [style.--accent-color]="action.color">
+                      <div class="action-icon">
+                        <i class="bi {{ action.icon }}"></i>
+                      </div>
+                      <div class="action-content">
+                        <span class="action-label">{{ action.label }}</span>
+                        <span class="action-description">{{ action.description }}</span>
+                      </div>
+                      <i class="bi bi-chevron-right action-arrow"></i>
+                    </button>
+                  }
+                }
+              </div>
+            </section>
+
+            <!-- Two Column Layout -->
+            <div class="two-column-grid">
+              <!-- Pending Bookings -->
+              <section class="panel pending-bookings-panel">
+                <div class="panel-header">
+                  <h3>
+                    <i class="bi bi-hourglass-split text-warning"></i>
+                    Reservas pendientes
+                  </h3>
+                  <span class="badge-count warning">{{ pendingBookingsDisplay.length }}</span>
+                </div>
+                <div class="panel-body">
+                  @if (pendingBookingsDisplay.length === 0) {
+                    <div class="empty-state mini">
+                      <i class="bi bi-check-all"></i>
+                      <p>No hay reservas pendientes</p>
+                    </div>
+                  } @else {
+                    <ul class="booking-list">
+                      @for (booking of pendingBookingsDisplay.slice(0, 5); track booking.id) {
+                        <li class="booking-item pending">
+                          <div class="booking-avatar">
+                            <i class="bi bi-person-fill"></i>
+                          </div>
+                          <div class="booking-info">
+                            <span class="booking-name">{{ booking.userName }}</span>
+                            <span class="booking-meta">
+                              <i class="bi bi-calendar3"></i> {{ booking.date }}
+                              <i class="bi bi-clock ms-2"></i> {{ booking.time }}
+                              <i class="bi bi-people-fill ms-2"></i> {{ booking.partySize || booking.numPeople || booking.numUsers || 1 }}
+                            </span>
+                          </div>
+                          <div class="booking-actions-mini">
+                            <button class="btn-mini success" (click)="confirmBooking(booking)" title="Confirmar">
+                              <i class="bi bi-check-lg"></i>
+                            </button>
+                            <button class="btn-mini danger" (click)="openRejectModal(booking)" title="Rechazar">
+                              <i class="bi bi-x-lg"></i>
+                            </button>
+                          </div>
+                        </li>
+                      }
+                    </ul>
+                    @if (pendingBookingsDisplay.length > 5) {
+                      <button class="btn-see-all" (click)="activeTab = 'bookings'; selectedBookingFilter = BookingStatus.PENDING; applyBookingFilters()">
+                        Ver todas ({{ pendingBookingsDisplay.length }})
+                      </button>
+                    }
+                  }
+                </div>
+              </section>
+
+              <!-- Today's Bookings -->
+              <section class="panel today-bookings-panel">
+                <div class="panel-header">
+                  <h3>
+                    <i class="bi bi-calendar-day text-primary"></i>
+                    Reservas de hoy
+                  </h3>
+                  <span class="badge-count primary">{{ todayBookingsDisplay.length }}</span>
+                </div>
+                <div class="panel-body">
+                  @if (todayBookingsDisplay.length === 0) {
+                    <div class="empty-state mini">
+                      <i class="bi bi-calendar-x"></i>
+                      <p>Sin reservas para hoy</p>
+                    </div>
+                  } @else {
+                    <ul class="booking-list timeline">
+                      @for (booking of todayBookingsDisplay; track booking.id) {
+                        <li class="booking-item timeline-item" [class.confirmed]="booking.status === BookingStatus.CONFIRMED" [class.completed]="booking.status === BookingStatus.COMPLETED">
+                          <span class="timeline-time">{{ booking.time }}</span>
+                          <div class="timeline-content">
+                            <span class="booking-name">{{ booking.userName }}</span>
+                            <span class="booking-party">
+                              <i class="bi bi-people-fill"></i> {{ booking.partySize || booking.numPeople || booking.numUsers || 1 }} personas
+                            </span>
+                          </div>
+                          <span class="status-pill" [class]="getStatusConfig(booking.status).bgClass">
+                            <i class="bi {{ getStatusConfig(booking.status).icon }}"></i>
+                            {{ getStatusConfig(booking.status).text }}
+                          </span>
+                          @if (booking.status === BookingStatus.CONFIRMED) {
+                            <div class="booking-actions-mini">
+                              <button class="btn-mini info" (click)="completeBooking(booking)" title="Completar">
+                                <i class="bi bi-check-circle"></i>
+                              </button>
+                              <button class="btn-mini warning" (click)="markNoShow(booking)" title="No asistió">
+                                <i class="bi bi-person-x"></i>
+                              </button>
+                            </div>
+                          }
+                        </li>
+                      }
+                    </ul>
+                  }
+                </div>
+              </section>
+            </div>
+
+            <!-- Active Promotions Preview -->
+            @if (activePromotions.length > 0) {
+              <section class="panel promotions-preview-panel">
+                <div class="panel-header">
+                  <h3>
+                    <i class="bi bi-gift-fill text-success"></i>
+                    Promociones activas
+                  </h3>
+                  <button class="btn-link" (click)="activeTab = 'promotions'">Ver todas</button>
+                </div>
+                <div class="promotions-preview-grid">
+                  @for (promo of activePromotions.slice(0, 3); track promo.id) {
+                    <div class="promo-card-mini">
+                      <div class="promo-type-badge" [style.background]="getPromotionTypeConfig(promo.type).color">
+                        <i class="bi {{ getPromotionTypeConfig(promo.type).icon }}"></i>
+                      </div>
+                      <div class="promo-info">
+                        <h4>{{ promo.title }}</h4>
+                        <span class="promo-value">
+                          @if (promo.type === PromotionType.PERCENTAGE) {
+                            {{ promo.discountValue }}% dto
+                          } @else if (promo.type === PromotionType.FIXED) {
+                            {{ promo.discountValue }}€ dto
+                          } @else if (promo.type === PromotionType.TWO_FOR_ONE) {
+                            2x1
+                          } @else {
+                            Gratis
+                          }
+                        </span>
+                      </div>
+                      <span class="promo-usage">{{ promo.usageCount }} usos</span>
+                    </div>
+                  }
+                </div>
+              </section>
+            }
+          </div>
+        }
+
+        <!-- ==================== BOOKINGS TAB ==================== -->
+        @if (activeTab === 'bookings') {
+          <div class="bookings-section">
+            <!-- Filters Bar -->
+            <div class="filters-bar">
+              <div class="filter-pills">
+                @for (filter of bookingStatusFilters; track filter.status) {
+                  <button 
+                    class="filter-pill" 
+                    [class.active]="selectedBookingFilter === filter.status"
+                    (click)="filterBookingsByStatus(filter.status)"
+                  >
+                    <i class="bi {{ filter.icon }}"></i>
+                    {{ filter.label }}
+                    <span class="pill-count">{{ filter.count }}</span>
+                  </button>
+                }
+              </div>
+              <div class="search-filters">
+                <div class="search-input">
+                  <i class="bi bi-search"></i>
+                  <input 
+                    type="text" 
+                    placeholder="Buscar por nombre, email..." 
+                    [(ngModel)]="bookingSearchTerm"
+                    (input)="applyBookingFilters()"
+                  >
+                </div>
+                <input 
+                  type="date" 
+                  class="date-filter"
+                  [(ngModel)]="bookingDateFilter"
+                  (change)="applyBookingFilters()"
+                >
+              </div>
+            </div>
+
+            <!-- Bookings Table -->
+            <div class="table-container">
+              @if (filteredBookings.length === 0) {
+                <div class="empty-state">
+                  <i class="bi bi-calendar-x"></i>
+                  <h3>Sin resultados</h3>
+                  <p>No se encontraron reservas con los filtros seleccionados</p>
+                  <button class="btn-secondary" (click)="selectedBookingFilter = 'all'; bookingSearchTerm = ''; bookingDateFilter = ''; applyBookingFilters()">
+                    Limpiar filtros
+                  </button>
+                </div>
+              } @else {
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Cliente</th>
+                      <th>Fecha/Hora</th>
+                      <th>Personas</th>
+                      <th>Mesa</th>
+                      <th>Estado</th>
+                      <th>Observaciones</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (booking of filteredBookings; track booking.id) {
+                      <tr [class]="getBookingStatus(booking).toLowerCase()">
+                        <td class="client-cell">
+                          <div class="client-avatar">
+                            <i class="bi bi-person-fill"></i>
+                          </div>
+                          <div class="client-info">
+                            <span class="client-name">{{ booking.user?.firstName || booking.contactName || 'Cliente' }} {{ booking.user?.lastName || '' }}</span>
+                            <span class="client-email">{{ booking.user?.email || booking.contactPhone || '-' }}</span>
+                          </div>
+                          @if (booking.isPremium) {
+                            <span class="premium-tag"><i class="bi bi-gem"></i></span>
+                          }
+                        </td>
+                        <td>
+                          <div class="datetime-cell">
+                            <span class="date"><i class="bi bi-calendar3"></i> {{ booking.bookingDate || booking.date || formatDate(booking.createDate) || formatDate(booking.createdAt) || 'Sin fecha' }}</span>
+                            <span class="time"><i class="bi bi-clock"></i> {{ booking.bookingTime || booking.time || formatTime(booking.createDate) || formatTime(booking.createdAt) || 'Sin hora' }}</span>
+                          </div>
+                        </td>
+                        <td class="center">
+                          <span class="party-badge">
+                            <i class="bi bi-people-fill"></i> {{ booking.numPeople || booking.numUsers || 1 }}
+                          </span>
+                        </td>
+                        <td class="center">
+                          <span class="table-badge">
+                            @if (booking.interior) {
+                              <i class="bi bi-house"></i>
+                            } @else {
+                              <i class="bi bi-sun"></i>
+                            }
+                            Mesa {{ booking.tableNumber || booking.numTable || '-' }}
+                          </span>
+                        </td>
+                        <td>
+                          <span class="status-badge" [class]="getStatusConfig(getBookingStatus(booking)).bgClass">
+                            <i class="bi {{ getStatusConfig(getBookingStatus(booking)).icon }}"></i>
+                            {{ getStatusConfig(getBookingStatus(booking)).text }}
+                          </span>
+                        </td>
+                        <td class="observations-cell">
+                          @if (booking.observations) {
+                            <span class="observations-text" [title]="booking.observations">
+                              {{ booking.observations }}
+                            </span>
+                          } @else {
+                            <span class="no-data">-</span>
+                          }
+                        </td>
+                        <td class="actions-cell">
+                          @switch (getBookingStatus(booking)) {
+                            @case (BookingStatus.PENDING) {
+                              <button class="btn-action success" (click)="confirmBookingFromList(booking)" title="Confirmar">
+                                <i class="bi bi-check-lg"></i>
+                              </button>
+                              <button class="btn-action danger" (click)="rejectBookingFromList(booking)" title="Rechazar">
+                                <i class="bi bi-x-lg"></i>
+                              </button>
+                            }
+                            @case (BookingStatus.CONFIRMED) {
+                              <button class="btn-action info" (click)="completeBookingFromList(booking)" title="Completar">
+                                <i class="bi bi-check-circle"></i>
+                              </button>
+                              <button class="btn-action warning" (click)="markNoShowFromList(booking)" title="No asistió">
+                                <i class="bi bi-person-x"></i>
+                              </button>
+                              <button class="btn-action danger" (click)="cancelBookingFromList(booking)" title="Cancelar">
+                                <i class="bi bi-x-circle"></i>
+                              </button>
+                            }
+                            @default {
+                              <span class="no-actions">-</span>
+                            }
+                          }
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- ==================== PROMOTIONS TAB ==================== -->
+        @if (activeTab === 'promotions') {
+          <div class="promotions-section">
+            <!-- Header con botón de crear -->
+            <div class="section-header-bar">
+              <div class="header-info">
+                <h2>Gestiona tus promociones</h2>
+                <p>Crea ofertas atractivas para tus clientes</p>
+              </div>
+              <button class="btn-primary" (click)="openPromotionForm()">
+                <i class="bi bi-plus-lg"></i>
+                Nueva promoción
+              </button>
+            </div>
+
+            <!-- Stats mini -->
+            <div class="promo-stats-row">
+              <div class="promo-stat">
+                <span class="stat-number">{{ promotions.length }}</span>
+                <span class="stat-label">Total</span>
+              </div>
+              <div class="promo-stat active">
+                <span class="stat-number">{{ activePromotions.length }}</span>
+                <span class="stat-label">Activas</span>
+              </div>
+              <div class="promo-stat featured">
+                <span class="stat-number">{{ featuredPromotions.length }}</span>
+                <span class="stat-label">Destacadas</span>
+              </div>
+            </div>
+
+            <!-- Promotions Grid -->
+            @if (promotions.length === 0) {
+              <div class="empty-state">
+                <i class="bi bi-gift"></i>
+                <h3>Sin promociones</h3>
+                <p>Crea tu primera promoción para atraer más clientes</p>
+                <button class="btn-primary" (click)="openPromotionForm()">
+                  <i class="bi bi-plus-lg"></i>
+                  Crear promoción
+                </button>
+              </div>
+            } @else {
+              <div class="promotions-grid">
+                @for (promo of promotions; track promo.id) {
+                  <article class="promotion-card" [class.inactive]="!promo.active" [class.featured]="promo.featured">
+                    <div class="promo-card-header">
+                      <div class="promo-type" [style.background]="getPromotionTypeConfig(promo.type).color">
+                        <i class="bi {{ getPromotionTypeConfig(promo.type).icon }}"></i>
+                        {{ getPromotionTypeConfig(promo.type).label }}
+                      </div>
+                      <div class="promo-badges">
+                        @if (promo.featured) {
+                          <span class="badge featured"><i class="bi bi-star-fill"></i></span>
+                        }
+                        @if (!promo.active) {
+                          <span class="badge inactive">Inactiva</span>
+                        }
+                      </div>
+                    </div>
+                    <div class="promo-card-body">
+                      <h3>{{ promo.title }}</h3>
+                      <p>{{ promo.description }}</p>
+                      <div class="promo-value-display">
+                        @if (promo.type === PromotionType.PERCENTAGE) {
+                          <span class="value">{{ promo.discountValue }}%</span>
+                          <span class="label">descuento</span>
+                        } @else if (promo.type === PromotionType.FIXED) {
+                          <span class="value">{{ promo.discountValue }}€</span>
+                          <span class="label">descuento</span>
+                        } @else if (promo.type === PromotionType.TWO_FOR_ONE) {
+                          <span class="value">2x1</span>
+                          <span class="label">promoción</span>
+                        } @else {
+                          <span class="value"><i class="bi bi-gift"></i></span>
+                          <span class="label">artículo gratis</span>
+                        }
+                      </div>
+                    </div>
+                    <div class="promo-card-meta">
+                      <span class="meta-item">
+                        <i class="bi bi-calendar-range"></i>
+                        {{ formatDate(promo.validFrom) }} - {{ formatDate(promo.validUntil) }}
+                      </span>
+                      <span class="meta-item">
+                        <i class="bi bi-graph-up"></i>
+                        {{ promo.usageCount }} usos
+                      </span>
+                    </div>
+                    <div class="promo-card-actions">
+                      <button 
+                        class="btn-toggle" 
+                        [class.active]="promo.active"
+                        (click)="togglePromotionActive(promo)"
+                        [title]="promo.active ? 'Desactivar' : 'Activar'"
+                      >
+                        <i class="bi" [class.bi-toggle-on]="promo.active" [class.bi-toggle-off]="!promo.active"></i>
+                      </button>
+                      <button 
+                        class="btn-star" 
+                        [class.featured]="promo.featured"
+                        (click)="togglePromotionFeatured(promo)"
+                        title="Destacar"
+                      >
+                        <i class="bi" [class.bi-star-fill]="promo.featured" [class.bi-star]="!promo.featured"></i>
+                      </button>
+                      <button class="btn-edit" (click)="editPromotion(promo)" title="Editar">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn-delete" (click)="deletePromotion(promo)" title="Eliminar">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </article>
+                }
+              </div>
+            }
+          </div>
+        }
+
+        <!-- ==================== ANALYTICS TAB ==================== -->
+        @if (activeTab === 'analytics') {
+          <div class="analytics-section">
+            <!-- Analytics Dashboard Component -->
+            <app-analytics-dashboard
+              [restaurantId]="restaurantId!"
+              [restaurantName]="restaurantName"
+              (dataLoaded)="onAnalyticsLoaded($event)"
+              (errorOccurred)="onAnalyticsError($event)"
+            ></app-analytics-dashboard>
+
+            <!-- Monthly Stats Preview (datos adicionales del dashboard existente) -->
+            @if (monthlyStats.length > 0) {
+              <section class="panel monthly-stats-panel">
+                <div class="panel-header">
+                  <h3><i class="bi bi-calendar-month"></i> Tendencia mensual</h3>
+                </div>
+                <div class="monthly-chart">
+                  @for (month of monthlyStats; track month.month) {
+                    <div class="month-bar">
+                      <div class="bar-container">
+                        <div class="bar confirmed" [style.height.%]="(month.confirmed / (month.totalBookings || 1)) * 100"></div>
+                        <div class="bar cancelled" [style.height.%]="(month.cancelled / (month.totalBookings || 1)) * 100"></div>
+                        <div class="bar noshow" [style.height.%]="(month.noShow / (month.totalBookings || 1)) * 100"></div>
+                      </div>
+                      <span class="month-label">{{ month.month }}</span>
+                      <span class="month-value">{{ month.totalBookings }}</span>
+                    </div>
+                  }
+                </div>
+                <div class="chart-legend">
+                  <span class="legend-item"><span class="color confirmed"></span> Confirmadas</span>
+                  <span class="legend-item"><span class="color cancelled"></span> Canceladas</span>
+                  <span class="legend-item"><span class="color noshow"></span> No asistió</span>
+                </div>
+              </section>
+            }
+          </div>
+        }
+
+        <!-- ==================== SETTINGS TAB (FASE 2A) ==================== -->
+        @if (activeTab === 'settings') {
+          <div class="settings-section">
+            <!-- Schedule Config -->
+            <app-schedule-config 
+              [restaurantId]="restaurantId!"
+              (saved)="onScheduleSaved()"
+              (error)="onScheduleError($event)"
+            ></app-schedule-config>
+
+            <!-- Closed Dates -->
+            <div class="settings-spacer"></div>
+            <app-closed-dates 
+              [restaurantId]="restaurantId!"
+            ></app-closed-dates>
+          </div>
+        }
+
+      </div>
+    </main>
+  }
+</div>
+
+<!-- ==================== MODALS ==================== -->
+
+<!-- Reject Booking Modal -->
+@if (showRejectModal) {
+  <div class="modal-overlay" (click)="closeRejectModal()">
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2><i class="bi bi-x-circle text-danger"></i> Rechazar reserva</h2>
+        <button class="btn-close" (click)="closeRejectModal()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>¿Estás seguro de rechazar esta reserva?</p>
+        @if (selectedBookingForAction) {
+          <div class="booking-preview">
+            <span><strong>{{ selectedBookingForAction.userName }}</strong></span>
+            <span>{{ selectedBookingForAction.date }} a las {{ selectedBookingForAction.time }}</span>
+            <span>{{ selectedBookingForAction.partySize }} personas</span>
+          </div>
+        }
+        <div class="form-group">
+          <label for="rejectReason">Motivo (opcional)</label>
+          <textarea 
+            id="rejectReason" 
+            [(ngModel)]="rejectReason"
+            placeholder="Ej: No hay disponibilidad para esa fecha..."
+            rows="3"
+          ></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="closeRejectModal()">Cancelar</button>
+        <button class="btn-danger" (click)="submitReject()">
+          <i class="bi bi-x-circle"></i>
+          Rechazar reserva
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Promotion Form Modal -->
+@if (showPromotionForm) {
+  <div class="modal-overlay" (click)="closePromotionForm()">
+    <div class="modal-dialog large" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>
+          <i class="bi bi-gift text-success"></i>
+          {{ editingPromotion ? 'Editar promoción' : 'Nueva promoción' }}
+        </h2>
+        <button class="btn-close" (click)="closePromotionForm()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label for="promoTitle">Título de la promoción *</label>
+            <input 
+              type="text" 
+              id="promoTitle" 
+              [(ngModel)]="newPromotion.title"
+              placeholder="Ej: Descuento de bienvenida"
+              required
+            >
+          </div>
+
+          <div class="form-group full">
+            <label for="promoDescription">Descripción *</label>
+            <textarea 
+              id="promoDescription" 
+              [(ngModel)]="newPromotion.description"
+              placeholder="Describe los detalles de la promoción..."
+              rows="3"
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="promoType">Tipo de promoción *</label>
+            <select id="promoType" [(ngModel)]="newPromotion.type">
+              <option [value]="PromotionType.PERCENTAGE">Porcentaje de descuento</option>
+              <option [value]="PromotionType.FIXED">Cantidad fija</option>
+              <option [value]="PromotionType.TWO_FOR_ONE">2x1</option>
+              <option [value]="PromotionType.FREE_ITEM">Artículo gratis</option>
+            </select>
+          </div>
+
+          @if (newPromotion.type === PromotionType.PERCENTAGE || newPromotion.type === PromotionType.FIXED) {
+            <div class="form-group">
+              <label for="promoValue">
+                {{ newPromotion.type === PromotionType.PERCENTAGE ? 'Porcentaje (%)' : 'Cantidad (€)' }} *
+              </label>
+              <input 
+                type="number" 
+                id="promoValue" 
+                [(ngModel)]="newPromotion.discountValue"
+                [min]="1"
+                [max]="newPromotion.type === PromotionType.PERCENTAGE ? 100 : 999"
+              >
+            </div>
+          }
+
+          <div class="form-group">
+            <label for="promoStart">Fecha de inicio *</label>
+            <input 
+              type="date" 
+              id="promoStart" 
+              [(ngModel)]="newPromotion.validFrom"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="promoEnd">Fecha de fin *</label>
+            <input 
+              type="date" 
+              id="promoEnd" 
+              [(ngModel)]="newPromotion.validUntil"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="promoMinOrder">Pedido mínimo (€)</label>
+            <input 
+              type="number" 
+              id="promoMinOrder" 
+              [(ngModel)]="newPromotion.minimumOrder"
+              placeholder="Opcional"
+              min="0"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="promoMaxUsage">Usos máximos</label>
+            <input 
+              type="number" 
+              id="promoMaxUsage" 
+              [(ngModel)]="newPromotion.maxUsage"
+              placeholder="Ilimitado"
+              min="1"
+            >
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="closePromotionForm()">Cancelar</button>
+        <button 
+          class="btn-primary" 
+          (click)="savePromotion()"
+          [disabled]="!newPromotion.title || !newPromotion.description || !newPromotion.validFrom || !newPromotion.validUntil"
+        >
+          <i class="bi bi-check-lg"></i>
+          {{ editingPromotion ? 'Guardar cambios' : 'Crear promoción' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

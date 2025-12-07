@@ -52,7 +52,7 @@
           <div class="col d-flex align-items-start">
             <div>
               <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Cliente: </h3>
-              <p>{{booking.user.firstName}} {{booking.user.lastName}}</p>
+              <p>{{booking.user?.firstName || 'Cliente'}} {{booking.user?.lastName || ''}}</p>
             </div>
           </div>
 
@@ -118,7 +118,7 @@
 
             <div>
               <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Restaurant.</h3>
-              <span class="badge text-bg-success">{{booking.restaurant.name}}</span>
+              <span class="badge text-bg-success">{{booking.restaurant?.name || 'Restaurante'}}</span>
             </div>
           </div>
           

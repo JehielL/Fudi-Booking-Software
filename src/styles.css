@@ -8,7 +8,7 @@ body {
 body {
   margin: 0;
   font-family: Manrope, sans-serif !important;
-  
+
 
 }
 
@@ -82,4 +82,78 @@ main {
     background-color: #b3d4fc;
     box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
   }
+}
+
+/* =========================================================
+   GLOBAL FIRE/SMOKE BACKGROUND (subtle, non-blocking)
+   Inspired by the booking form vibe, but with kitchen heat.
+   ========================================================= */
+:root {
+  --fire-bg-1: rgba(255, 163, 60, 0.14);
+  --fire-bg-2: rgba(255, 99, 71, 0.12);
+  --fire-bg-3: rgba(3, 225, 214, 0.12);
+  --fire-dark: #0f111a;
+}
+
+body {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+/* Animated smoky blobs floating upward */
+/* Hero-only smoke layer to avoid scroll jank */
+.smoke-hero {
+  position: relative;
+  overflow: hidden;
+  color: #f8fafc;
+}
+
+.smoke-hero h1,
+.smoke-hero h2,
+.smoke-hero h3,
+.smoke-hero .title,
+.smoke-hero .eyebrow,
+.smoke-hero .subtitle,
+.smoke-hero p {
+  color: #f8fafc;
+}
+
+.smoke-hero::before,
+.smoke-hero::after {
+  content: '';
+  position: absolute;
+  inset: -8% -16%;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(900px 700px at 20% 85%, var(--fire-bg-1), transparent 60%),
+              radial-gradient(820px 640px at 82% 82%, var(--fire-bg-2), transparent 65%),
+              radial-gradient(760px 720px at 50% 92%, var(--fire-bg-3), transparent 60%);
+  filter: blur(42px) saturate(118%);
+  opacity: 0.36;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  animation: fire-drift 44s linear infinite alternate;
+}
+
+.smoke-hero::after {
+  animation-duration: 56s;
+  animation-delay: 8s;
+  opacity: 0.26;
+  mix-blend-mode: screen;
+}
+
+@keyframes fire-drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(-2%, -3%, 0) scale(1.05);
+  }
+}
+
+/* Optional glass layer helper (apply to containers if needed) */
+.glass-surface {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
