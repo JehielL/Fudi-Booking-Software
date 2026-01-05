@@ -1,30 +1,53 @@
-<div class="container">
-  <header class="bg-dark py-3  rounded-top text-center">
-    <h1 class="text-light">Detalles de Usuario</h1>
-  </header>
- 
-
-  <section class="p-4 rounded-3 shadow user-profile">
-    
-    @if (users) {
-    <div  data-aos="fade-left" data-aos-delay="500">
-      <div class="row ">
-        <div class="col-lg-6 text-center">
-          <img [src]="users.imgUser.startsWith('http') ? users.imgUser : ('http://localhost:8080/files/' + users.imgUser)" class="profile-img" height="250" alt="User Image">
-        </div>  
-        <div class="col-lg-6 d-flex align-items-center  ">
-          <div class="user-details">
-            <ul class="list-group">
-              <li class="list-group-item"><strong>Name:</strong> {{users.firstName}} {{users.lastName}}</li>
-              <li class="list-group-item"><strong>Phone:</strong> {{users.phone}}</li>
-              <li class="list-group-item"><strong>Email:</strong> {{users.email}}</li>
-              <li class="list-group-item"><strong>Birthday:</strong> {{users.birthdayDate}}</li>    
-              <li class="list-group-item"><strong>Role:</strong> {{users.role}}</li>          
-            </ul>
-          </div>
+<div class="profile-page">
+  @if (users) {
+    <section class="profile-card" data-aos="fade-up">
+      <div class="profile-hero">
+        <div class="hero-overlay"></div>
+        <div class="profile-avatar">
+          <img
+            [src]="users.imgUser ? (users.imgUser.startsWith('http') ? users.imgUser : 'http://localhost:8080/files/' + users.imgUser) : 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=500&q=80'"
+            [alt]="users.firstName + ' ' + users.lastName">
+        </div>
+        <div class="identity">
+          <span class="role-chip">{{ users.role || 'Usuario' }}</span>
+          <h1 class="profile-name">{{ users.firstName }} {{ users.lastName }}</h1>
+          <p class="profile-sub">{{ users.email }}</p>
         </div>
       </div>
-    </div>
-    }
-  </section>
+
+      <div class="info-grid">
+        <article class="info-card">
+          <div class="info-icon primary"><i class="bi bi-phone"></i></div>
+          <div class="info-text">
+            <span class="label">Teléfono</span>
+            <span class="value">{{ users.phone || 'Sin teléfono' }}</span>
+          </div>
+        </article>
+
+        <article class="info-card">
+          <div class="info-icon info"><i class="bi bi-envelope-open"></i></div>
+          <div class="info-text">
+            <span class="label">Email</span>
+            <span class="value">{{ users.email || 'Sin email' }}</span>
+          </div>
+        </article>
+
+        <article class="info-card">
+          <div class="info-icon success"><i class="bi bi-balloon-heart"></i></div>
+          <div class="info-text">
+            <span class="label">Cumpleaños</span>
+            <span class="value">{{ users.birthdayDate || '—' }}</span>
+          </div>
+        </article>
+
+        <article class="info-card">
+          <div class="info-icon warning"><i class="bi bi-shield-check"></i></div>
+          <div class="info-text">
+            <span class="label">Rol</span>
+            <span class="value">{{ users.role || 'Usuario' }}</span>
+          </div>
+        </article>
+      </div>
+    </section>
+  }
 </div>

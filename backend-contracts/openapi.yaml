@@ -1,0 +1,3342 @@
+openapi: 3.0.3
+info:
+  title: BiteBooking API
+  description: API REST para el sistema de reservas de restaurantes BiteBooking
+  version: 2.1.0
+  contact:
+    name: BiteBooking Team
+    email: support@bitebooking.com
+
+servers:
+  - url: http://localhost:8080
+    description: Servidor de desarrollo
+  - url: https://api.bitebooking.com
+    description: Servidor de producción
+
+tags:
+  - name: Users
+    description: Gestión de usuarios y autenticación
+  - name: Restaurants
+    description: Gestión de restaurantes
+  - name: Menus
+    description: Gestión de menús
+  - name: Ratings
+    description: Gestión de calificaciones con imágenes
+  - name: Bookings
+    description: Gestión de reservas
+  - name: Dashboard
+    description: Estadísticas y dashboard para restaurantes
+  - name: Promotions
+    description: Sistema de promociones
+  - name: Favorites
+    description: Favoritos de usuarios
+  - name: Files
+    description: Gestión de archivos
+  - name: Availability
+    description: FASE 2A - Disponibilidad y horarios
+  - name: Schedules
+    description: FASE 2A - Gestión de horarios del restaurante
+  - name: Analytics
+    description: FASE 2B - Analytics y Reporting
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Token JWT obtenido desde /users/login
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        role:
+          type: string
+          enum: [USER, ADMIN]
+        imgUser:
+          type: string
+        city:
+          type: string
+        aboutMe:
+          type: string
+        birthdayDate:
+          type: string
+          format: date
+
+    Restaurant:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        phone:
+          type: string
+        restaurantType:
+          type: string
+          enum: [ITALIANA, MEXICANA, CHINA, JAPONESA, ESPAÑOLA, AMERICANA, VEGETARIANA, VEGANA]
+        description:
+          type: string
+        city:
+          type: string
+        address:
+          type: string
+        number:
+          type: string
+        postalCode:
+          type: string
+        imageUrl:
+          type: string
+        openingTime:
+          type: string
+          format: time
+        closingTime:
+          type: string
+          format: time
+        owner:
+          $ref: '#/components/schemas/User'
+
+    Menu:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: double
+        imgMenu:
+          type: string
+        restaurant:
+          $ref: '#/components/schemas/Restaurant'
+
+    Rating:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        score:
+          type: integer
+          minimum: 1
+          maximum: 5
+        comment:
+          type: string
+          maxLength: 1000
+        likesCount:
+          type: integer
+          description: Número total de likes del rating
+          default: 0
+        menu:
+          $ref: '#/components/schemas/Menu'
+        user:
+          $ref: '#/components/schemas/User'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/RatingImage'
+
+    LikeResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Mensaje descriptivo de la acción realizada
+          example: "Like agregado"
+        liked:
+          type: boolean
+          description: Estado actual del like (true si el usuario tiene like activo)
+        likesCount:
+          type: integer
+          description: Número total de likes después de la acción
+
+    RatingImage:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        imagePath:
+          type: string
+          description: Nombre del archivo guardado
+        imageOrder:
+          type: integer
+          description: Orden de la imagen (1, 2, 3)
+        rating:
+          $ref: '#/components/schemas/Rating'
+
+    Booking:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        bookingDate:
+          type: string
+          format: date
+          description: Fecha de la reserva (YYYY-MM-DD)
+        bookingTime:
+          type: string
+          format: time
+          description: Hora de la reserva (HH:mm:ss)
+        numPeople:
+          type: integer
+          description: Número de personas
+        status:
+          type: string
+          enum: [PENDING, CONFIRMED, CANCELLED, REJECTED, COMPLETED, NO_SHOW]
+          description: Estado de la reserva
+        contactName:
+          type: string
+          description: Nombre de contacto
+        contactPhone:
+          type: string
+          description: Teléfono de contacto
+        specialRequests:
+          type: string
+          description: Peticiones especiales
+        observations:
+          type: string
+          description: Observaciones
+        tableNumber:
+          type: integer
+          description: Número de mesa asignada
+        interior:
+          type: boolean
+          description: true = interior, false = terraza
+        cancellationReason:
+          type: string
+          description: Motivo de cancelación/rechazo
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        restaurant:
+          $ref: '#/components/schemas/Restaurant'
+        user:
+          $ref: '#/components/schemas/User'
+
+    BookingStatus:
+      type: string
+      enum:
+        - PENDING
+        - CONFIRMED
+        - CANCELLED
+        - REJECTED
+        - COMPLETED
+        - NO_SHOW
+      description: |
+        Estados de reserva:
+        - PENDING: Esperando confirmación del restaurante
+        - CONFIRMED: Confirmada por el restaurante
+        - CANCELLED: Cancelada por usuario o restaurante
+        - REJECTED: Rechazada por el restaurante
+        - COMPLETED: Cliente asistió correctamente
+        - NO_SHOW: Cliente no se presentó
+
+    DashboardStats:
+      type: object
+      properties:
+        todayBookings:
+          type: integer
+          description: Reservas de hoy
+        todayPeople:
+          type: integer
+          description: Personas esperadas hoy
+        pendingBookings:
+          type: integer
+          description: Reservas pendientes de confirmar
+        monthlyConfirmed:
+          type: integer
+          description: Confirmadas este mes
+        monthlyCompleted:
+          type: integer
+          description: Completadas este mes
+        monthlyCancelled:
+          type: integer
+          description: Canceladas este mes
+        monthlyNoShow:
+          type: integer
+          description: No-shows este mes
+        activePromotions:
+          type: integer
+          description: Promociones activas
+        averageRating:
+          type: number
+          format: double
+          description: Rating promedio del restaurante
+        completionRate:
+          type: number
+          format: double
+          description: Tasa de completado (%)
+        cancellationRate:
+          type: number
+          format: double
+          description: Tasa de cancelación (%)
+        noShowRate:
+          type: number
+          format: double
+          description: Tasa de no-show (%)
+        todayBookingsList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Booking'
+        upcomingBookings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Booking'
+        pendingBookingsList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Booking'
+
+    Promotion:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+          description: Título de la promoción
+        description:
+          type: string
+          description: Descripción detallada
+        type:
+          $ref: '#/components/schemas/PromotionType'
+        discountValue:
+          type: number
+          description: Valor del descuento (% o €)
+        fixedPrice:
+          type: number
+          description: Precio fijo para SPECIAL_MENU
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        startTime:
+          type: string
+          format: time
+          description: Hora inicio (para HAPPY_HOUR)
+        endTime:
+          type: string
+          format: time
+          description: Hora fin (para HAPPY_HOUR)
+        validDays:
+          type: string
+          description: Días válidos separados por coma (MONDAY,TUESDAY,...)
+        minPeople:
+          type: integer
+          description: Mínimo de personas requeridas
+        maxUses:
+          type: integer
+          description: Máximo de usos permitidos
+        currentUses:
+          type: integer
+          description: Usos actuales
+        promoCode:
+          type: string
+          description: Código promocional
+        active:
+          type: boolean
+          description: Si está activa
+        featured:
+          type: boolean
+          description: Si está destacada
+        restaurant:
+          $ref: '#/components/schemas/Restaurant'
+
+    PromotionType:
+      type: string
+      enum:
+        - PERCENTAGE_DISCOUNT
+        - FIXED_DISCOUNT
+        - HAPPY_HOUR
+        - TWO_FOR_ONE
+        - FREE_ITEM
+        - FIRST_BOOKING
+        - LOYALTY
+        - SPECIAL_MENU
+
+    Favorite:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        user:
+          $ref: '#/components/schemas/User'
+        restaurant:
+          $ref: '#/components/schemas/Restaurant'
+        createdAt:
+          type: string
+          format: date-time
+
+    Login:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+
+    Register:
+      type: object
+      required:
+        - email
+        - password
+        - firstName
+        - lastName
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        birthdayDate:
+          type: string
+          format: date
+
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
+          description: Token JWT para autenticación
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: integer
+
+    # ==================== FASE 2A SCHEMAS ====================
+    RestaurantSchedule:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        dayOfWeek:
+          type: string
+          enum: [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY]
+        isOpen:
+          type: boolean
+        openTime:
+          type: string
+          format: time
+          example: "09:00:00"
+        closeTime:
+          type: string
+          format: time
+          example: "23:00:00"
+        lunchStartTime:
+          type: string
+          format: time
+        lunchEndTime:
+          type: string
+          format: time
+        dinnerStartTime:
+          type: string
+          format: time
+        dinnerEndTime:
+          type: string
+          format: time
+        maxCapacity:
+          type: integer
+          description: Aforo total del restaurante
+        maxCapacityPerSlot:
+          type: integer
+          description: Máximo personas por slot
+        slotIntervalMinutes:
+          type: integer
+          default: 30
+          description: Duración del slot en minutos
+
+    ClosedDate:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        closedDate:
+          type: string
+          format: date
+          example: "2025-12-25"
+        reason:
+          type: string
+          example: "Navidad"
+        isRecurringYearly:
+          type: boolean
+          description: Si se repite cada año
+        createdAt:
+          type: string
+          format: date-time
+
+    TimeSlotDTO:
+      type: object
+      properties:
+        time:
+          type: string
+          example: "19:00"
+        available:
+          type: boolean
+        remainingCapacity:
+          type: integer
+          description: Personas que aún caben
+        maxCapacity:
+          type: integer
+          description: Capacidad total del slot
+
+    AvailabilityResponse:
+      type: object
+      properties:
+        restaurantId:
+          type: integer
+          format: int64
+        date:
+          type: string
+          format: date
+        isOpen:
+          type: boolean
+        closedReason:
+          type: string
+          description: Motivo si está cerrado
+        slots:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeSlotDTO'
+
+    # ==================== FASE 2B ANALYTICS SCHEMAS ====================
+    PeriodDTO:
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        periodName:
+          type: string
+          example: "Últimos 7 días"
+
+    SummaryDTO:
+      type: object
+      properties:
+        totalBookings:
+          type: integer
+        confirmedBookings:
+          type: integer
+        cancelledBookings:
+          type: integer
+        noShowBookings:
+          type: integer
+        totalGuests:
+          type: integer
+        avgPartySize:
+          type: number
+          format: double
+
+    StatusMetricsDTO:
+      type: object
+      properties:
+        pending:
+          type: integer
+        confirmed:
+          type: integer
+        completed:
+          type: integer
+        cancelled:
+          type: integer
+        noShow:
+          type: integer
+        rejected:
+          type: integer
+
+    RatesDTO:
+      type: object
+      properties:
+        confirmationRate:
+          type: number
+          format: double
+          description: "% reservas confirmadas"
+        cancellationRate:
+          type: number
+          format: double
+          description: "% reservas canceladas"
+        noShowRate:
+          type: number
+          format: double
+          description: "% no-shows"
+        completionRate:
+          type: number
+          format: double
+          description: "% completadas"
+
+    ComparisonDTO:
+      type: object
+      properties:
+        current:
+          type: number
+          format: double
+        previous:
+          type: number
+          format: double
+        changePercentage:
+          type: number
+          format: double
+        trend:
+          type: string
+          enum: [UP, DOWN, STABLE]
+
+    DailyMetricDTO:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        bookings:
+          type: integer
+        guests:
+          type: integer
+
+    HourlyMetricDTO:
+      type: object
+      properties:
+        hour:
+          type: integer
+          minimum: 0
+          maximum: 23
+        bookings:
+          type: integer
+        avgGuests:
+          type: number
+          format: double
+
+    WeekdayMetricDTO:
+      type: object
+      properties:
+        dayOfWeek:
+          type: integer
+          minimum: 1
+          maximum: 7
+          description: "1=Domingo, 2=Lunes... 7=Sábado"
+        dayName:
+          type: string
+          example: "Lunes"
+        bookings:
+          type: integer
+        avgGuests:
+          type: number
+          format: double
+
+    TrendsDTO:
+      type: object
+      properties:
+        dailyTrend:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyMetricDTO'
+        hourlyDistribution:
+          type: array
+          items:
+            $ref: '#/components/schemas/HourlyMetricDTO'
+        weekdayDistribution:
+          type: array
+          items:
+            $ref: '#/components/schemas/WeekdayMetricDTO'
+
+    InsightsDTO:
+      type: object
+      properties:
+        peakHour:
+          type: integer
+          description: Hora con más reservas (0-23)
+        peakDay:
+          type: string
+          example: "Sábado"
+        avgLeadTimeDays:
+          type: number
+          format: double
+          description: Días promedio de anticipación
+        returningCustomerRate:
+          type: number
+          format: double
+          description: "% clientes que vuelven"
+
+    DashboardAnalyticsDTO:
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/PeriodDTO'
+        summary:
+          $ref: '#/components/schemas/SummaryDTO'
+        statusBreakdown:
+          $ref: '#/components/schemas/StatusMetricsDTO'
+        rates:
+          $ref: '#/components/schemas/RatesDTO'
+        trends:
+          $ref: '#/components/schemas/TrendsDTO'
+        insights:
+          $ref: '#/components/schemas/InsightsDTO'
+        comparisons:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ComparisonDTO'
+          description: "Comparaciones: bookings, guests, cancellationRate"
+
+    QuickStatsDTO:
+      type: object
+      properties:
+        todayBookings:
+          type: integer
+        todayGuests:
+          type: integer
+        weekBookings:
+          type: integer
+        weekGuests:
+          type: integer
+        monthBookings:
+          type: integer
+        monthGuests:
+          type: integer
+        pendingCount:
+          type: integer
+
+paths:
+  # ==================== USERS ====================
+  /users/register:
+    post:
+      tags:
+        - Users
+      summary: Registrar nuevo usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+      responses:
+        '200':
+          description: Usuario registrado exitosamente
+        '400':
+          description: Email ya existe
+
+  /users/login:
+    post:
+      tags:
+        - Users
+      summary: Iniciar sesión
+      description: Autentica un usuario y retorna un token JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          description: Login exitoso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '401':
+          description: Credenciales incorrectas
+        '404':
+          description: Usuario no encontrado
+
+  /users/account:
+    get:
+      tags:
+        - Users
+      summary: Obtener usuario actual
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Usuario actual
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: No autenticado
+
+    put:
+      tags:
+        - Users
+      summary: Actualizar perfil de usuario
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Usuario actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /users/account/avatar:
+    post:
+      tags:
+        - Users
+      summary: Subir avatar de usuario
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                photo:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Avatar actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /user:
+    get:
+      tags:
+        - Users
+      summary: Listar todos los usuarios
+      responses:
+        '200':
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+  /user/{id}:
+    get:
+      tags:
+        - Users
+      summary: Obtener usuario por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Usuario no encontrado
+
+  # ==================== RATINGS ====================
+  /ratings:
+    post:
+      tags:
+        - Ratings
+      summary: Crear rating con imágenes
+      description: Crea un nuevo rating para un menú. Permite adjuntar hasta 3 imágenes (jpg, jpeg, png, gif, webp). Máximo 5MB por imagen.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - score
+                - comment
+                - menuId
+              properties:
+                score:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                  description: Puntuación del 1 al 5
+                comment:
+                  type: string
+                  maxLength: 1000
+                  description: Comentario del usuario
+                menuId:
+                  type: integer
+                  format: int64
+                  description: ID del menú a calificar
+                images:
+                  type: array
+                  maxItems: 3
+                  items:
+                    type: string
+                    format: binary
+                  description: Lista de imágenes (máximo 3)
+      responses:
+        '200':
+          description: Rating creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rating'
+        '400':
+          description: Datos inválidos o más de 3 imágenes
+        '404':
+          description: Menú no encontrado
+        '401':
+          description: Usuario no autenticado
+
+  /ratings/{id}:
+    get:
+      tags:
+        - Ratings
+      summary: Obtener rating por ID
+      description: Retorna un rating específico con todas sus imágenes asociadas
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID del rating
+      responses:
+        '200':
+          description: Rating encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rating'
+        '404':
+          description: Rating no encontrado
+
+    put:
+      tags:
+        - Ratings
+      summary: Actualizar rating
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rating'
+      responses:
+        '200':
+          description: Rating actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rating'
+        '404':
+          description: Rating no encontrado
+
+    delete:
+      tags:
+        - Ratings
+      summary: Eliminar rating
+      description: Elimina un rating y todas sus imágenes asociadas. Solo el propietario o un administrador pueden realizar esta acción.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Rating eliminado exitosamente
+        '401':
+          description: No autorizado
+        '404':
+          description: Rating no encontrado
+
+  /menus/filter-by-menu/{id}:
+    get:
+      tags:
+        - Ratings
+      summary: Obtener ratings por menú
+      description: Retorna todos los ratings de un menú específico ordenados por fecha (más recientes primero)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID del menú
+      responses:
+        '200':
+          description: Lista de ratings del menú
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rating'
+
+  /ratings/{id}/images:
+    get:
+      tags:
+        - Ratings
+      summary: Obtener imágenes de un rating
+      description: Retorna todas las imágenes asociadas a un rating específico, ordenadas por su orden
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID del rating
+      responses:
+        '200':
+          description: Lista de imágenes del rating
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RatingImage'
+
+  /ratings/{ratingId}/images/{imageId}:
+    delete:
+      tags:
+        - Ratings
+      summary: Eliminar imagen de un rating
+      description: Elimina una imagen específica de un rating. Solo el propietario del rating o un administrador pueden realizar esta acción.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: ratingId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID del rating
+        - name: imageId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID de la imagen
+      responses:
+        '200':
+          description: Imagen eliminada exitosamente
+        '401':
+          description: No autorizado
+        '404':
+          description: Rating o imagen no encontrada
+
+  # ==================== LIKES ====================
+  /ratings/{ratingId}/toggle-like:
+    post:
+      tags:
+        - Ratings
+      summary: Toggle like en un rating
+      description: |
+        Permite al usuario dar o quitar like a un rating. 
+        - Si el usuario NO tiene like en el rating, se agrega el like.
+        - Si el usuario YA tiene like en el rating, se elimina el like.
+        Requiere autenticación.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: ratingId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID del rating
+      responses:
+        '200':
+          description: Like toggle exitoso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LikeResponse'
+              examples:
+                likeAdded:
+                  summary: Like agregado
+                  value:
+                    message: "Like agregado"
+                    liked: true
+                    likesCount: 15
+                likeRemoved:
+                  summary: Like eliminado
+                  value:
+                    message: "Like eliminado"
+                    liked: false
+                    likesCount: 14
+        '401':
+          description: Usuario no autenticado
+        '404':
+          description: Rating no encontrado
+
+  /ratings/{ratingId}/liked:
+    get:
+      tags:
+        - Ratings
+      summary: Verificar si el usuario dio like
+      description: |
+        Retorna el estado del like para el usuario actual y el contador total de likes.
+        Si el usuario no está autenticado, retorna liked=false pero sí muestra el contador.
+      parameters:
+        - name: ratingId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID del rating
+      responses:
+        '200':
+          description: Estado del like
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  liked:
+                    type: boolean
+                    description: true si el usuario actual dio like
+                  likesCount:
+                    type: integer
+                    description: Total de likes del rating
+              example:
+                liked: true
+                likesCount: 15
+        '404':
+          description: Rating no encontrado
+
+  /ratings/top:
+    get:
+      tags:
+        - Ratings
+      summary: Obtener ratings con más likes
+      description: Retorna todos los ratings ordenados por número de likes (mayor a menor)
+      responses:
+        '200':
+          description: Lista de ratings ordenados por likes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rating'
+
+  /ratings/menu/{menuId}/top:
+    get:
+      tags:
+        - Ratings
+      summary: Obtener ratings de un menú ordenados por likes
+      description: Retorna los ratings de un menú específico ordenados por número de likes (mayor a menor)
+      parameters:
+        - name: menuId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID del menú
+      responses:
+        '200':
+          description: Lista de ratings del menú ordenados por likes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rating'
+        '404':
+          description: Menú no encontrado
+
+  /ratings/menu/{menuId}/best:
+    get:
+      tags:
+        - Ratings
+      summary: Obtener ratings de un menú ordenados por score
+      description: Retorna los ratings de un menú específico ordenados por puntuación (mayor a menor)
+      parameters:
+        - name: menuId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID del menú
+      responses:
+        '200':
+          description: Lista de ratings del menú ordenados por score
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rating'
+
+  /ratings/popular:
+    get:
+      tags:
+        - Ratings
+      summary: Obtener ratings populares
+      description: Retorna ratings que tienen más de X likes
+      parameters:
+        - name: minLikes
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 5
+          description: Número mínimo de likes para considerar un rating como popular
+      responses:
+        '200':
+          description: Lista de ratings populares
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rating'
+
+  /ratings/user/{userId}:
+    get:
+      tags:
+        - Ratings
+      summary: Obtener ratings de un usuario
+      description: Retorna todos los ratings creados por un usuario específico
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID del usuario
+      responses:
+        '200':
+          description: Lista de ratings del usuario
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rating'
+
+  # ==================== RESTAURANTS ====================
+  /restaurant:
+    get:
+      tags:
+        - Restaurants
+      summary: Listar restaurantes
+      parameters:
+        - name: name
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Filtrar por nombre
+      responses:
+        '200':
+          description: Lista de restaurantes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Restaurant'
+
+    post:
+      tags:
+        - Restaurants
+      summary: Crear restaurante
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - name
+                - phone
+                - restaurantType
+                - city
+                - address
+              properties:
+                name:
+                  type: string
+                phone:
+                  type: string
+                restaurantType:
+                  type: string
+                description:
+                  type: string
+                city:
+                  type: string
+                address:
+                  type: string
+                number:
+                  type: string
+                postalCode:
+                  type: string
+                openingTime:
+                  type: string
+                  format: time
+                closingTime:
+                  type: string
+                  format: time
+                photo:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Restaurante creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Restaurant'
+
+  /restaurant/{id}:
+    get:
+      tags:
+        - Restaurants
+      summary: Obtener restaurante por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Restaurante encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Restaurant'
+        '404':
+          description: Restaurante no encontrado
+
+    put:
+      tags:
+        - Restaurants
+      summary: Actualizar restaurante
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                phone:
+                  type: string
+                restaurantType:
+                  type: string
+                description:
+                  type: string
+                city:
+                  type: string
+                address:
+                  type: string
+                number:
+                  type: string
+                postalCode:
+                  type: string
+                openingTime:
+                  type: string
+                closingTime:
+                  type: string
+                photo:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Restaurante actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Restaurant'
+
+    delete:
+      tags:
+        - Restaurants
+      summary: Eliminar restaurante
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Restaurante eliminado
+        '404':
+          description: Restaurante no encontrado
+
+  /my-restaurants:
+    get:
+      tags:
+        - Restaurants
+      summary: Obtener mis restaurantes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de restaurantes del usuario
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Restaurant'
+
+  # ==================== MENUS ====================
+  /menus:
+    get:
+      tags:
+        - Menus
+      summary: Listar todos los menús
+      responses:
+        '200':
+          description: Lista de menús
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Menu'
+
+    post:
+      tags:
+        - Menus
+      summary: Crear menú
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                photo:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Menú creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Menu'
+
+  /menus/{id}:
+    get:
+      tags:
+        - Menus
+      summary: Obtener menú por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Menú encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Menu'
+        '404':
+          description: Menú no encontrado
+
+    put:
+      tags:
+        - Menus
+      summary: Actualizar menú
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                photo:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Menú actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Menu'
+
+    delete:
+      tags:
+        - Menus
+      summary: Eliminar menú
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Menú eliminado
+
+  /menus/byRestaurant/{restaurantId}:
+    get:
+      tags:
+        - Menus
+      summary: Obtener menús por restaurante
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Lista de menús del restaurante
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Menu'
+
+  # ==================== BOOKINGS ====================
+  /bookings:
+    get:
+      tags:
+        - Bookings
+      summary: Listar todas las reservas
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de reservas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+
+    post:
+      tags:
+        - Bookings
+      summary: Crear reserva
+      description: Crea una nueva reserva con estado PENDING
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - bookingDate
+                - bookingTime
+                - numPeople
+                - restaurant
+              properties:
+                bookingDate:
+                  type: string
+                  format: date
+                  example: "2024-01-20"
+                bookingTime:
+                  type: string
+                  format: time
+                  example: "20:00:00"
+                numPeople:
+                  type: integer
+                  example: 4
+                contactName:
+                  type: string
+                  example: "Juan Pérez"
+                contactPhone:
+                  type: string
+                  example: "+34 612 345 678"
+                specialRequests:
+                  type: string
+                  example: "Mesa cerca de la ventana"
+                restaurant:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      format: int64
+      responses:
+        '200':
+          description: Reserva creada con status PENDING
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+
+  /bookings/{id}:
+    get:
+      tags:
+        - Bookings
+      summary: Obtener reserva por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Reserva encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '404':
+          description: Reserva no encontrada
+
+    put:
+      tags:
+        - Bookings
+      summary: Actualizar reserva
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Booking'
+      responses:
+        '200':
+          description: Reserva actualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+
+    delete:
+      tags:
+        - Bookings
+      summary: Eliminar reserva
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Reserva eliminada
+
+  # ==================== BOOKING STATUS MANAGEMENT ====================
+  /bookings/{id}/confirm:
+    post:
+      tags:
+        - Bookings
+      summary: Confirmar reserva
+      description: Cambia el estado de la reserva a CONFIRMED. Solo el dueño del restaurante.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Reserva confirmada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '400':
+          description: Error al confirmar
+        '403':
+          description: Sin permisos
+
+  /bookings/{id}/reject:
+    post:
+      tags:
+        - Bookings
+      summary: Rechazar reserva
+      description: Cambia el estado de la reserva a REJECTED. Solo el dueño del restaurante.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                  description: Motivo del rechazo
+      responses:
+        '200':
+          description: Reserva rechazada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+
+  /bookings/{id}/cancel:
+    post:
+      tags:
+        - Bookings
+      summary: Cancelar reserva
+      description: Cambia el estado de la reserva a CANCELLED. Usuario o dueño del restaurante.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                  description: Motivo de la cancelación
+      responses:
+        '200':
+          description: Reserva cancelada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+
+  /bookings/{id}/complete:
+    post:
+      tags:
+        - Bookings
+      summary: Marcar reserva como completada
+      description: Cambia el estado de la reserva a COMPLETED (cliente asistió).
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Reserva completada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+
+  /bookings/{id}/no-show:
+    post:
+      tags:
+        - Bookings
+      summary: Marcar como no-show
+      description: Cambia el estado de la reserva a NO_SHOW (cliente no se presentó).
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Marcado como no-show
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+
+  # ==================== MY BOOKINGS (USER) ====================
+  /bookings/my-bookings:
+    get:
+      tags:
+        - Bookings
+      summary: Obtener mis reservas
+      description: Todas las reservas del usuario autenticado
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de mis reservas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+        '401':
+          description: No autenticado
+
+  /bookings/my-bookings/upcoming:
+    get:
+      tags:
+        - Bookings
+      summary: Mis próximas reservas
+      description: Reservas futuras confirmadas del usuario
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de próximas reservas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+
+  /bookings/my-bookings/history:
+    get:
+      tags:
+        - Bookings
+      summary: Mi historial de reservas
+      description: Reservas pasadas del usuario
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Historial de reservas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+
+  # ==================== RESTAURANT BOOKINGS ====================
+  /bookings/restaurant/{restaurantId}/today:
+    get:
+      tags:
+        - Bookings
+      summary: Reservas de hoy del restaurante
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Reservas de hoy
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+
+  /bookings/restaurant/{restaurantId}/pending:
+    get:
+      tags:
+        - Bookings
+      summary: Reservas pendientes del restaurante
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Reservas pendientes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+
+  /bookings/restaurant/{restaurantId}/upcoming:
+    get:
+      tags:
+        - Bookings
+      summary: Próximas reservas confirmadas del restaurante
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Próximas reservas confirmadas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+
+  /bookings/restaurant/{restaurantId}/status/{status}:
+    get:
+      tags:
+        - Bookings
+      summary: Filtrar reservas por estado
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: status
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/BookingStatus'
+      responses:
+        '200':
+          description: Reservas filtradas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+
+  /bookings/filter-by-restaurant/{id}:
+    get:
+      tags:
+        - Bookings
+      summary: Todas las reservas de un restaurante
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Lista de reservas del restaurante
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+
+  /bookings/filter-by-user/{id}:
+    get:
+      tags:
+        - Bookings
+      summary: Todas las reservas de un usuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Lista de reservas del usuario
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+
+  # ==================== DASHBOARD ====================
+  /dashboard/restaurant/{restaurantId}:
+    get:
+      tags:
+        - Dashboard
+      summary: Dashboard completo del restaurante
+      description: Estadísticas completas incluyendo reservas de hoy, pendientes, estadísticas mensuales, etc.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Dashboard stats
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardStats'
+        '403':
+          description: Sin permisos sobre el restaurante
+
+  /dashboard/restaurant/{restaurantId}/quick:
+    get:
+      tags:
+        - Dashboard
+      summary: Resumen rápido
+      description: Datos esenciales para badges y notificaciones
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Resumen rápido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  todayBookings:
+                    type: integer
+                  pendingBookings:
+                    type: integer
+                  todayPeople:
+                    type: integer
+
+  /dashboard/restaurant/{restaurantId}/monthly:
+    get:
+      tags:
+        - Dashboard
+      summary: Estadísticas mensuales
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Stats del mes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  confirmed:
+                    type: integer
+                  completed:
+                    type: integer
+                  cancelled:
+                    type: integer
+                  noShow:
+                    type: integer
+                  completionRate:
+                    type: number
+                  cancellationRate:
+                    type: number
+                  noShowRate:
+                    type: number
+
+  /dashboard/restaurant/{restaurantId}/bookings:
+    get:
+      tags:
+        - Dashboard
+      summary: Reservas por rango de fechas
+      description: Para mostrar en calendario
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: start
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: end
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Reservas en el rango
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+
+  /dashboard/restaurant/{restaurantId}/today:
+    get:
+      tags:
+        - Dashboard
+      summary: Detalles de reservas de hoy
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Detalles de hoy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalBookings:
+                    type: integer
+                  totalPeople:
+                    type: integer
+                  pending:
+                    type: integer
+                  bookingsList:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Booking'
+                  pendingBookingsList:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Booking'
+
+  # ==================== PROMOTIONS ====================
+  /promotions:
+    get:
+      tags:
+        - Promotions
+      summary: Todas las promociones activas
+      description: Promociones públicas activas actualmente
+      responses:
+        '200':
+          description: Lista de promociones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Promotion'
+
+  /promotions/featured:
+    get:
+      tags:
+        - Promotions
+      summary: Promociones destacadas
+      description: Para mostrar en la página principal
+      responses:
+        '200':
+          description: Promociones destacadas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Promotion'
+
+  /promotions/{id}:
+    get:
+      tags:
+        - Promotions
+      summary: Detalle de una promoción
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Promoción encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Promotion'
+        '404':
+          description: No encontrada
+
+    put:
+      tags:
+        - Promotions
+      summary: Actualizar promoción
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Promotion'
+      responses:
+        '200':
+          description: Promoción actualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Promotion'
+        '403':
+          description: Sin permisos
+
+    delete:
+      tags:
+        - Promotions
+      summary: Eliminar promoción
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Eliminada
+        '403':
+          description: Sin permisos
+
+  /promotions/restaurant/{restaurantId}:
+    get:
+      tags:
+        - Promotions
+      summary: Promociones activas de un restaurante
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Promociones del restaurante
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Promotion'
+
+    post:
+      tags:
+        - Promotions
+      summary: Crear promoción
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - type
+                - startDate
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                type:
+                  $ref: '#/components/schemas/PromotionType'
+                discountValue:
+                  type: number
+                fixedPrice:
+                  type: number
+                startDate:
+                  type: string
+                  format: date
+                endDate:
+                  type: string
+                  format: date
+                startTime:
+                  type: string
+                  format: time
+                endTime:
+                  type: string
+                  format: time
+                validDays:
+                  type: string
+                minPeople:
+                  type: integer
+                maxUses:
+                  type: integer
+                promoCode:
+                  type: string
+                active:
+                  type: boolean
+                featured:
+                  type: boolean
+      responses:
+        '201':
+          description: Promoción creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Promotion'
+
+  /promotions/restaurant/{restaurantId}/all:
+    get:
+      tags:
+        - Promotions
+      summary: Todas las promociones (incluye inactivas)
+      description: Para gestión del dueño
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Todas las promociones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Promotion'
+
+  /promotions/city/{city}:
+    get:
+      tags:
+        - Promotions
+      summary: Promociones por ciudad
+      parameters:
+        - name: city
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Promociones de la ciudad
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Promotion'
+
+  /promotions/validate:
+    get:
+      tags:
+        - Promotions
+      summary: Validar código promocional
+      parameters:
+        - name: code
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: restaurantId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Código válido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Promotion'
+        '404':
+          description: Código inválido o expirado
+
+  /promotions/{id}/toggle-active:
+    post:
+      tags:
+        - Promotions
+      summary: Activar/desactivar promoción
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Estado cambiado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Promotion'
+
+  /promotions/{id}/toggle-featured:
+    post:
+      tags:
+        - Promotions
+      summary: Marcar/desmarcar como destacada
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Estado cambiado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Promotion'
+
+  /promotions/{id}/apply:
+    post:
+      tags:
+        - Promotions
+      summary: Aplicar promoción (registrar uso)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Promoción aplicada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+
+  # ==================== FAVORITES ====================
+  /favorites:
+    get:
+      tags:
+        - Favorites
+      summary: Obtener mis favoritos
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de favoritos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Favorite'
+        '401':
+          description: No autenticado
+
+  /favorites/restaurants:
+    get:
+      tags:
+        - Favorites
+      summary: Solo restaurantes favoritos (sin wrapper)
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de restaurantes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Restaurant'
+
+  /favorites/ids:
+    get:
+      tags:
+        - Favorites
+      summary: Solo IDs de favoritos
+      description: Útil para marcar favoritos en listas de restaurantes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de IDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+              example: [1, 5, 12, 23]
+
+  /favorites/check/{restaurantId}:
+    get:
+      tags:
+        - Favorites
+      summary: Verificar si es favorito
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Estado del favorito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isFavorite:
+                    type: boolean
+
+  /favorites/{restaurantId}:
+    post:
+      tags:
+        - Favorites
+      summary: Agregar a favoritos
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '201':
+          description: Agregado a favoritos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Favorite'
+        '400':
+          description: Ya está en favoritos
+
+    delete:
+      tags:
+        - Favorites
+      summary: Quitar de favoritos
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Eliminado de favoritos
+
+  /favorites/{restaurantId}/toggle:
+    post:
+      tags:
+        - Favorites
+      summary: Toggle favorito
+      description: Agrega si no existe, quita si existe. Recomendado para el botón de corazón.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Toggle realizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isFavorite:
+                    type: boolean
+                  message:
+                    type: string
+
+  /favorites/count/{restaurantId}:
+    get:
+      tags:
+        - Favorites
+      summary: Contar favoritos de un restaurante
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Contador
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    format: int64
+
+  # ==================== FILES ====================
+  /files/{filename}:
+    get:
+      tags:
+        - Files
+      summary: Descargar/visualizar archivo
+      parameters:
+        - name: filename
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Nombre del archivo
+      responses:
+        '200':
+          description: Archivo encontrado
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Archivo no encontrado
+
+  # ==================== FASE 2A: DISPONIBILIDAD ====================
+  /api/restaurants/{restaurantId}/availability:
+    get:
+      tags:
+        - Availability
+      summary: Obtener disponibilidad de un día
+      description: Retorna los slots disponibles para reservar en una fecha específica
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+          example: "2025-01-15"
+        - name: numPeople
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 2
+          description: Número de personas para filtrar capacidad
+      responses:
+        '200':
+          description: Disponibilidad del día
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailabilityResponse'
+        '404':
+          description: Restaurante no encontrado
+
+  /api/restaurants/{restaurantId}/availability/week:
+    get:
+      tags:
+        - Availability
+      summary: Disponibilidad de una semana
+      description: Retorna disponibilidad para 7 días consecutivos
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: startDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: numPeople
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 2
+      responses:
+        '200':
+          description: Disponibilidad de la semana
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AvailabilityResponse'
+
+  # ==================== FASE 2A: HORARIOS ====================
+  /api/restaurants/{restaurantId}/schedules:
+    get:
+      tags:
+        - Schedules
+      summary: Obtener horarios del restaurante
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Lista de horarios (7 días)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RestaurantSchedule'
+
+    post:
+      tags:
+        - Schedules
+      summary: Crear/actualizar horario de un día
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RestaurantSchedule'
+      responses:
+        '200':
+          description: Horario guardado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestaurantSchedule'
+        '403':
+          description: Sin permisos sobre el restaurante
+
+  /api/restaurants/{restaurantId}/schedules/bulk:
+    put:
+      tags:
+        - Schedules
+      summary: Actualizar horarios de todos los días
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RestaurantSchedule'
+      responses:
+        '200':
+          description: Horarios actualizados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RestaurantSchedule'
+
+  /api/restaurants/{restaurantId}/schedules/{scheduleId}:
+    delete:
+      tags:
+        - Schedules
+      summary: Eliminar horario de un día
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: scheduleId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Horario eliminado
+
+  # ==================== FASE 2A: FECHAS CERRADAS ====================
+  /api/restaurants/{restaurantId}/closed-dates:
+    get:
+      tags:
+        - Schedules
+      summary: Obtener fechas cerradas
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Lista de fechas cerradas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClosedDate'
+
+    post:
+      tags:
+        - Schedules
+      summary: Agregar fecha cerrada
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClosedDate'
+      responses:
+        '200':
+          description: Fecha cerrada agregada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClosedDate'
+
+  /api/restaurants/{restaurantId}/closed-dates/bulk:
+    post:
+      tags:
+        - Schedules
+      summary: Agregar múltiples fechas cerradas
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ClosedDate'
+      responses:
+        '200':
+          description: Fechas cerradas agregadas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClosedDate'
+
+  /api/restaurants/{restaurantId}/closed-dates/{closedDateId}:
+    delete:
+      tags:
+        - Schedules
+      summary: Eliminar fecha cerrada
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: closedDateId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Fecha cerrada eliminada
+
+  # ==================== FASE 2B: ANALYTICS ====================
+  /api/analytics/restaurant/{restaurantId}/dashboard:
+    get:
+      tags:
+        - Analytics
+      summary: Dashboard completo de analytics
+      description: Métricas completas para el back-office del restaurante
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: startDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: Fecha inicio (default 30 días atrás)
+        - name: endDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: Fecha fin (default hoy)
+      responses:
+        '200':
+          description: Dashboard analytics completo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardAnalyticsDTO'
+
+  /api/analytics/restaurant/{restaurantId}/quick:
+    get:
+      tags:
+        - Analytics
+      summary: Stats rápidos para header
+      description: Hoy, esta semana, este mes - para badges y KPIs rápidos
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Quick stats
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuickStatsDTO'
+
+  /api/analytics/restaurant/{restaurantId}/daily:
+    get:
+      tags:
+        - Analytics
+      summary: Métricas diarias para gráficos
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: startDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Métricas diarias
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DailyMetricDTO'
+
+  /api/analytics/restaurant/{restaurantId}/hourly:
+    get:
+      tags:
+        - Analytics
+      summary: Distribución horaria
+      description: Reservas por hora del día (0-23) para charts
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: startDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Distribución horaria (24 items)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HourlyMetricDTO'
+
+  /api/analytics/restaurant/{restaurantId}/weekday:
+    get:
+      tags:
+        - Analytics
+      summary: Distribución semanal
+      description: Reservas por día de la semana para charts
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: startDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Distribución semanal (7 items, Lunes a Domingo)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WeekdayMetricDTO'
+
+  /api/analytics/restaurant/{restaurantId}/today:
+    get:
+      tags:
+        - Analytics
+      summary: Analytics solo de hoy
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Dashboard de hoy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardAnalyticsDTO'
+
+  /api/analytics/restaurant/{restaurantId}/week:
+    get:
+      tags:
+        - Analytics
+      summary: Analytics últimos 7 días
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Dashboard última semana
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardAnalyticsDTO'
+
+  /api/analytics/restaurant/{restaurantId}/month:
+    get:
+      tags:
+        - Analytics
+      summary: Analytics últimos 30 días
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Dashboard último mes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardAnalyticsDTO'
+
+  /api/analytics/restaurant/{restaurantId}/quarter:
+    get:
+      tags:
+        - Analytics
+      summary: Analytics últimos 90 días
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Dashboard último trimestre
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardAnalyticsDTO'

@@ -10,6 +10,8 @@ import { AuthenticationService } from '../services/authentication.service';
 import { User } from '../Interfaces/user.model';
 import { TimeSlotPickerComponent } from '../time-slot-picker/time-slot-picker.component';
 import { AvailabilityResponse, TimeSlotDTO } from '../Interfaces/schedule.model';
+import { PromotionService } from '../services/promotion.service';
+import { Promotion } from '../Interfaces/promotion.model';
 
 
 @Component({
@@ -32,10 +34,15 @@ export class BookingFormComponent implements OnInit {
   user: User | undefined;
   showSpinner = true;
   
+  // Propiedades para promociones
+  selectedPromotion: Promotion | null = null;
+  selectedPromotionId: number | null = null;
+  
   // Propiedades para el selector de horarios
   showTimeSlotPicker = false;
   selectedSlot: TimeSlotDTO | null = null;
   showContactSection = false;
+  fallbackPhotoUrl = 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=600&q=80';
 
 
   bookingForm = new FormGroup({
@@ -56,6 +63,7 @@ export class BookingFormComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private httpClient: HttpClient,
+    private promotionService: PromotionService,
     authService: AuthenticationService) {
     this.authService = authService;
     if (this.authService) {
@@ -82,6 +90,15 @@ export class BookingFormComponent implements OnInit {
         error: err => console.error('Error al cargar usuario:', err)
       });
     }
+
+    // Leer queryParams para posible promoción
+    this.activatedRoute.queryParams.subscribe(queryParams => {
+      const promotionId = queryParams['promotionId'];
+      if (promotionId) {
+        this.selectedPromotionId = +promotionId;
+        this.loadPromotionDetails(this.selectedPromotionId);
+      }
+    });
 
     this.activatedRoute.params.subscribe(params => {
 
@@ -188,6 +205,26 @@ export class BookingFormComponent implements OnInit {
     this.showContactSection = !this.showContactSection;
   }
 
+  // Cargar detalles de la promoción seleccionada
+  loadPromotionDetails(promotionId: number): void {
+    this.promotionService.getPromotion(promotionId).subscribe({
+      next: promotion => {
+        this.selectedPromotion = promotion;
+        console.log('✅ Promoción cargada:', promotion);
+      },
+      error: err => {
+        console.error('❌ Error al cargar promoción:', err);
+        this.selectedPromotionId = null;
+      }
+    });
+  }
+
+  // Remover promoción seleccionada
+  removePromotion(): void {
+    this.selectedPromotion = null;
+    this.selectedPromotionId = null;
+  }
+
   // Formatear fecha para mostrar
   formatDateDisplay(dateStr: string | null | undefined): string {
     if (!dateStr) return 'Selecciona fecha';
@@ -202,6 +239,11 @@ export class BookingFormComponent implements OnInit {
     } catch {
       return dateStr;
     }
+  }
+
+  get restaurantPhotoUrl(): string {
+    const url = (this.restaurant?.imageUrl || '').trim();
+    return url || this.fallbackPhotoUrl;
   }
 
 
@@ -264,6 +306,15 @@ export class BookingFormComponent implements OnInit {
       this.httpClient.post<Booking>(url, booking).subscribe({
         next: created => {
           console.log('✅ Reserva creada:', created);
+          
+          // Si hay promoción seleccionada, aplicarla después de crear la reserva
+          if (this.selectedPromotionId) {
+            this.promotionService.applyPromotion(this.selectedPromotionId).subscribe({
+              next: () => console.log('✅ Promoción aplicada correctamente'),
+              error: err => console.error('❌ Error al aplicar promoción:', err)
+            });
+          }
+          
           this.router.navigate(['/bookings', created.id, 'detail']);
         },
         error: err => {

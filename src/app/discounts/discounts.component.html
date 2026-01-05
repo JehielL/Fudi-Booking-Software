@@ -1,5 +1,4 @@
 @if (showSpinner) {
-
   <section class="dots-container">
     <div class="dot"></div>
     <div class="dot"></div>
@@ -7,26 +6,80 @@
     <div class="dot"></div>
     <div class="dot"></div>
   </section>
-
-}@else {
- <div class="discount-container">
-    <h2 class="discount-title">Descuentos Disponibles</h2>
-    <div class="discount-cards-container">
-        @for (restaurant of getDiscounts(); track restaurant.id) {
-      <div class="discount-card" [routerLink]="['/restaurant', restaurant.id,'detail']" style="cursor: pointer;">
-        <div class="discount-card-offer">Descuento: {{ restaurant.discount}}%</div>
-          <img class="discount-card-img"[src]="restaurant.imageUrl.startsWith('http') ? restaurant.imageUrl : ('http://localhost:8080/files/' + restaurant.imageUrl)">
-        <div class="discount-card-body">
-          <h3 class="discount-card-title">{{ restaurant.name }}</h3>
-          <p class="discount-card-description">{{ restaurant.description }}</p>
-          <div class="discount-card-bottom">
-            <div class="discount-card-rating">
-              <i class="bi bi-star-fill"></i> {{ restaurant.averageRating}}
-            </div>
-          </div>
-        </div>
+} @else {
+  <div class="discounts-page">
+    <div class="container">
+      <!-- Header -->
+      <div class="page-header">
+        <h1 class="page-title">
+          <i class="bi bi-tag-fill"></i>
+          Promociones Activas
+        </h1>
+        <p class="page-subtitle">Descubre las mejores ofertas de nuestros restaurantes</p>
       </div>
-    }
+
+      <!-- Grid de restaurantes con promociones -->
+      <div class="restaurants-grid">
+        @for (item of restaurantsWithPromotions; track item.restaurant.id) {
+          <article class="restaurant-card" [routerLink]="['/restaurant', item.restaurant.id, 'detail']">
+            <!-- Imagen -->
+            <div class="card-image">
+              <img 
+                [src]="item.restaurant.imageUrl.startsWith('http') ? item.restaurant.imageUrl : ('http://localhost:8080/files/' + item.restaurant.imageUrl)"
+                [alt]="item.restaurant.name"
+              >
+              <div class="image-overlay">
+                <div class="rating-badge">
+                  <i class="bi bi-star-fill"></i>
+                  <span>{{ item.restaurant.averageRating || 0 }}</span>
+                </div>
+              </div>
+              <!-- Badge de número de promociones -->
+              <div class="promo-count-badge">
+                <i class="bi bi-gift-fill"></i>
+                {{ item.promotions.length }} {{ item.promotions.length === 1 ? 'oferta' : 'ofertas' }}
+              </div>
+            </div>
+
+            <!-- Contenido -->
+            <div class="card-content">
+              <h3 class="restaurant-name">{{ item.restaurant.name }}</h3>
+              <p class="restaurant-description">{{ item.restaurant.description }}</p>
+
+              <!-- Promociones destacadas -->
+              <div class="promotions-preview">
+                @for (promo of item.promotions.slice(0, 2); track promo.id) {
+                  <div class="promo-tag" [style.background-color]="getPromotionColor(promo.type)">
+                    <i [class]="getPromotionIcon(promo.type)"></i>
+                    <span>{{ promo.title }}</span>
+                  </div>
+                }
+                @if (item.promotions.length > 2) {
+                  <div class="promo-more">
+                    +{{ item.promotions.length - 2 }} más
+                  </div>
+                }
+              </div>
+
+              <!-- Footer -->
+              <div class="card-footer">
+                <span class="view-details">
+                  Ver detalles
+                  <i class="bi bi-arrow-right"></i>
+                </span>
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+
+      <!-- Mensaje si no hay promociones -->
+      @if (restaurantsWithPromotions.length === 0) {
+        <div class="empty-state">
+          <i class="bi bi-inbox"></i>
+          <p>No hay promociones activas en este momento</p>
+        </div>
+      }
     </div>
   </div>
 }

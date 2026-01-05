@@ -13,8 +13,8 @@
   <header class="booking-header smoke-hero">
     <div class="header-overlay"></div>
     <div class="header-content">
-      <div class="restaurant-badge">
-        <i class="bi bi-shop"></i>
+      <div class="restaurant-avatar">
+        <img [src]="restaurantPhotoUrl" [alt]="restaurant?.name || 'Restaurante'">
       </div>
       <h1 class="restaurant-name">{{ restaurant?.name || 'Reservar Mesa' }}</h1>
       @if (restaurant?.address) {
@@ -31,6 +31,31 @@
       <i class="bi bi-bookmark-check"></i>
       <span>Resumen de tu reserva</span>
     </div>
+
+    <!-- Badge de promoción seleccionada -->
+    @if (selectedPromotion) {
+      <div class="promotion-badge">
+        <div class="promo-badge-content">
+          <i class="bi bi-gift-fill"></i>
+          <div class="promo-badge-text">
+            <span class="promo-badge-title">{{ selectedPromotion.title }}</span>
+            <span class="promo-badge-discount">
+              @if (selectedPromotion.discountValue) {
+                {{ selectedPromotion.discountValue }}% de descuento
+              } @else if (selectedPromotion.fixedPrice) {
+                Precio fijo: {{ selectedPromotion.fixedPrice }}€
+              } @else {
+                Promoción especial
+              }
+            </span>
+          </div>
+          <button type="button" class="promo-remove-btn" (click)="removePromotion()" title="Quitar promoción">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </div>
+    }
+
     <div class="summary-grid">
       <div class="summary-item">
         <i class="bi bi-person-circle"></i>

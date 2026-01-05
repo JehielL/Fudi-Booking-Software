@@ -102,17 +102,68 @@
   </div>
 </div>
 
+<!-- Sección de Promociones Activas -->
+@if (activePromotions.length > 0) {
+<section class="promotions-section">
+  <div class="container">
+    <div class="promotions-header">
+      <h2 class="promotions-title">
+        <i class="bi bi-tag-fill"></i>
+        Promociones Activas
+      </h2>
+    </div>
+
+    <div class="promotions-grid">
+      @for (promo of activePromotions; track promo.id) {
+      <div class="promo-card" [style.border-left-color]="getPromotionColor(promo.type)">
+        <div class="promo-card-header">
+          <div class="promo-icon" [style.background-color]="getPromotionColor(promo.type)">
+            <i [class]="getPromotionIcon(promo.type)"></i>
+          </div>
+          <div class="promo-title-section">
+            <h3 class="promo-title">{{ promo.title }}</h3>
+            <span class="promo-value">{{ formatPromotionValue(promo) }}</span>
+          </div>
+        </div>
+        
+        <p class="promo-description">{{ promo.description }}</p>
+        
+        <div class="promo-footer">
+          <div class="promo-validity">
+            <i class="bi bi-calendar-range"></i>
+            <span>Válido hasta {{ promo.endDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+          @if (promo.maxUses && promo.currentUses !== undefined) {
+          <div class="promo-usage">
+            <i class="bi bi-people"></i>
+            <span>{{ promo.currentUses }}/{{ promo.maxUses }} usos</span>
+          </div>
+          }
+        </div>
+        
+        <!-- Botón para reservar con esta promoción -->
+        <button class="promo-action-btn" 
+                [routerLink]="['/bookings', restaurant?.id, 'reserve']"
+                [queryParams]="{promotionId: promo.id}">
+          <i class="bi bi-calendar-check-fill me-1"></i>
+          Reservar con esta promo
+        </button>
+      </div>
+      }
+    </div>
+  </div>
+</section>
+}
+
 <!-- Sección de Menús estilo Social Media -->
 <section class="menus-section">
   <div class="container">
     <!-- Header de sección -->
     <div class="menus-section-header">
-      <div class="section-tag">
+      <h2 class="menus-main-title">
         <i class="bi bi-book-fill"></i>
-        <span>Nuestros Menús</span>
-      </div>
-      <h2 class="menus-main-title">Carta del Restaurante</h2>
-      <p class="menus-main-subtitle">Descubre nuestras propuestas gastronómicas</p>
+        Nuestra Carta
+      </h2>
     </div>
 
     <!-- Grid de menús tipo Instagram -->
@@ -172,12 +223,10 @@
   <div class="container">
     <!-- Header de sección -->
     <div class="recommendations-header">
-      <div class="section-tag secondary">
-        <i class="bi bi-hand-thumbs-up-fill"></i>
-        <span>Te puede interesar</span>
-      </div>
-      <h2 class="recommendations-title">Restaurantes Recomendados</h2>
-      <p class="recommendations-subtitle">Explora otros lugares que te encantarán</p>
+      <h2 class="recommendations-title">
+        <i class="bi bi-compass"></i>
+        Más Restaurantes
+      </h2>
     </div>
 
     <!-- Grid de restaurantes -->

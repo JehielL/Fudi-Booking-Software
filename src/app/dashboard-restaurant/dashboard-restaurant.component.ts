@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { Subject, forkJoin, interval } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, forkJoin, interval, timer } from 'rxjs';
+import { takeUntil, delay, switchMap } from 'rxjs/operators';
 
 import { DashboardService } from '../services/dashboard.service';
 import { BookingService } from '../services/booking.service';
@@ -54,9 +54,7 @@ export class DashboardRestaurantComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   // =============== ESTADO DE CARGA ===============
-  loading = true;
-  loadingBookings = false;
-  loadingStats = false;
+  showSpinner = true;
   error = '';
   
   // =============== DATOS DEL RESTAURANTE ===============
@@ -95,13 +93,12 @@ export class DashboardRestaurantComponent implements OnInit, OnDestroy {
   
   // Formulario de nueva promoción
   newPromotion: PromotionCreate = {
-    restaurantId: 0,
     title: '',
     description: '',
-    type: PromotionType.PERCENTAGE,
+    type: PromotionType.PERCENTAGE_DISCOUNT,
     discountValue: 10,
-    validFrom: '',
-    validUntil: ''
+    startDate: '',
+    endDate: ''
   };
   
   // =============== CONFIGURACIONES ===============
@@ -183,17 +180,16 @@ export class DashboardRestaurantComponent implements OnInit, OnDestroy {
           this.restaurant = restaurants[0];
           this.restaurantId = restaurants[0].id;
           this.restaurantName = restaurants[0].name || 'Mi Restaurante';
-          this.newPromotion.restaurantId = restaurants[0].id;
           this.loadAllData();
         } else {
           this.error = 'No tienes un restaurante asociado';
-          this.loading = false;
+          this.showSpinner = false;
         }
       },
       error: (err) => {
         console.error('Error loading restaurants:', err);
         this.error = 'Error al cargar datos del restaurante';
-        this.loading = false;
+        this.showSpinner = false;
       }
     });
   }
@@ -203,7 +199,6 @@ export class DashboardRestaurantComponent implements OnInit, OnDestroy {
     this.restaurant = restaurant;
     this.restaurantId = restaurant.id;
     this.restaurantName = restaurant.name || 'Mi Restaurante';
-    this.newPromotion.restaurantId = restaurant.id;
     this.showRestaurantSelector = false;
     
     // Resetear datos y recargar
@@ -224,19 +219,20 @@ export class DashboardRestaurantComponent implements OnInit, OnDestroy {
   private loadAllData(): void {
     if (!this.restaurantId) return;
 
-    this.loading = true;
-
-    // Cargamos todo en paralelo
-    forkJoin({
-      dashboard: this.dashboardService.getRestaurantDashboard(this.restaurantId),
-      quickStats: this.dashboardService.getQuickStats(this.restaurantId),
-      pendingBookings: this.bookingService.getByRestaurantAndStatus(this.restaurantId, BookingStatus.PENDING),
-      todayBookings: this.bookingService.getTodayByRestaurant(this.restaurantId),
-      monthlyStats: this.dashboardService.getMonthlyStats(this.restaurantId),
-      allBookings: this.bookingService.getByRestaurant(this.restaurantId),
-      upcomingBookings: this.bookingService.getUpcomingByRestaurant(this.restaurantId),
-      allPromotions: this.promotionService.getAllRestaurantPromotions(this.restaurantId)
-    }).subscribe({
+    // Implementar el mismo patrón que home: timer(500) + delay(500) = mínimo 1 segundo de spinner
+    timer(500).pipe(
+      switchMap(() => forkJoin({
+        dashboard: this.dashboardService.getRestaurantDashboard(this.restaurantId!),
+        quickStats: this.dashboardService.getQuickStats(this.restaurantId!),
+        pendingBookings: this.bookingService.getByRestaurantAndStatus(this.restaurantId!, BookingStatus.PENDING),
+        todayBookings: this.bookingService.getTodayByRestaurant(this.restaurantId!),
+        monthlyStats: this.dashboardService.getMonthlyStats(this.restaurantId!),
+        allBookings: this.bookingService.getByRestaurant(this.restaurantId!),
+        upcomingBookings: this.bookingService.getUpcomingByRestaurant(this.restaurantId!),
+        allPromotions: this.promotionService.getAllRestaurantPromotions(this.restaurantId!)
+      })),
+      delay(500)
+    ).subscribe({
       next: (data) => {
         this.dashboardData = data.dashboard;
         this.quickStats = data.quickStats;
@@ -255,15 +251,11 @@ export class DashboardRestaurantComponent implements OnInit, OnDestroy {
         this.filteredBookings = this.allBookings;
         this.promotions = Array.isArray(data.allPromotions) ? data.allPromotions : [];
         
-        // Debug: ver estructura de reservas
-        console.log('Pending bookings (real):', pendingBookings.length, pendingBookings);
-        console.log('Today bookings:', todayBookings.length);
-        
         this.activePromotions = this.promotions.filter(p => p.active);
         this.featuredPromotions = this.promotions.filter(p => p.featured);
         
         this.updateBookingStatusFilters();
-        this.loading = false;
+        this.showSpinner = false;
       },
       error: (err) => {
         console.error('Error loading dashboard data:', err);
@@ -276,22 +268,25 @@ export class DashboardRestaurantComponent implements OnInit, OnDestroy {
   private loadBasicData(): void {
     if (!this.restaurantId) return;
 
-    forkJoin({
-      bookings: this.bookingService.getByRestaurant(this.restaurantId),
-      promotions: this.promotionService.getAllRestaurantPromotions(this.restaurantId)
-    }).subscribe({
+    timer(500).pipe(
+      switchMap(() => forkJoin({
+        bookings: this.bookingService.getByRestaurant(this.restaurantId!),
+        promotions: this.promotionService.getAllRestaurantPromotions(this.restaurantId!)
+      })),
+      delay(500)
+    ).subscribe({
       next: (data) => {
         this.allBookings = Array.isArray(data.bookings) ? data.bookings : [];
         this.filteredBookings = this.allBookings;
         this.promotions = Array.isArray(data.promotions) ? data.promotions : [];
         this.activePromotions = this.promotions.filter(p => p.active);
         this.updateBookingStatusFilters();
-        this.loading = false;
+        this.showSpinner = false;
       },
       error: (err) => {
         console.error('Error loading basic data:', err);
         this.error = 'Error al cargar los datos';
-        this.loading = false;
+        this.showSpinner = false;
       }
     });
   }
@@ -593,8 +588,6 @@ export class DashboardRestaurantComponent implements OnInit, OnDestroy {
   private refreshBookings(): void {
     if (!this.restaurantId) return;
 
-    this.loadingBookings = true;
-
     forkJoin({
       pendingBookings: this.bookingService.getByRestaurantAndStatus(this.restaurantId, BookingStatus.PENDING),
       todayBookings: this.bookingService.getTodayByRestaurant(this.restaurantId),
@@ -608,11 +601,9 @@ export class DashboardRestaurantComponent implements OnInit, OnDestroy {
         this.quickStats = data.quickStats;
         this.updateBookingStatusFilters();
         this.applyBookingFilters();
-        this.loadingBookings = false;
       },
       error: (err) => {
         console.error('Error refreshing bookings:', err);
-        this.loadingBookings = false;
       }
     });
   }
@@ -622,13 +613,14 @@ export class DashboardRestaurantComponent implements OnInit, OnDestroy {
   openPromotionForm(): void {
     this.editingPromotion = null;
     this.newPromotion = {
-      restaurantId: this.restaurantId || 0,
       title: '',
       description: '',
-      type: PromotionType.PERCENTAGE,
+      type: PromotionType.PERCENTAGE_DISCOUNT,
       discountValue: 10,
-      validFrom: this.getTodayDate(),
-      validUntil: this.getNextMonthDate()
+      startDate: this.getTodayDate(),
+      endDate: this.getNextMonthDate(),
+      active: true,
+      featured: false
     };
     this.showPromotionForm = true;
   }
@@ -636,15 +628,21 @@ export class DashboardRestaurantComponent implements OnInit, OnDestroy {
   editPromotion(promotion: Promotion): void {
     this.editingPromotion = promotion;
     this.newPromotion = {
-      restaurantId: promotion.restaurantId,
       title: promotion.title,
       description: promotion.description,
       type: promotion.type,
       discountValue: promotion.discountValue,
-      minimumOrder: promotion.minimumOrder,
-      validFrom: promotion.validFrom?.split('T')[0] || '',
-      validUntil: promotion.validUntil?.split('T')[0] || '',
-      maxUsage: promotion.maxUsage
+      fixedPrice: promotion.fixedPrice,
+      startDate: promotion.startDate?.split('T')[0] || '',
+      endDate: promotion.endDate?.split('T')[0] || '',
+      startTime: promotion.startTime,
+      endTime: promotion.endTime,
+      validDays: promotion.validDays,
+      minPeople: promotion.minPeople,
+      maxUses: promotion.maxUses,
+      promoCode: promotion.promoCode,
+      active: promotion.active,
+      featured: promotion.featured
     };
     this.showPromotionForm = true;
   }
@@ -711,6 +709,26 @@ export class DashboardRestaurantComponent implements OnInit, OnDestroy {
     this.editingPromotion = null;
   }
 
+  onOverlayMouseDown(event: MouseEvent): void {
+    // Solo cerrar si el mousedown fue directamente en el overlay
+    if (event.target === event.currentTarget) {
+      this.closePromotionForm();
+    }
+  }
+
+  onOverlayClick(event: MouseEvent): void {
+    // Solo cerrar si el click fue directamente en el overlay, no en sus hijos
+    if (event.target === event.currentTarget) {
+      this.closePromotionForm();
+    }
+  }
+
+  onRejectOverlayClick(event: MouseEvent): void {
+    if (event.target === event.currentTarget) {
+      this.closeRejectModal();
+    }
+  }
+
   private updatePromotionLists(): void {
     this.activePromotions = this.promotions.filter(p => p.active);
     this.featuredPromotions = this.promotions.filter(p => p.featured);
@@ -747,7 +765,8 @@ export class DashboardRestaurantComponent implements OnInit, OnDestroy {
   }
 
   getPromotionTypeConfig(type: PromotionType) {
-    return PROMOTION_TYPE_CONFIG[type] || PROMOTION_TYPE_CONFIG[PromotionType.PERCENTAGE];
+    const config = PROMOTION_TYPE_CONFIG[type];
+    return config || PROMOTION_TYPE_CONFIG[PromotionType.PERCENTAGE_DISCOUNT];
   }
 
   formatDate(dateString: string | Date | null | undefined): string {
@@ -795,6 +814,8 @@ export class DashboardRestaurantComponent implements OnInit, OnDestroy {
   }
 
   refreshData(): void {
+    this.showSpinner = true;
+    this.error = '';
     this.loadAllData();
   }
 

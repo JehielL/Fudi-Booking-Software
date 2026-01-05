@@ -1,16 +1,16 @@
-<div class="dashboard-wrapper">
-  <!-- Loading State -->
-  @if (loading) {
-    <div class="loading-overlay">
-      <div class="loading-content">
-        <div class="spinner-modern"></div>
-        <p>Cargando panel de control...</p>
-      </div>
-    </div>
-  }
+@if (showSpinner) {
+  <section class="dots-container">
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+</section>
+} @else {
 
+<div class="dashboard-wrapper">
   <!-- Error State -->
-  @if (error && !loading) {
+  @if (error) {
     <div class="error-container">
       <div class="error-card">
         <div class="error-icon">
@@ -27,7 +27,7 @@
   }
 
   <!-- Main Dashboard -->
-  @if (!loading && !error && restaurant) {
+  @if (!error && restaurant) {
     <!-- Sidebar -->
     <aside class="dashboard-sidebar">
       <div class="sidebar-header has-selector">
@@ -399,9 +399,9 @@
                       <div class="promo-info">
                         <h4>{{ promo.title }}</h4>
                         <span class="promo-value">
-                          @if (promo.type === PromotionType.PERCENTAGE) {
+                          @if (promo.type === PromotionType.PERCENTAGE_DISCOUNT) {
                             {{ promo.discountValue }}% dto
-                          } @else if (promo.type === PromotionType.FIXED) {
+                          } @else if (promo.type === PromotionType.FIXED_DISCOUNT) {
                             {{ promo.discountValue }}€ dto
                           } @else if (promo.type === PromotionType.TWO_FOR_ONE) {
                             2x1
@@ -410,7 +410,7 @@
                           }
                         </span>
                       </div>
-                      <span class="promo-usage">{{ promo.usageCount }} usos</span>
+                      <span class="promo-usage">{{ promo.currentUses }} usos</span>
                     </div>
                   }
                 </div>
@@ -630,10 +630,10 @@
                       <h3>{{ promo.title }}</h3>
                       <p>{{ promo.description }}</p>
                       <div class="promo-value-display">
-                        @if (promo.type === PromotionType.PERCENTAGE) {
+                        @if (promo.type === PromotionType.PERCENTAGE_DISCOUNT) {
                           <span class="value">{{ promo.discountValue }}%</span>
                           <span class="label">descuento</span>
-                        } @else if (promo.type === PromotionType.FIXED) {
+                        } @else if (promo.type === PromotionType.FIXED_DISCOUNT) {
                           <span class="value">{{ promo.discountValue }}€</span>
                           <span class="label">descuento</span>
                         } @else if (promo.type === PromotionType.TWO_FOR_ONE) {
@@ -648,11 +648,11 @@
                     <div class="promo-card-meta">
                       <span class="meta-item">
                         <i class="bi bi-calendar-range"></i>
-                        {{ formatDate(promo.validFrom) }} - {{ formatDate(promo.validUntil) }}
+                        {{ formatDate(promo.startDate) }} - {{ formatDate(promo.endDate) }}
                       </span>
                       <span class="meta-item">
                         <i class="bi bi-graph-up"></i>
-                        {{ promo.usageCount }} usos
+                        {{ promo.currentUses }} usos
                       </span>
                     </div>
                     <div class="promo-card-actions">
@@ -793,8 +793,8 @@
 
 <!-- Promotion Form Modal -->
 @if (showPromotionForm) {
-  <div class="modal-overlay" (click)="closePromotionForm()">
-    <div class="modal-dialog large" (click)="$event.stopPropagation()">
+  <div class="modal-overlay" (mousedown)="onOverlayMouseDown($event)">
+    <div class="modal-dialog large">
       <div class="modal-header">
         <h2>
           <i class="bi bi-gift text-success"></i>
@@ -831,24 +831,27 @@
           <div class="form-group">
             <label for="promoType">Tipo de promoción *</label>
             <select id="promoType" [(ngModel)]="newPromotion.type">
-              <option [value]="PromotionType.PERCENTAGE">Porcentaje de descuento</option>
-              <option [value]="PromotionType.FIXED">Cantidad fija</option>
+              <option [value]="PromotionType.PERCENTAGE_DISCOUNT">Porcentaje de descuento</option>
+              <option [value]="PromotionType.FIXED_DISCOUNT">Cantidad fija</option>
+              <option [value]="PromotionType.HAPPY_HOUR">Happy Hour</option>
               <option [value]="PromotionType.TWO_FOR_ONE">2x1</option>
               <option [value]="PromotionType.FREE_ITEM">Artículo gratis</option>
+              <option [value]="PromotionType.FIRST_BOOKING">Primera reserva</option>
+              <option [value]="PromotionType.LOYALTY">Fidelidad</option>
             </select>
           </div>
 
-          @if (newPromotion.type === PromotionType.PERCENTAGE || newPromotion.type === PromotionType.FIXED) {
+          @if (newPromotion.type === PromotionType.PERCENTAGE_DISCOUNT || newPromotion.type === PromotionType.FIXED_DISCOUNT) {
             <div class="form-group">
               <label for="promoValue">
-                {{ newPromotion.type === PromotionType.PERCENTAGE ? 'Porcentaje (%)' : 'Cantidad (€)' }} *
+                {{ newPromotion.type === PromotionType.PERCENTAGE_DISCOUNT ? 'Porcentaje (%)' : 'Cantidad (€)' }} *
               </label>
               <input 
                 type="number" 
                 id="promoValue" 
                 [(ngModel)]="newPromotion.discountValue"
                 [min]="1"
-                [max]="newPromotion.type === PromotionType.PERCENTAGE ? 100 : 999"
+                [max]="newPromotion.type === PromotionType.PERCENTAGE_DISCOUNT ? 100 : 999"
               >
             </div>
           }
@@ -858,7 +861,7 @@
             <input 
               type="date" 
               id="promoStart" 
-              [(ngModel)]="newPromotion.validFrom"
+              [(ngModel)]="newPromotion.startDate"
               required
             >
           </div>
@@ -868,19 +871,19 @@
             <input 
               type="date" 
               id="promoEnd" 
-              [(ngModel)]="newPromotion.validUntil"
+              [(ngModel)]="newPromotion.endDate"
               required
             >
           </div>
 
           <div class="form-group">
-            <label for="promoMinOrder">Pedido mínimo (€)</label>
+            <label for="promoMinPeople">Mínimo de personas</label>
             <input 
               type="number" 
-              id="promoMinOrder" 
-              [(ngModel)]="newPromotion.minimumOrder"
+              id="promoMinPeople" 
+              [(ngModel)]="newPromotion.minPeople"
               placeholder="Opcional"
-              min="0"
+              min="1"
             >
           </div>
 
@@ -889,7 +892,7 @@
             <input 
               type="number" 
               id="promoMaxUsage" 
-              [(ngModel)]="newPromotion.maxUsage"
+              [(ngModel)]="newPromotion.maxUses"
               placeholder="Ilimitado"
               min="1"
             >
@@ -901,7 +904,7 @@
         <button 
           class="btn-primary" 
           (click)="savePromotion()"
-          [disabled]="!newPromotion.title || !newPromotion.description || !newPromotion.validFrom || !newPromotion.validUntil"
+          [disabled]="!newPromotion.title || !newPromotion.description || !newPromotion.startDate || !newPromotion.endDate"
         >
           <i class="bi bi-check-lg"></i>
           {{ editingPromotion ? 'Guardar cambios' : 'Crear promoción' }}
@@ -909,4 +912,6 @@
       </div>
     </div>
   </div>
+}
+
 }

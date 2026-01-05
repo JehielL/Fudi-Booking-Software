@@ -8,6 +8,8 @@ import { KitchenComponent } from '../kitchen/kitchen.component';
 import { Restaurant } from '../Interfaces/restaurant.model';
 import { delay, switchMap, timer } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { BookingService } from '../services/booking.service';
+import { BookingStatus } from '../Interfaces/booking-status.model';
 
 
 @Component({
@@ -38,11 +40,14 @@ export class NavbarComponent implements OnInit{
   puedeMostrarMas: boolean = false;
   showCocinasDropdown: boolean = false;
   isScrolled = false;
+  pendingBookingsCount = 0;
+  myRestaurantId: number | null = null;
 
   constructor(
     private authService: AuthenticationService,
     private router: Router,
     private httpClient: HttpClient,
+    private bookingService: BookingService
     ){
 
     this.authService.isLoggedin.subscribe(isLoggedin => {
@@ -103,7 +108,43 @@ closeNavbar() {
   ngOnInit(): void {
 
     this.loadRestaurants();
+    this.loadPendingBookingsCount();
     
+    // Recargar contador cada 30 segundos si es admin/restaurant
+    if (this.isAdmin || this.isRestaurant) {
+      setInterval(() => this.loadPendingBookingsCount(), 30000);
+    }
+  }
+
+  loadPendingBookingsCount(): void {
+    if (!this.isAdmin && !this.isRestaurant) return;
+    
+    // Si ya tenemos el restaurantId, usarlo directamente
+    if (this.myRestaurantId) {
+      this.fetchPendingCount(this.myRestaurantId);
+      return;
+    }
+
+    // Obtener mis restaurantes usando el endpoint específico
+    this.httpClient.get<Restaurant[]>('http://localhost:8080/my-restaurants').subscribe({
+      next: restaurants => {
+        if (restaurants && restaurants.length > 0) {
+          // Tomar el primer restaurante del usuario
+          this.myRestaurantId = restaurants[0].id;
+          this.fetchPendingCount(restaurants[0].id);
+        }
+      },
+      error: err => console.error('Error cargando mis restaurantes:', err)
+    });
+  }
+
+  private fetchPendingCount(restaurantId: number): void {
+    this.bookingService.getByRestaurantAndStatus(restaurantId, BookingStatus.PENDING).subscribe({
+      next: bookings => {
+        this.pendingBookingsCount = bookings.length;
+      },
+      error: err => console.error('Error cargando reservas pendientes:', err)
+    });
   }
 
   toggleCocinasDropdown() {

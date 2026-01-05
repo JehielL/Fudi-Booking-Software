@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Restaurant } from '../Interfaces/restaurant.model'; 
+import { Promotion, PromotionType, PROMOTION_TYPE_CONFIG } from '../Interfaces/promotion.model';
+import { PromotionService } from '../services/promotion.service';
 import { Router, RouterLink } from '@angular/router';
 import { CarruselComponent } from '../carrusel/carrusel.component';
 import { User } from '../Interfaces/user.model';
@@ -8,8 +10,13 @@ import { AuthenticationService } from '../services/authentication.service';
 import { HomeSinLogComponent } from '../home-sin-log/home-sin-log.component';
 import { KitchenComponent } from '../kitchen/kitchen.component';
 import Aos from 'aos';
-import { delay, switchMap, timer } from 'rxjs';
+import { delay, switchMap, timer, forkJoin } from 'rxjs';
 import { CommonModule } from '@angular/common';
+
+interface RestaurantWithPromotions {
+  restaurant: Restaurant;
+  promotions: Promotion[];
+}
 
 @Component({
   selector: 'app-home',
@@ -29,8 +36,20 @@ export class HomeComponent implements OnInit {
   user: User | undefined;
   authService: AuthenticationService | undefined;
   
+  // Promociones
+  restaurantsWithPromotions: RestaurantWithPromotions[] = [];
+  currentPromoPage = 0;
+  promosPerPage = 3;
+  promoTransitioning = false;
+  PromotionType = PromotionType;
+  promotionConfig = PROMOTION_TYPE_CONFIG;
 
-  constructor(private httpClient: HttpClient, authService: AuthenticationService, router: Router) {
+  constructor(
+    private httpClient: HttpClient, 
+    private promotionService: PromotionService,
+    authService: AuthenticationService, 
+    router: Router
+  ) {
     this.authService = authService;
     if (this.authService) {
       this.authService.isLoggedin.subscribe(isLoggedin => this.isLoggedin = isLoggedin);
@@ -61,6 +80,7 @@ export class HomeComponent implements OnInit {
     });
   
     this.loadRestaurants();
+    this.loadRestaurantsWithPromotions();
     this.cambiarFondoCadaXSegundos();
   }
   
@@ -142,4 +162,77 @@ export class HomeComponent implements OnInit {
   toggleCocinasDropdown() {
     this.showCocinasDropdown = !this.showCocinasDropdown;
   }
+
+  loadRestaurantsWithPromotions(): void {
+    const apiUrl = 'http://localhost:8080/restaurant';
+    
+    this.httpClient.get<Restaurant[]>(apiUrl).subscribe(restaurants => {
+      const promotionRequests = restaurants.map(restaurant =>
+        this.promotionService.getRestaurantPromotions(restaurant.id)
+      );
+
+      forkJoin(promotionRequests).subscribe(promotionsArrays => {
+        const restaurantsWithPromos = restaurants
+          .map((restaurant, index) => ({
+            restaurant,
+            promotions: promotionsArrays[index]
+          }))
+          .filter(item => item.promotions.length > 0);
+
+        this.restaurantsWithPromotions = restaurantsWithPromos;
+      });
+    });
+  }
+
+  getPromotionIcon(type: PromotionType): string {
+    return PROMOTION_TYPE_CONFIG[type]?.icon || 'bi-tag-fill';
+  }
+
+  getPromotionColor(type: PromotionType): string {
+    return PROMOTION_TYPE_CONFIG[type]?.color || '#6366f1';
+  }
+
+  getCurrentPagePromos(): RestaurantWithPromotions[] {
+    const start = this.currentPromoPage * this.promosPerPage;
+    const end = start + this.promosPerPage;
+    return this.restaurantsWithPromotions.slice(start, end);
+  }
+
+  nextPromoPage(): void {
+    if (this.hasNextPromoPage() && !this.promoTransitioning) {
+      this.promoTransitioning = true;
+      setTimeout(() => {
+        this.currentPromoPage++;
+        setTimeout(() => {
+          this.promoTransitioning = false;
+        }, 50);
+      }, 300);
+    }
+  }
+
+  prevPromoPage(): void {
+    if (this.hasPrevPromoPage() && !this.promoTransitioning) {
+      this.promoTransitioning = true;
+      setTimeout(() => {
+        this.currentPromoPage--;
+        setTimeout(() => {
+          this.promoTransitioning = false;
+        }, 50);
+      }, 300);
+    }
+  }
+
+  hasNextPromoPage(): boolean {
+    return (this.currentPromoPage + 1) * this.promosPerPage < this.restaurantsWithPromotions.length;
+  }
+
+  hasPrevPromoPage(): boolean {
+    return this.currentPromoPage > 0;
+  }
+
+  trackByRestaurant(index: number, item: RestaurantWithPromotions): number {
+    return item.restaurant.id;
+  }
+
+  Math = Math;
 }

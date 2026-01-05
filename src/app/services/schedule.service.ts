@@ -88,26 +88,17 @@ export class ScheduleService {
 
   /**
    * Actualiza todos los horarios de la semana de una vez.
-   * Útil para guardar cambios masivos.
+   * Útil para guardar cambios masivos usando el endpoint bulk.
    * 
    * @param restaurantId ID del restaurante
    * @param schedules Array de horarios a crear/actualizar
-   * @returns Observable que completa cuando todos se han guardado
+   * @returns Observable con todos los horarios actualizados
    */
   saveAllSchedules(restaurantId: number, schedules: ScheduleCreate[]): Observable<RestaurantSchedule[]> {
-    // Hacemos POST para cada uno (el backend maneja upsert)
-    return new Observable(observer => {
-      const promises = schedules.map(schedule => 
-        this.createSchedule(restaurantId, schedule).toPromise()
-      );
-      
-      Promise.all(promises)
-        .then(results => {
-          observer.next(results.filter(r => r !== undefined) as RestaurantSchedule[]);
-          observer.complete();
-        })
-        .catch(error => observer.error(error));
-    });
+    return this.http.put<RestaurantSchedule[]>(
+      `${this.baseUrl}/${restaurantId}/schedules/bulk`,
+      schedules
+    );
   }
 
   // ============================================

@@ -108,21 +108,22 @@ export class ScheduleConfigComponent implements OnInit {
     const changedRows = this.schedules.filter(s => s.hasChanges);
     
     try {
-      for (const row of changedRows) {
-        const schedule: ScheduleCreate = {
-          dayOfWeek: row.dayOfWeek,
-          isOpen: row.isOpen,
-          openTime: toFullTime(row.openTime),
-          closeTime: toFullTime(row.closeTime),
-          maxCapacity: row.maxCapacity,
-          maxCapacityPerSlot: row.maxCapacityPerSlot,
-          slotIntervalMinutes: row.slotIntervalMinutes
-        };
+      // Preparar todos los horarios modificados
+      const schedulesToSave: ScheduleCreate[] = changedRows.map(row => ({
+        dayOfWeek: row.dayOfWeek,
+        isOpen: row.isOpen,
+        openTime: toFullTime(row.openTime),
+        closeTime: toFullTime(row.closeTime),
+        maxCapacity: row.maxCapacity,
+        maxCapacityPerSlot: row.maxCapacityPerSlot,
+        slotIntervalMinutes: row.slotIntervalMinutes
+      }));
 
-        await this.scheduleService.createSchedule(this.restaurantId, schedule).toPromise();
-        row.hasChanges = false;
-      }
+      // Guardar todos de una vez usando el endpoint bulk
+      await this.scheduleService.saveAllSchedules(this.restaurantId, schedulesToSave).toPromise();
       
+      // Marcar como guardados
+      changedRows.forEach(row => row.hasChanges = false);
       this.hasUnsavedChanges = false;
       this.saving = false;
       this.saved.emit();

@@ -1,13 +1,15 @@
 .footer-custom {
-  background: linear-gradient(135deg, #140F2D 0%, #1b1636 60%, #201a42 100%);
+  /* background: linear-gradient(135deg, #140F2D 0%, #1b1636 60%, #201a42 100%); */
   opacity: 0.97;
-  color: #eef1f7 !important;
+  color: #000000 !important;
   text-align: center; /* Centra el contenido del footer */
   padding: 30px;
   position: sticky;
   bottom: 0;
   left: 0;
   width: 100%;
+  background: #798478;
+
 }
 body.scrolled .footer-custom {
   box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.5);
@@ -15,15 +17,15 @@ body.scrolled .footer-custom {
 }
 
 .footer-custom .nav li a {
-  color: #eef1f7;
+  color: #000000;
 }
 
 .nav-item {
-  color: #ffffff !important;
+  color: #000000 !important;
 }
 
 .footer-custom a {
-  color: #eef1f7 !important;
+  color: #000000 !important;
   transition: all 0.5s;
   font-weight: bold;
 }

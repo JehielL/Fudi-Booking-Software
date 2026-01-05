@@ -26,20 +26,37 @@
 /* ============ HEADER ============ */
 .booking-header {
   position: relative;
-  height: 200px;
-  background: linear-gradient(135deg, var(--dark) 0%, #16213e 100%);
+  height: 260px;
+  padding: 4rem 1.5rem 3.5rem;
+  background: radial-gradient(circle at 20% 30%, rgba(255, 163, 60, 0.35), transparent 45%),
+              radial-gradient(circle at 80% 20%, rgba(3, 225, 214, 0.28), transparent 40%),
+              linear-gradient(135deg, #140f2d 0%, #1d1840 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
 
+.booking-header::before {
+  content: '';
+  position: absolute;
+  inset: -40% -20% auto;
+  height: 160%;
+  background: radial-gradient(circle at 30% 50%, rgba(255, 163, 60, 0.16), transparent 55%),
+              radial-gradient(circle at 70% 40%, rgba(3, 225, 214, 0.12), transparent 50%);
+  filter: blur(30px);
+  opacity: 0.9;
+}
+
 .header-overlay {
   position: absolute;
   inset: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%23FFA33C" stroke-width="0.5" opacity="0.1"/></svg>');
-  background-size: 100px;
-  animation: floatPattern 20s linear infinite;
+  background:
+    linear-gradient(180deg, rgba(20, 15, 45, 0.78), rgba(20, 15, 45, 0.9)),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" opacity="0.16"><g stroke="%23FFFFFF" stroke-width="0.6" fill="none"><circle cx="40" cy="40" r="26"/><circle cx="120" cy="60" r="18"/><circle cx="90" cy="120" r="24"/></g></svg>');
+  background-size: cover, 240px;
+  background-position: center;
+  mix-blend-mode: normal;
 }
 
 @keyframes floatPattern {
@@ -52,32 +69,96 @@
   z-index: 1;
   text-align: center;
   color: white;
+  padding: 1rem 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
-.restaurant-badge {
-  width: 70px;
-  height: 70px;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+.restaurant-avatar {
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
   margin: 0 auto 1rem;
-  font-size: 1.8rem;
-  box-shadow: 0 10px 30px rgba(255, 163, 60, 0.4);
+  border: 3px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.restaurant-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.restaurant-avatar:hover {
+  transform: scale(1.06);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.4);
 }
 
 .restaurant-name {
-  font-size: 2rem;
+  font-size: 2.25rem;
   font-weight: 700;
+  font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
   margin: 0;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.3px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.38);
 }
 
 .restaurant-location {
-  margin-top: 0.5rem;
-  opacity: 0.8;
-  font-size: 0.95rem;
+  margin-top: 0.25rem;
+  opacity: 0.85;
+  font-size: 1rem;
+  font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+}
+
+/* ======= Responsive ======= */
+@media (max-width: 640px) {
+  .booking-header {
+    height: 320px;
+    padding: 4.25rem 1rem 3.5rem;
+  }
+
+  .header-content {
+    padding-top: 0.5rem;
+    gap: 0.25rem;
+  }
+
+  .restaurant-avatar {
+    width: 78px;
+    height: 78px;
+  }
+
+  .restaurant-name {
+    font-size: 1.65rem;
+    letter-spacing: 0.08px;
+  }
+
+  .restaurant-location {
+    font-size: 1rem;
+    margin-top: 0.4rem;
+  }
+
+  .booking-summary-card {
+    margin: 2.75rem 1rem 1.5rem;
+    padding: 1.25rem;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .form-section {
+    padding: 1.1rem;
+  }
+
+  .section-header {
+    margin-bottom: 1rem;
+  }
 }
 
 .restaurant-location i {
@@ -87,7 +168,7 @@
 /* ============ RESUMEN FLOTANTE ============ */
 .booking-summary-card {
   max-width: 900px;
-  margin: -50px auto 2rem;
+  margin: 0.5rem auto 2rem;
   background: white;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
@@ -110,6 +191,96 @@
 .summary-header i {
   color: var(--primary);
   font-size: 1.2rem;
+}
+
+/* ============ BADGE DE PROMOCIÓN ============ */
+.promotion-badge {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, rgba(146, 102, 68, 0.08) 0%, rgba(201, 155, 102, 0.12) 100%);
+  border: 1px solid rgba(146, 102, 68, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
+}
+
+.promotion-badge::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 100px;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: skewX(-20deg);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { transform: translateX(-100%) skewX(-20deg); }
+  50% { transform: translateX(300%) skewX(-20deg); }
+}
+
+.promo-badge-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.promo-badge-content > i {
+  font-size: 1.5rem;
+  color: #926644;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.promo-badge-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.promo-badge-title {
+  font-weight: 600;
+  color: var(--dark);
+  font-size: 0.95rem;
+}
+
+.promo-badge-discount {
+  font-size: 0.8rem;
+  color: #926644;
+  font-weight: 500;
+}
+
+.promo-remove-btn {
+  background: rgba(146, 102, 68, 0.15);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #926644;
+}
+
+.promo-remove-btn:hover {
+  background: rgba(146, 102, 68, 0.25);
+  transform: rotate(90deg) scale(1.1);
+}
+
+.promo-remove-btn i {
+  font-size: 0.75rem;
 }
 
 .summary-grid {

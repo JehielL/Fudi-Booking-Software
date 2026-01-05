@@ -195,6 +195,6 @@ export class BookingService {
       .set('time', time)
       .set('partySize', partySize.toString());
     
-    return this.http.get<boolean>(`${this.baseUrl}/restaurant/${restaurantId}/availability`, { params });
+    return this.http.get<boolean>(`http://localhost:8080/api/restaurants/${restaurantId}/availability`, { params });
   }
 }

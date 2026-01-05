@@ -14,79 +14,82 @@
 
 }@else {
 
-<div class="text-center container-fluid img-welcome">
-
-  <!-- Capa de fondo base - siempre visible -->
+<div class="hero-section">
+  <!-- Fondo con transición -->
   <div class="background-layer" 
        [ngStyle]="{ 'background-image': 'url(' + currentImage + ')' }">
   </div>
-  
-  <!-- Capa de fondo superior - aparece sobre la base -->
   <div class="background-layer-next" 
        [ngStyle]="{ 'background-image': 'url(' + nextImage + ')' }"
        [class.show]="showNextLayer">
   </div>
+  <div class="hero-overlay"></div>
 
-  <div class="text-overlay"> </div>
-  <div class="content container-fluid">
-
-    <div class="search">
-      <br>
-      <h1 class="text-white customh">Encuentra y reserva el mejor Restaurant</h1>
-      <br>
-      <input type="search" class="form-control form-control-sm rounded" placeholder="Buscar Restaurantes ..."
-        aria-label="Buscar" aria-describedby="search-addon" style="max-width: 760px;"
-        (input)="buscar($any($event.target).value)">
+  <!-- Contenido centrado -->
+  <div class="hero-content">
+    <h1 class="hero-title">Reserva tu mesa en segundos</h1>
+    <p class="hero-subtitle">Los mejores restaurantes de tu ciudad, al alcance de un click</p>
+    
+    <!-- Barra de búsqueda moderna -->
+    <div class="search-wrapper">
+      <div class="search-box">
+        <i class="bi bi-search search-icon"></i>
+        <input type="search" 
+               class="search-input" 
+               placeholder="¿Qué restaurante buscas?" 
+               aria-label="Buscar"
+               (input)="buscar($any($event.target).value)">
+      </div>
+      
+      <!-- Resultados de búsqueda - compacto -->
       @if (resultadosBusqueda.length > 0) {
-      <div class="search-container">
-        <ul class="list-group">
-          @for (restaurantes of resultadosBusqueda; track restaurantes ) {
-          <li class="list-group-item">
-            <a [routerLink]="['/restaurant', restaurantes.id, 'detail']"
-              [innerHTML]="highlightSearchTerm(restaurantes.name, searchTerm)">{{ restaurantes.name }}</a>
-          </li>
-          }
-        </ul>
-        @if (puedeMostrarMas) {
-        <button class="btn btn-outline-primary" (click)="mostrarMas()">Mostrar más</button>
+      <div class="search-results">
+        @for (restaurantes of resultadosBusqueda; track restaurantes) {
+        <a [routerLink]="['/restaurant', restaurantes.id, 'detail']" class="search-result-item">
+          <i class="bi bi-shop"></i>
+          <span [innerHTML]="highlightSearchTerm(restaurantes.name, searchTerm)"></span>
+          <i class="bi bi-chevron-right"></i>
+        </a>
         }
-        @if (maxResultados > minResultados) {
-        <button class="btn btn-outline-primary" (click)="mostrarMenos()">Mostrar menos</button>
+        @if (puedeMostrarMas) {
+        <button class="btn-show-more" (click)="mostrarMas()">
+          Ver más resultados
+        </button>
         }
       </div>
       }
-
-
-
     </div>
-    <div class="row align-items-center justify-content-center" style="margin-bottom: 120px;">
-      <!-- Columna de Restaurantes Destacados -->
-      <div class="col-lg-5 col-md-12 text-center mt-5">
-        <app-carrusel></app-carrusel>
-      </div>
 
-      <!-- Columna de Categorías -->
-      <div class="col-lg-4 col-md-12 d-flex flex-column align-items-center">
-        <h2 class="text-white mb-4">Explora</h2>
-        <div class="skills-container grid-container">
-          <a routerLink="/restaurant-list" class="category">
-            <i class="bi bi-shop icon"></i>
-            <p>Restaurantes</p>
-          </a>
-          <a routerLink="/ranking" class="category categoryRanking">
-            <i class="bi bi-star icon"></i>
-            <p>Rankings</p>
-          </a>
-          <a routerLink="/discounts" class="category categoryDiscounts">
-            <i class="bi bi-percent icon"></i>
-            <p>Descuentos</p>
-          </a>
-          <a routerLink="/zonas" class="category categoryZonas">
-            <i class="bi bi-geo-alt icon"></i>
-            <p>Zonas</p>
-          </a>
+    <!-- Accesos rápidos con GIF hover -->
+    <div class="quick-links">
+      <a routerLink="/restaurant-list" class="quick-link">
+        <div class="quick-link-bg" style="background-image: url('https://media3.giphy.com/media/t3cAV2HGSSMljwOpS9/200w.gif?cid=6c09b952r52j9vaj92kvkmn6wcm4ibcr4s7e9ixdk4l48q5c&ep=v1_gifs_search&rid=200w.gif&ct=g')"></div>
+        <div class="quick-link-content">
+          <i class="bi bi-grid-3x3-gap"></i>
+          <span>Restaurantes</span>
         </div>
-      </div>
+      </a>
+      <a routerLink="/ranking" class="quick-link">
+        <div class="quick-link-bg" style="background-image: url('https://cdn.dribbble.com/userupload/19780573/file/original-f539c7b5bcf80ff45985124ec1395f74.gif')"></div>
+        <div class="quick-link-content">
+          <i class="bi bi-trophy"></i>
+          <span>Top rated</span>
+        </div>
+      </a>
+      <a routerLink="/discounts" class="quick-link">
+        <div class="quick-link-bg" style="background-image: url('https://cdn-icons-gif.flaticon.com/12707/12707727.gif')"></div>
+        <div class="quick-link-content">
+          <i class="bi bi-percent"></i>
+          <span>Ofertas</span>
+        </div>
+      </a>
+      <a routerLink="/zonas" class="quick-link">
+        <div class="quick-link-bg" style="background-image: url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdjl5bnZ1NGduM3o0MzZ0N21vbGY4a3JkNmQzd3I2cncxOWNpeTRuYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lPdnsmJjxXuXbDn6yq/giphy.gif')"></div>
+        <div class="quick-link-content">
+          <i class="bi bi-geo-alt"></i>
+          <span>Por zona</span>
+        </div>
+      </a>
     </div>
   </div>
 </div>
@@ -94,13 +97,15 @@
 
 <div class="container-fluid">
 
-  <div data-aos="fade-up" style="text-align: center;">
-    <h1 class="category-title">Recien Añadidos</h1>
+  <div data-aos="fade-up" class="text-center mb-3">
+    <h2 class="section-title">
+      <i class="bi bi-stars me-2"></i>Recién Añadidos
+    </h2>
   </div>
 
   <div class="container" id="custom-cards">
 
-    <div data-aos="fade-up" class="row row-cols-1 row-cols-lg-3 align-items-stretch py-5">
+    <div data-aos="fade-up" class="row row-cols-1 row-cols-lg-3 align-items-stretch py-3">
       @for (restaurant of restaurants; track $index) {
       <div class="col mt-3">
         <a [routerLink]="['/restaurant', restaurant.id, 'detail']">
@@ -133,8 +138,10 @@
 <div class=" container-fluid justify-content-center ">
 
   <div class="container" id="custom-cards">
-    <div data-aos="fade-up" style="text-align: center;">
-      <h1 class="category-title">Recomendaciones</h1>
+    <div data-aos="fade-up" class="text-center mb-3">
+      <h2 class="section-title">
+        <i class="bi bi-award me-2"></i>Recomendaciones
+      </h2>
     </div>
 
     <div data-aos="fade-up"
@@ -236,28 +243,28 @@
 <div class="parallax-banner d-flex align-items-center justify-content-center">
   <div class="overlay"></div>
   <div data-aos="fade-up" class="container position-relative text-white">
-    <div class="row align-items-center justify-content-between">
-      <div class="col-2 vertical-text d-md-flex">¡NO TE LÍES!</div>
-      <div class="col-8 text-center">
-        <h1 class="main-title">HOY ES EL DÍA</h1>
-        <button class="btn btn-outline-light btn-lg mt-3" routerLink="/user/login">Reservar ahora</button>
-      </div>
-      <div class="col-2 side-text d-md-flex flex-column align-items-end justify-content-center">
-        <p>Estás a un <strong>click</strong></p>
-        <p>De conocer tu <strong>nuevo restaurante</strong> favorito.</p>
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8 text-center">
+        <h1 class="parallax-title mb-4">Tu próxima experiencia gastronómica te espera</h1>
+        <p class="parallax-subtitle mb-4">Descubre los mejores restaurantes y reserva en segundos</p>
+        <button class="btn-glass btn-lg" routerLink="/user/login">
+          <i class="bi bi-calendar-check me-2"></i>Reservar ahora
+        </button>
       </div>
     </div>
   </div>
 </div>
 <div class="container-fluid">
 
-  <div style="text-align: center;">
-    <h1 class="custom-title category-title">Experiencias</h1>
+  <div class="text-center mb-3">
+    <h2 class="section-title">
+      <i class="bi bi-compass me-2"></i>Experiencias
+    </h2>
   </div>
 
   <div class="container" id="custom-cards">
 
-    <div data-aos="fade-up" class="row row-cols-1 row-cols-lg-3 align-items-stretch py-5">
+    <div data-aos="fade-up" class="row row-cols-1 row-cols-lg-3 align-items-stretch py-3">
 
       <div class="col mt-3">
         <div class="card card-cover h-100 w-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative">
@@ -391,6 +398,69 @@
 
 
     </div>
+  </div>
+</div>
+
+<!-- Sección Promociones -->
+<div class="container px-4 py-3" *ngIf="restaurantsWithPromotions.length > 0">
+  <div class="text-center mb-3">
+    <h2 class="section-title">
+      <i class="bi bi-gift-fill me-2"></i>Promociones Especiales
+    </h2>
+  </div>
+
+  <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 promo-carousel" [class.transitioning]="promoTransitioning">
+    <div class="col" *ngFor="let item of getCurrentPagePromos(); trackBy: trackByRestaurant">
+      <div class="card card-cover h-100 w-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative">
+        <!-- Imagen del restaurante -->
+        <div class="image-overlay" 
+             [style.background-image]="'url(' + (item.restaurant.imageUrl.startsWith('http') ? item.restaurant.imageUrl : 'http://localhost:8080/files/' + item.restaurant.imageUrl) + ')'">
+        </div>
+        
+        <!-- Tag de promoción -->
+        <div class="promo-tag-overlay" 
+             [style.background-color]="getPromotionColor(item.promotions[0].type)"
+             *ngIf="item.promotions.length > 0 && item.promotions[0].type && promotionConfig[item.promotions[0].type]">
+          <i [class]="getPromotionIcon(item.promotions[0].type) + ' me-1'"></i>
+          {{ promotionConfig[item.promotions[0].type].label }}
+        </div>
+
+        <!-- Contenido de la card -->
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1 position-relative">
+          <h3 class="mt-auto mb-3 text-center fs-5 fw-bold">{{ item.restaurant.name }}</h3>
+          <ul class="d-flex justify-content-between list-unstyled mt-auto">
+            <li class="d-flex align-items-center me-3">
+              <i class="bi bi-geo-alt me-1"></i> {{ item.restaurant.address }}
+            </li>
+            <li class="ms-3 d-flex align-items-center">
+              <i class="bi bi-tag-fill me-1"></i> {{ item.promotions.length }} oferta{{ item.promotions.length > 1 ? 's' : '' }}
+            </li>
+          </ul>
+          <div class="mt-2 text-center">
+            <a [routerLink]="['/restaurant', item.restaurant.id, 'detail']" class="btn-promo-detail">Ver detalles</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controles de paginación -->
+  <div class="d-flex justify-content-center align-items-center mt-4 gap-3" *ngIf="restaurantsWithPromotions.length > promosPerPage">
+    <button 
+      class="btn-promo-pagination" 
+      (click)="prevPromoPage()" 
+      [disabled]="!hasPrevPromoPage()">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+    <span class="promo-page-indicator">
+      {{ currentPromoPage + 1 }} / {{ Math.ceil(restaurantsWithPromotions.length / promosPerPage) }}
+    </span>
+    <button 
+      class="btn-promo-pagination" 
+      (click)="nextPromoPage()" 
+      [disabled]="!hasNextPromoPage()">
+      <i class="bi bi-chevron-right"></i>
+    </button>
   </div>
 </div>
 
