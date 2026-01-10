@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Restaurant } from '../Interfaces/restaurant.model'; 
 import { Promotion, PromotionType, PROMOTION_TYPE_CONFIG } from '../Interfaces/promotion.model';
@@ -25,7 +25,7 @@ interface RestaurantWithPromotions {
   standalone: true,
   imports: [CarruselComponent, HomeSinLogComponent, RouterLink, CommonModule],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   restaurants: Restaurant[] = [];
   resultadosBusqueda: Restaurant[] = [];
   searchTerm: string = '';
@@ -67,6 +67,8 @@ export class HomeComponent implements OnInit {
   
   currentBackgroundIndex: number = 0;
   
+  // Referencias para limpieza de memoria
+  private backgroundChangeInterval: any = null;
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
@@ -91,14 +93,15 @@ export class HomeComponent implements OnInit {
   cambiarFondoCadaXSegundos(): void {
     let currentIndex = 0;
   
-    setInterval(() => {
+    // Guardar la referencia del interval para poder limpiarlo después
+    this.backgroundChangeInterval = setInterval(() => {
       const nextIndex = (currentIndex + 1) % this.backgroundImages.length;
       
       // Precargar la imagen
       const img = new Image();
       img.src = this.backgroundImages[nextIndex];
   
-      img.onload = () => {
+      const onLoadHandler = () => {
         // Asignar la nueva imagen a la capa superior
         this.nextImage = this.backgroundImages[nextIndex];
         
@@ -111,7 +114,12 @@ export class HomeComponent implements OnInit {
           this.showNextLayer = false;
           currentIndex = nextIndex;
         }, 2500); // Duración de la transición CSS
+        
+        // Limpiar el event listener para evitar fugas de memoria
+        img.removeEventListener('load', onLoadHandler);
       };
+      
+      img.addEventListener('load', onLoadHandler);
     }, 5000);
   }
   
@@ -232,6 +240,14 @@ export class HomeComponent implements OnInit {
 
   trackByRestaurant(index: number, item: RestaurantWithPromotions): number {
     return item.restaurant.id;
+  }
+
+  ngOnDestroy(): void {
+    // Limpiar el interval del cambio de fondo para evitar fugas de memoria
+    if (this.backgroundChangeInterval) {
+      clearInterval(this.backgroundChangeInterval);
+      this.backgroundChangeInterval = null;
+    }
   }
 
   Math = Math;

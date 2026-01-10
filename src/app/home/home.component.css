@@ -1,25 +1,56 @@
-/* Global Section Spacing */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Aplicar Inter como fuente base */
+* {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ==================== SISTEMA DE ESPACIADO GLOBAL ==================== */
+/* Espaciado consistente entre todas las secciones */
 .container-fluid {
-  padding: 3.5rem 1rem;
+  padding: 3rem 1rem;
 }
 
 .container-fluid:first-of-type {
-  padding-top: 2.5rem;
+  padding-top: 2rem;
+}
+
+/* Normalizar container de promociones */
+.container.px-4.py-3 {
+  padding: 3rem 1rem !important;
+  max-width: 1200px;
 }
 
 #custom-cards {
-  padding: 1.5rem 1rem;
+  padding: 0;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* Unified Section Spacing */
-.row.row-cols-1 {
-  margin-bottom: 1.5rem;
+/* Títulos de sección - espaciado uniforme */
+.text-center.mb-3 {
+  margin-top: 0 !important;
+  margin-bottom: 2rem !important;
+  padding-top: 0;
 }
 
-.text-center.mb-3 {
-  margin-bottom: 2.5rem !important;
+/* Normalizar espaciados de Bootstrap */
+#custom-cards .py-3,
+.py-3 {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+
+#custom-cards .mt-3,
+.col.mt-3 {
+  margin-top: 1rem !important;
+}
+
+/* Rows de contenido */
+.row.row-cols-1,
+.row.row-cols-lg-3 {
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
 }
 
 .myvideo {
@@ -70,12 +101,13 @@
 }
 
 .hero-title {
-  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: clamp(2.2rem, 5vw, 3.5rem);
-  font-weight: 700;
+  font-weight: 600;
   color: white;
   margin-bottom: 1rem;
-  line-height: 1.15;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
 }
 
@@ -84,6 +116,8 @@
   color: rgba(255, 255, 255, 0.9);
   margin-bottom: 2.5rem;
   font-weight: 400;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.01em;
 }
 
 /* Search Box Moderno */
@@ -142,6 +176,7 @@
   max-height: 280px;
   overflow-y: auto;
   animation: fadeSlideDown 0.2s ease;
+  z-index: 4000;
 }
 
 @keyframes fadeSlideDown {
@@ -447,11 +482,11 @@ a {
 }
 
 .card-cover h3 {
-  font-size: 1.25rem;
+  font-size: 2rem !important;
   font-weight: 600;
-  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
-  letter-spacing: -0.2px;
+  letter-spacing: -0.02em;
 }
 
 .card-cover bi {
@@ -538,15 +573,15 @@ a {
 /* Títulos de sección unificados - Estilo liquid glass minimalista */
 .section-title {
   font-size: clamp(1.75rem, 3vw, 2.25rem);
-  font-weight: 700;
-  color: #2c2c2c;
+  font-weight: 600;
+  color: #2c3e50;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 3rem auto 2rem;
   padding: 0;
-  font-family: 'Poppins', 'Segoe UI', sans-serif;
-  letter-spacing: -0.3px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.02em;
 }
 
 .section-title i {
@@ -570,9 +605,9 @@ a {
 
 .parallax-title {
   font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 800;
-  font-family: 'Poppins', 'Segoe UI', sans-serif;
-  letter-spacing: -0.5px;
+  font-weight: 700;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.03em;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
   line-height: 1.2;
 }
@@ -580,6 +615,8 @@ a {
 .parallax-subtitle {
   font-size: clamp(1rem, 2.5vw, 1.5rem);
   font-weight: 500;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.01em;
   color: rgba(255, 255, 255, 0.95);
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
 }
@@ -814,13 +851,19 @@ a {
   }
 
   .quick-links {
-    gap: 0.75rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .quick-link {
     width: 120px;
     height: 120px;
     border-radius: 16px;
+    justify-self: center;
   }
 
   .quick-link i {
@@ -856,7 +899,7 @@ a {
   }
 
   .card-cover h3 {
-    font-size: 1.05rem !important;
+    font-size: 3.05rem !important;
   }
 
   .card-cover ul {
@@ -870,20 +913,33 @@ a {
   /* Section Titles */
   .section-title {
     font-size: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
   }
 
-  /* Spacing */
+  /* Spacing - Proporcional al desktop */
   .container-fluid {
-    padding: 2.5rem 0.75rem;
+    padding: 2rem 1rem !important;
+  }
+
+  .container-fluid:first-of-type {
+    padding-top: 1.5rem !important;
+  }
+
+  .container.px-4.py-3 {
+    padding: 2rem 1rem !important;
   }
 
   #custom-cards {
-    padding: 1rem 0.5rem;
+    padding: 0 0.5rem !important;
+  }
+
+  .text-center.mb-3 {
+    margin-bottom: 1.5rem !important;
   }
 
   .row.align-items-center.justify-content-center {
-    margin-top: 2rem !important;
-    margin-bottom: 2rem !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
   }
 
   /* Parallax Banner */
