@@ -26,7 +26,7 @@
           @if (menu.imgMenu.startsWith('http')) {
           <img class="menu-image" [src]="menu.imgMenu" alt="{{menu.title}}">
           } @else {
-          <img class="menu-image" [src]="'http://localhost:8080/files/' + menu.imgMenu" alt="{{menu.title}}">
+          <img class="menu-image" [src]="'https://api.fudi.es/files/' + menu.imgMenu" alt="{{menu.title}}">
           }
           <div class="image-overlay">
             <span class="view-restaurant">
@@ -168,7 +168,7 @@
           @if (dish.imgDish.startsWith('http')) {
           <img [src]="dish.imgDish" alt="{{dish.title}}">
           } @else {
-          <img [src]="'http://localhost:8080/files/' + dish.imgDish" alt="{{dish.title}}">
+          <img [src]="'https://api.fudi.es/files/' + dish.imgDish" alt="{{dish.title}}">
           }
           
           <!-- Overlay con gradiente -->
@@ -239,7 +239,7 @@
             @if (dish.imgDish.startsWith('http')) {
             <img [src]="dish.imgDish" alt="{{dish.title}}">
             } @else {
-            <img [src]="'http://localhost:8080/files/' + dish.imgDish" alt="{{dish.title}}">
+            <img [src]="'https://api.fudi.es/files/' + dish.imgDish" alt="{{dish.title}}">
             }
           </div>
           

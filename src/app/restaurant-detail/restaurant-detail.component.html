@@ -19,7 +19,7 @@
       <div class="col-md-5">
         <div class="restaurant-image-wrapper">
           <img class="restaurant-image"
-            [src]="restaurant?.imageUrl?.startsWith('http') ? restaurant?.imageUrl : ('http://localhost:8080/files/' + restaurant?.imageUrl)"
+            [src]="restaurant?.imageUrl?.startsWith('http') ? restaurant?.imageUrl : ('https://api.fudi.es/files/' + restaurant?.imageUrl)"
             [alt]="restaurant?.name">
           <div class="image-overlay">
             <div class="rating-big">
@@ -171,7 +171,7 @@
       @for (menu of menus; track menu; let i = $index) {
       <article class="menu-card" [routerLink]="['/menus', menu?.id, 'detail']">
         <div class="menu-card-image">
-          <img [src]="menu.imgMenu.startsWith('http') ? menu.imgMenu : ('http://localhost:8080/files/' + menu.imgMenu)"
+          <img [src]="menu.imgMenu.startsWith('http') ? menu.imgMenu : ('https://api.fudi.es/files/' + menu.imgMenu)"
             [alt]="menu.title">
           
           <!-- Overlay con gradiente -->
@@ -234,7 +234,7 @@
       @for (restaurant of recommendedRestaurants; track restaurant) {
       <article class="restaurant-card" [routerLink]="['/restaurant', restaurant.id, 'detail']">
         <div class="restaurant-card-image">
-          <img [src]="restaurant.imageUrl.startsWith('http') ? restaurant.imageUrl : 'http://localhost:8080/files/' + restaurant.imageUrl"
+          <img [src]="restaurant.imageUrl.startsWith('http') ? restaurant.imageUrl : 'https://api.fudi.es/files/' + restaurant.imageUrl"
             [alt]="restaurant.name">
           
           <!-- Overlay -->
@@ -288,7 +288,7 @@
           @if(booking.restaurant?.imageUrl?.startsWith('http')) {
           <div class="background-image" [style.background-image]="'url(' + booking.restaurant?.imageUrl + ')'"></div>
           } @else {
-          <div class="background-image" [style.background-image]="'url(http://localhost:8080/files/' + (booking.restaurant?.imageUrl || '') + ')'"></div>
+          <div class="background-image" [style.background-image]="'url(https://api.fudi.es/files/' + (booking.restaurant?.imageUrl || '') + ')'"></div>
           }
           <div class="container-fluid custom">
             <div class="row mt-3 ms-2">

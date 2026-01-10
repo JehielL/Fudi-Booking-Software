@@ -8,7 +8,7 @@ info:
     email: support@bitebooking.com
 
 servers:
-  - url: http://localhost:8080
+  - url: https://api.fudi.es
     description: Servidor de desarrollo
   - url: https://api.bitebooking.com
     description: Servidor de producción

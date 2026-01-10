@@ -5,7 +5,7 @@
         <div class="hero-overlay"></div>
         <div class="profile-avatar">
           <img
-            [src]="users.imgUser ? (users.imgUser.startsWith('http') ? users.imgUser : 'http://localhost:8080/files/' + users.imgUser) : 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=500&q=80'"
+            [src]="users.imgUser ? (users.imgUser.startsWith('http') ? users.imgUser : 'https://api.fudi.es/files/' + users.imgUser) : 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=500&q=80'"
             [alt]="users.firstName + ' ' + users.lastName">
         </div>
         <div class="identity">

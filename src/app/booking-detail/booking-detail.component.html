@@ -33,7 +33,7 @@
             <img [src]="booking.restaurant.imageUrl" alt="" style="width: 100%;">
           }
           @else if (booking.restaurant && booking.restaurant.imageUrl) {
-            <img [src]="'http://localhost:8080/files/' + booking.restaurant.imageUrl" alt="">
+            <img [src]="'https://api.fudi.es/files/' + booking.restaurant.imageUrl" alt="">
           }
           
 

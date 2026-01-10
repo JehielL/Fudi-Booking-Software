@@ -25,7 +25,7 @@
             <!-- Imagen -->
             <div class="card-image">
               <img 
-                [src]="item.restaurant.imageUrl.startsWith('http') ? item.restaurant.imageUrl : ('http://localhost:8080/files/' + item.restaurant.imageUrl)"
+                [src]="item.restaurant.imageUrl.startsWith('http') ? item.restaurant.imageUrl : ('https://api.fudi.es/files/' + item.restaurant.imageUrl)"
                 [alt]="item.restaurant.name"
               >
               <div class="image-overlay">

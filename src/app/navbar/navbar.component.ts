@@ -53,13 +53,13 @@ export class NavbarComponent implements OnInit{
     this.authService.isLoggedin.subscribe(isLoggedin => {
       this.isLoggedin = isLoggedin;
       if(this.isLoggedin) {
-        this.httpClient.get<User>('http://localhost:8080/users/account')
+        this.httpClient.get<User>('https://api.fudi.es/users/account')
           .subscribe(user => {
             this.user = user;
             if (this.user.imgUser.startsWith('http')) {
               this.avatarUrl = user.imgUser;
             } else {
-              this.avatarUrl = 'http://localhost:8080/files/' + user.imgUser;
+              this.avatarUrl = 'https://api.fudi.es/files/' + user.imgUser;
             }
           });
       }
@@ -72,7 +72,7 @@ export class NavbarComponent implements OnInit{
       if (avatarUrl.startsWith('http')) {
         this.avatarUrl = avatarUrl;
       } else {
-        this.avatarUrl = 'http://localhost:8080/files/' + avatarUrl;
+        this.avatarUrl = 'https://api.fudi.es/files/' + avatarUrl;
       }
     
     });
@@ -126,7 +126,7 @@ closeNavbar() {
     }
 
     // Obtener mis restaurantes usando el endpoint específico
-    this.httpClient.get<Restaurant[]>('http://localhost:8080/my-restaurants').subscribe({
+    this.httpClient.get<Restaurant[]>('https://api.fudi.es/my-restaurants').subscribe({
       next: restaurants => {
         if (restaurants && restaurants.length > 0) {
           // Tomar el primer restaurante del usuario
@@ -156,7 +156,7 @@ closeNavbar() {
   
 
    loadRestaurants() {
-      const apiUrl = 'http://localhost:8080/restaurant';
+      const apiUrl = 'https://api.fudi.es/restaurant';
       timer(500).pipe(
         switchMap(() => this.httpClient.get<Restaurant[]>(apiUrl)),
         delay(500)

@@ -84,19 +84,19 @@ export class MenuDetailComponent implements OnInit {
         this.showSpinner = false;
       }, 1000);
      
-      const ratingsUrl = 'http://localhost:8080/menus/filter-by-menu/' + id;
-      const userUrl = 'http://localhost:8080/user/' + id;
+      const ratingsUrl = 'https://api.fudi.es/menus/filter-by-menu/' + id;
+      const userUrl = 'https://api.fudi.es/user/' + id;
       
       
 
-      const url = 'http://localhost:8080/menus/' + id;
+      const url = 'https://api.fudi.es/menus/' + id;
       this.httpClient.get<Menu>(url).subscribe(m => {
         this.menu = m;
         this.loadRatings();
       });      this.httpClient.get<Rating[]>(ratingsUrl).subscribe(ratings => this.ratings = ratings);
       this.httpClient.get<User[]>(userUrl).subscribe(users => this.users = users);
 
-      this.httpClient.get<Dish[]>('http://localhost:8080/dishes/filter-by-menu/' + id)
+      this.httpClient.get<Dish[]>('https://api.fudi.es/dishes/filter-by-menu/' + id)
       .subscribe(dishes => this.dishes = dishes);
 
       this.checkCanEdit(id);
@@ -107,7 +107,7 @@ export class MenuDetailComponent implements OnInit {
   }
 
   checkCanEdit(id: number): void {
-    this.httpClient.get<boolean>(`http://localhost:8080/menus/can-edit/${id}`)
+    this.httpClient.get<boolean>(`https://api.fudi.es/menus/can-edit/${id}`)
     .subscribe(canEdit => {
         this.canEdit = canEdit;
     }, error => {
@@ -116,7 +116,7 @@ export class MenuDetailComponent implements OnInit {
 }
 
   delete(menu: Menu) {
-    const url = 'http://localhost:8080/menus/' + menu.id;
+    const url = 'https://api.fudi.es/menus/' + menu.id;
     this.httpClient.delete(url).subscribe(response => {
       this.menu = undefined;
       this.showDeleteMenuMessage = true;
@@ -158,7 +158,7 @@ export class MenuDetailComponent implements OnInit {
       }
     });
 
-    this.httpClient.post<Rating>('http://localhost:8080/ratings', formData).subscribe({
+    this.httpClient.post<Rating>('https://api.fudi.es/ratings', formData).subscribe({
       next: () => {
         this.ratingForm.reset({
           score: 5,
@@ -185,7 +185,7 @@ export class MenuDetailComponent implements OnInit {
   loadRatings() {
     if (!this.menu) return;
 
-    this.httpClient.get<Rating[]>('http://localhost:8080/menus/filter-by-menu/' + this.menu.id)
+    this.httpClient.get<Rating[]>('https://api.fudi.es/menus/filter-by-menu/' + this.menu.id)
       .subscribe(ratings => {
         console.log('Ratings recibidos del backend:', ratings);
         this.ratings = ratings.map(rating => ({
@@ -207,7 +207,7 @@ export class MenuDetailComponent implements OnInit {
 
   loadLikeStatuses() {
     this.ratings.forEach(rating => {
-      this.httpClient.get<LikeResponse>(`http://localhost:8080/ratings/${rating.id}/liked`)
+      this.httpClient.get<LikeResponse>(`https://api.fudi.es/ratings/${rating.id}/liked`)
         .subscribe({
           next: (res) => {
             this.likeStatus.set(rating.id, res.liked);
@@ -230,7 +230,7 @@ export class MenuDetailComponent implements OnInit {
 
     this.likesLoading.set(rating.id, true);
 
-    this.httpClient.post<LikeResponse>(`http://localhost:8080/ratings/${rating.id}/toggle-like`, {})
+    this.httpClient.post<LikeResponse>(`https://api.fudi.es/ratings/${rating.id}/toggle-like`, {})
       .subscribe({
         next: (res) => {
           this.likeStatus.set(rating.id, res.liked);
@@ -310,7 +310,7 @@ export class MenuDetailComponent implements OnInit {
     if (!normalized) {
       return '';
     }
-    return normalized.startsWith('http') ? normalized : `http://localhost:8080/files/${normalized}`;
+    return normalized.startsWith('http') ? normalized : `https://api.fudi.es/files/${normalized}`;
   }
 
   resolveUserAvatar(path?: string | null): string {
@@ -355,7 +355,7 @@ export class MenuDetailComponent implements OnInit {
   }
 
   deleteRating(rating: Rating) {
-    this.httpClient.delete('http://localhost:8080/ratings/' + rating.id)
+    this.httpClient.delete('https://api.fudi.es/ratings/' + rating.id)
     .subscribe({
       next: response => {
         this.loadRatings();

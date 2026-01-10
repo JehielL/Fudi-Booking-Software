@@ -13,7 +13,7 @@ import {
   providedIn: 'root'
 })
 export class DashboardService {
-  private readonly baseUrl = 'http://localhost:8080/dashboard';
+  private readonly baseUrl = 'https://api.fudi.es/dashboard';
 
   constructor(private http: HttpClient) {}
 
@@ -76,34 +76,34 @@ export class DashboardService {
    * Confirma una reserva pendiente
    */
   confirmBooking(bookingId: number): Observable<any> {
-    return this.http.post(`http://localhost:8080/bookings/${bookingId}/confirm`, {});
+    return this.http.post(`https://api.fudi.es/bookings/${bookingId}/confirm`, {});
   }
 
   /**
    * Rechaza una reserva pendiente
    */
   rejectBooking(bookingId: number, reason?: string): Observable<any> {
-    return this.http.post(`http://localhost:8080/bookings/${bookingId}/reject`, { reason });
+    return this.http.post(`https://api.fudi.es/bookings/${bookingId}/reject`, { reason });
   }
 
   /**
    * Cancela una reserva
    */
   cancelBooking(bookingId: number, reason?: string): Observable<any> {
-    return this.http.post(`http://localhost:8080/bookings/${bookingId}/cancel`, { reason });
+    return this.http.post(`https://api.fudi.es/bookings/${bookingId}/cancel`, { reason });
   }
 
   /**
    * Marca una reserva como completada
    */
   completeBooking(bookingId: number): Observable<any> {
-    return this.http.post(`http://localhost:8080/bookings/${bookingId}/complete`, {});
+    return this.http.post(`https://api.fudi.es/bookings/${bookingId}/complete`, {});
   }
 
   /**
    * Marca una reserva como no asistió
    */
   noShowBooking(bookingId: number): Observable<any> {
-    return this.http.post(`http://localhost:8080/bookings/${bookingId}/no-show`, {});
+    return this.http.post(`https://api.fudi.es/bookings/${bookingId}/no-show`, {});
   }
 }

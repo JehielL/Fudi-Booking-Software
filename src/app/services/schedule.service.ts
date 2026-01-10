@@ -17,7 +17,7 @@ import {
   providedIn: 'root'
 })
 export class ScheduleService {
-  private readonly baseUrl = 'http://localhost:8080/api/restaurants';
+  private readonly baseUrl = 'https://api.fudi.es/api/restaurants';
 
   constructor(private http: HttpClient) {}
 

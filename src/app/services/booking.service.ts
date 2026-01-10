@@ -21,7 +21,7 @@ export interface BookingResponse {
   providedIn: 'root'
 })
 export class BookingService {
-  private readonly baseUrl = 'http://localhost:8080/bookings';
+  private readonly baseUrl = 'https://api.fudi.es/bookings';
 
   constructor(private http: HttpClient) {}
 
@@ -195,6 +195,6 @@ export class BookingService {
       .set('time', time)
       .set('partySize', partySize.toString());
     
-    return this.http.get<boolean>(`http://localhost:8080/api/restaurants/${restaurantId}/availability`, { params });
+    return this.http.get<boolean>(`https://api.fudi.es/api/restaurants/${restaurantId}/availability`, { params });
   }
 }

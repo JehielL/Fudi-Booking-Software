@@ -23,7 +23,7 @@ interface CacheEntry<T> {
   providedIn: 'root'
 })
 export class AnalyticsService {
-  private readonly baseUrl = 'http://localhost:8080/api/analytics';
+  private readonly baseUrl = 'https://api.fudi.es/api/analytics';
   private readonly CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutos
   
   // Cache para almacenar resultados

@@ -56,10 +56,10 @@ export class BookingListComponent implements OnInit {
 
       window.scrollTo(0, 0); 
       
-      const userUrl = 'http://localhost:8080/user/' + id;
+      const userUrl = 'https://api.fudi.es/user/' + id;
       this.httpClient.get<User[]>(userUrl).subscribe(users => this.users = users);
 
-      const url = 'http://localhost:8080/bookings/filter-by-user/' + id;
+      const url = 'https://api.fudi.es/bookings/filter-by-user/' + id;
       this.httpClient.get<Booking[]>(url).subscribe(bookings => this.bookings = bookings);
       
       
@@ -71,7 +71,7 @@ export class BookingListComponent implements OnInit {
 
   delete(booking: Booking) {
 
-    const url = 'http://localhost:8080/bookings/' + booking.id;
+    const url = 'https://api.fudi.es/bookings/' + booking.id;
     this.httpClient.delete(url).subscribe(() => {
       this.showDeleteBookingMessage = true;
     })

@@ -42,7 +42,7 @@ export class BookingDetailComponent implements OnInit {
   }
 
   delete(booking: Booking) {
-    const url = 'http://localhost:8080/bookings/' + booking.id;
+    const url = 'https://api.fudi.es/bookings/' + booking.id;
     this.httpClient.delete(url).subscribe(response => {
       this.booking = undefined;
       this.showDeleteBookingMessage = true;
@@ -55,7 +55,7 @@ export class BookingDetailComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       const id = params['id'];
       if (!id) return;
-      const url = 'http://localhost:8080/bookings/' + id;
+      const url = 'https://api.fudi.es/bookings/' + id;
       this.httpClient.get<Booking>(url).subscribe({
 
         next: b => {

@@ -28,7 +28,7 @@ interface BackendAvailabilityResponse {
   providedIn: 'root'
 })
 export class AvailabilityService {
-  private readonly baseUrl = 'http://localhost:8080/api/restaurants';
+  private readonly baseUrl = 'https://api.fudi.es/api/restaurants';
 
   constructor(private http: HttpClient) {}
 

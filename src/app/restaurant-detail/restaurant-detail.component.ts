@@ -66,26 +66,26 @@ export class RestaurantDetailComponent implements OnInit {
       if (!id) return;
       window.scrollTo(0, 0); 
 
-      const restaurantUrl = `http://localhost:8080/restaurant/${id}`;
+      const restaurantUrl = `https://api.fudi.es/restaurant/${id}`;
       timer(500).pipe(
         switchMap(() => this.httpClient.get<Restaurant>(restaurantUrl))).subscribe(restaurant => {
         this.restaurant = restaurant;
         this.showSpinner = false;
 
         timer(500).pipe(
-          switchMap(() => this.httpClient.get<boolean>('http://localhost:8080/restaurants/can-edit/' + id)
+          switchMap(() => this.httpClient.get<boolean>('https://api.fudi.es/restaurants/can-edit/' + id)
         )).subscribe(canEdit => {
           this.canEdit = canEdit;
           this.showSpinner = false;
         });
 
-        const menusUrl = `http://localhost:8080/menus/byRestaurant/${id}`;
+        const menusUrl = `https://api.fudi.es/menus/byRestaurant/${id}`;
         timer(500).pipe(
           switchMap(() =>this.httpClient.get<Menu[]>(menusUrl)))
           .subscribe(Menus => this.menus = Menus);
           this.showSpinner = false;
 
-        const apiUrl = 'http://localhost:8080/restaurant';
+        const apiUrl = 'https://api.fudi.es/restaurant';
         timer(500).pipe(
           switchMap(() => this.httpClient.get<Restaurant[]>(apiUrl))).subscribe(restaurants => {
           this.restaurants = restaurants;
@@ -106,7 +106,7 @@ export class RestaurantDetailComponent implements OnInit {
 
         
       });
-      this.httpClient.get<Booking[]>('http://localhost:8080/bookings/filter-by-restaurant/' + id)
+      this.httpClient.get<Booking[]>('https://api.fudi.es/bookings/filter-by-restaurant/' + id)
     .subscribe(bookings => this.bookings = bookings);
     });
   }

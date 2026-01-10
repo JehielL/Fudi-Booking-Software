@@ -116,7 +116,7 @@ export class DashboardUserComponent implements OnInit, OnDestroy {
     this.userId = parseInt(userIdStr, 10);
 
     // Cargar datos del usuario
-    this.http.get<User>(`http://localhost:8080/user/${this.userId}`).subscribe({
+    this.http.get<User>(`https://api.fudi.es/user/${this.userId}`).subscribe({
       next: (user) => {
         this.user = user;
         this.registerUserForm.patchValue({
@@ -263,7 +263,7 @@ export class DashboardUserComponent implements OnInit, OnDestroy {
 
   save(): void {
     const user: User = this.registerUserForm.value as User;
-    const url = 'http://localhost:8080/user/' + user.id;
+    const url = 'https://api.fudi.es/user/' + user.id;
     
     this.http.put<User>(url, user).subscribe({
       next: (backendUser) => {
@@ -346,7 +346,7 @@ export class DashboardUserComponent implements OnInit, OnDestroy {
     if (restaurant.imageUrl.startsWith('http')) {
       return restaurant.imageUrl;
     }
-    return 'http://localhost:8080/files/' + restaurant.imageUrl;
+    return 'https://api.fudi.es/files/' + restaurant.imageUrl;
   }
 
   getUserAvatar(): string {
@@ -354,7 +354,7 @@ export class DashboardUserComponent implements OnInit, OnDestroy {
     if (this.user.imgUser.startsWith('http')) {
       return this.user.imgUser;
     }
-    return 'http://localhost:8080/files/' + this.user.imgUser;
+    return 'https://api.fudi.es/files/' + this.user.imgUser;
   }
 
   getUserInitials(): string {

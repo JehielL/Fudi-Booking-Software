@@ -111,7 +111,7 @@
         <a [routerLink]="['/restaurant', restaurant.id, 'detail']">
           <div class="card card-cover h-150 w-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative">
             <div class="image-overlay"
-              [style.background-image]="'url(' + (restaurant.imageUrl.startsWith('http') ? restaurant.imageUrl : 'http://localhost:8080/files/' + restaurant.imageUrl) + ')'"
+              [style.background-image]="'url(' + (restaurant.imageUrl.startsWith('http') ? restaurant.imageUrl : 'https://api.fudi.es/files/' + restaurant.imageUrl) + ')'"
               style="background-size: cover; background-position: center; height: 200px;">
             </div>
             <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1 position-relative">
@@ -414,7 +414,7 @@
       <div class="card card-cover h-100 w-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative">
         <!-- Imagen del restaurante -->
         <div class="image-overlay" 
-             [style.background-image]="'url(' + (item.restaurant.imageUrl.startsWith('http') ? item.restaurant.imageUrl : 'http://localhost:8080/files/' + item.restaurant.imageUrl) + ')'">
+             [style.background-image]="'url(' + (item.restaurant.imageUrl.startsWith('http') ? item.restaurant.imageUrl : 'https://api.fudi.es/files/' + item.restaurant.imageUrl) + ')'">
         </div>
         
         <!-- Tag de promoción -->

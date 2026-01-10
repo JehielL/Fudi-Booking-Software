@@ -44,7 +44,7 @@ export class AccountFormComponent implements OnInit {
   
     timer(500).pipe(
       switchMap(() =>
-        this.httpClient.get<User>('http://localhost:8080/users/account')
+        this.httpClient.get<User>('https://api.fudi.es/users/account')
       )
     ).subscribe({
       next: user => {
@@ -82,7 +82,7 @@ export class AccountFormComponent implements OnInit {
     if (this.photoFile) {
       this.updateProfile();
     } else {
-      this.httpClient.put<User>('http://localhost:8080/users/account', this.user)
+      this.httpClient.put<User>('https://api.fudi.es/users/account', this.user)
         .subscribe(updatedUser => {
           this.user = updatedUser;
           this.router.navigateByUrl('/home');
@@ -127,11 +127,11 @@ export class AccountFormComponent implements OnInit {
     const formData = new FormData();
     formData.append('photo', this.photoFile);
 
-    const url = 'http://localhost:8080/users/account/avatar';
+    const url = 'https://api.fudi.es/users/account/avatar';
     this.httpClient.post<User>(url, formData)
       .subscribe(updatedUser => {
         this.user = updatedUser;
-        this.httpClient.put<User>('http://localhost:8080/users/account', this.user)
+        this.httpClient.put<User>('https://api.fudi.es/users/account', this.user)
           .subscribe(() => {
             this.router.navigateByUrl('/home');
             if (this.user?.imgUser)

@@ -49,7 +49,7 @@ export class RestaurantListComponent implements OnInit {
   }
 
   loadMyRestaurants(): void {
-    const myRestaurantsUrl = 'http://localhost:8080/my-restaurants';
+    const myRestaurantsUrl = 'https://api.fudi.es/my-restaurants';
     timer(2000).pipe(
       switchMap(() => this.httpClient.get<Restaurant[]>(myRestaurantsUrl))
     ).subscribe(restaurants => {
@@ -65,7 +65,7 @@ export class RestaurantListComponent implements OnInit {
   }
 
   filtrarRestaurantesPorTipoCocina(tipoCocina: string): void {
-    const url = `http://localhost:8080/restaurant-list/${tipoCocina}`;
+    const url = `https://api.fudi.es/restaurant-list/${tipoCocina}`;
     timer(2000).pipe(
       switchMap(() => this.httpClient.get<Restaurant[]>(url))
     ).subscribe(restaurants => {
@@ -81,7 +81,7 @@ export class RestaurantListComponent implements OnInit {
   }
 
   loadRestaurantsDirectly() {
-    const apiUrl = 'http://localhost:8080/restaurant';
+    const apiUrl = 'https://api.fudi.es/restaurant';
 
     timer(2000).pipe(
       switchMap(() => this.httpClient.get<Restaurant[]>(apiUrl))

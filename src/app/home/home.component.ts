@@ -126,7 +126,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   
 
   loadRestaurants() {
-    const apiUrl = 'http://localhost:8080/restaurant';
+    const apiUrl = 'https://api.fudi.es/restaurant';
     timer(500).pipe(
       switchMap(() => this.httpClient.get<Restaurant[]>(apiUrl)),
       delay(500)
@@ -172,7 +172,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   loadRestaurantsWithPromotions(): void {
-    const apiUrl = 'http://localhost:8080/restaurant';
+    const apiUrl = 'https://api.fudi.es/restaurant';
     
     this.httpClient.get<Restaurant[]>(apiUrl).subscribe(restaurants => {
       const promotionRequests = restaurants.map(restaurant =>

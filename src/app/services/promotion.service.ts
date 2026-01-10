@@ -7,7 +7,7 @@ import { Promotion, PromotionCreate, PromotionUpdate } from '../Interfaces/promo
   providedIn: 'root'
 })
 export class PromotionService {
-  private readonly baseUrl = 'http://localhost:8080/promotions';
+  private readonly baseUrl = 'https://api.fudi.es/promotions';
 
   constructor(private http: HttpClient) {}
 

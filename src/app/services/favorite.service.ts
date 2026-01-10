@@ -7,7 +7,7 @@ import { Favorite, FavoriteToggleResponse } from '../Interfaces/favorite.model';
   providedIn: 'root'
 })
 export class FavoriteService {
-  private readonly baseUrl = 'http://localhost:8080/favorites';
+  private readonly baseUrl = 'https://api.fudi.es/favorites';
   
   // Cache de IDs de restaurantes favoritos para acceso rápido
   private favoriteIds = new BehaviorSubject<number[]>([]);

@@ -173,7 +173,7 @@ export class DashboardRestaurantComponent implements OnInit, OnDestroy {
   }
 
   private loadUserRestaurant(): void {
-    this.http.get<Restaurant[]>('http://localhost:8080/my-restaurants').subscribe({
+    this.http.get<Restaurant[]>('https://api.fudi.es/my-restaurants').subscribe({
       next: (restaurants) => {
         if (restaurants && restaurants.length > 0) {
           this.restaurants = restaurants;  // Guardar todos los restaurantes
@@ -824,7 +824,7 @@ export class DashboardRestaurantComponent implements OnInit, OnDestroy {
     if (this.restaurant.imageUrl.startsWith('http')) {
       return this.restaurant.imageUrl;
     }
-    return 'http://localhost:8080/files/' + this.restaurant.imageUrl;
+    return 'https://api.fudi.es/files/' + this.restaurant.imageUrl;
   }
 
   getGreeting(): string {

@@ -152,7 +152,7 @@
               <div class="upload" (click)="photoInput.click()">
                 <div class="upload__preview" [class.has-image]="photoPreview || dish?.imgDish">
                   @if (photoPreview || dish?.imgDish) {
-                    <img [src]="photoPreview || ('http://localhost:8080/files/' + dish?.imgDish)" alt="preview">
+                    <img [src]="photoPreview || ('https://api.fudi.es/files/' + dish?.imgDish)" alt="preview">
                   } @else {
                     <div class="upload__placeholder">
                       <div class="icon">📷</div>
@@ -181,7 +181,7 @@
           <section class="preview-card">
             <div class="preview-media">
               @if (photoPreview || dish?.imgDish) {
-                <img [src]="photoPreview || ('http://localhost:8080/files/' + dish?.imgDish)" alt="preview">
+                <img [src]="photoPreview || ('https://api.fudi.es/files/' + dish?.imgDish)" alt="preview">
               } @else {
                 <div class="placeholder">
                   <p>Previsualiza aquí tu foto</p>

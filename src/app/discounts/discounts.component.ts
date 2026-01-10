@@ -36,7 +36,7 @@ export class DiscountsComponent implements OnInit {
   }
 
   loadRestaurantsWithPromotions(): void {
-    const apiURL = 'http://localhost:8080/restaurant';
+    const apiURL = 'https://api.fudi.es/restaurant';
     this.httpClient.get<Restaurant[]>(apiURL).subscribe(restaurants => {
       // Cargar promociones para cada restaurante
       const requests = restaurants.map(restaurant =>

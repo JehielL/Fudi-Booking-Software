@@ -59,9 +59,9 @@ export class MenuFormComponent implements OnInit {
       const id = params['id'];
       if (!id) return;
 
-      const restaurantUrl = 'http://localhost:8080/restaurant/' + id;
+      const restaurantUrl = 'https://api.fudi.es/restaurant/' + id;
 
-      this.httpClient.get<Restaurant>('http://localhost:8080/restaurant/' + id)
+      this.httpClient.get<Restaurant>('https://api.fudi.es/restaurant/' + id)
       .subscribe(restaurants => {
         this.restaurant = restaurants;
         this.menuForm.patchValue({
@@ -70,7 +70,7 @@ export class MenuFormComponent implements OnInit {
       }); 
 
       
-      this.httpClient.get<Menu>('http://localhost:8080/menus/' + id).subscribe(menu => {
+      this.httpClient.get<Menu>('https://api.fudi.es/menus/' + id).subscribe(menu => {
         this.menuForm.reset(menu);
         this.menuForm.get('restaurant')?.setValue(menu.restaurant);
         this.menu = menu;
@@ -119,10 +119,10 @@ export class MenuFormComponent implements OnInit {
 
     if (this.isUpdate) {
       
-      this.httpClient.put<Menu>('http://localhost:8080/menus/' + menu.id, formData)
+      this.httpClient.put<Menu>('https://api.fudi.es/menus/' + menu.id, formData)
         .subscribe(menu => this.navigateToList());
     } else {
-      this.httpClient.post<Menu>('http://localhost:8080/menus', formData)
+      this.httpClient.post<Menu>('https://api.fudi.es/menus', formData)
         .subscribe(menu => this.navigateToList());
     }
   }

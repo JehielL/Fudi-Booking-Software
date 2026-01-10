@@ -24,7 +24,7 @@ export class RankingComponent implements OnInit{
     this.loadTopRestaurants();
   }
   loadTopRestaurants() {
-    const apiUrl = 'http://localhost:8080/restaurant';
+    const apiUrl = 'https://api.fudi.es/restaurant';
     timer(500).pipe(
       switchMap(() =>  this.httpClient.get<Restaurant[]>(apiUrl)),
     ).subscribe(restaurants => {

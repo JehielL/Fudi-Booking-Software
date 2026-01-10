@@ -85,7 +85,7 @@ export class BookingFormComponent implements OnInit {
 
     // Cargar datos del usuario logueado
     if (this.userId) {
-      this.httpClient.get<User>(`http://localhost:8080/user/${this.userId}`).subscribe({
+      this.httpClient.get<User>(`https://api.fudi.es/user/${this.userId}`).subscribe({
         next: user => this.user = user,
         error: err => console.error('Error al cargar usuario:', err)
       });
@@ -105,7 +105,7 @@ export class BookingFormComponent implements OnInit {
       const id = params['id'];
       if (!id) return;
 
-      this.httpClient.get<Restaurant>(`http://localhost:8080/restaurant/${id}`).subscribe({
+      this.httpClient.get<Restaurant>(`https://api.fudi.es/restaurant/${id}`).subscribe({
 
         next: restaurant => {
           this.restaurant = restaurant;
@@ -115,7 +115,7 @@ export class BookingFormComponent implements OnInit {
         },
         error: () => {
 
-          this.httpClient.get<Booking>(`http://localhost:8080/bookings/${id}`).subscribe({
+          this.httpClient.get<Booking>(`https://api.fudi.es/bookings/${id}`).subscribe({
             next: bookingFromBackend => {
               this.isUpdate = true;
               
@@ -289,7 +289,7 @@ export class BookingFormComponent implements OnInit {
         return;
       }
 
-      const url = `http://localhost:8080/bookings/${id}`;
+      const url = `https://api.fudi.es/bookings/${id}`;
       this.httpClient.put<Booking>(url, booking).subscribe({
         next: updated => {
           console.log('✅ Reserva actualizada:', updated);
@@ -302,7 +302,7 @@ export class BookingFormComponent implements OnInit {
       });
 
     } else {
-      const url = 'http://localhost:8080/bookings';
+      const url = 'https://api.fudi.es/bookings';
       this.httpClient.post<Booking>(url, booking).subscribe({
         next: created => {
           console.log('✅ Reserva creada:', created);
