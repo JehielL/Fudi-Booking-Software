@@ -42,6 +42,10 @@ export class UserFormComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     window.scrollTo(0, 0);
+    // Ocultar el spinner después de un breve delay
+    timer(800).subscribe(() => {
+      this.showSpinner = false;
+    });
   }
 
   passwordConfirmValidator(control: AbstractControl) {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../Interfaces/user.model';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -26,16 +26,16 @@ export class AvatarFormComponent implements OnInit {
   ) { }
 
   userForm = new FormGroup({
-    
-    
+
+
     imgMenu: new FormControl<string>(''),
-  
+
   });
 
   ngOnInit(): void {
     this.getUser();
 
-    window.scrollTo(0, 0); 
+    window.scrollTo(0, 0);
 
     this.activatedRoute.params.subscribe(params => {
 
@@ -47,10 +47,10 @@ export class AvatarFormComponent implements OnInit {
       this.httpClient.get<User>('https://api.fudi.es/users/account' + id).subscribe(user => {
         this.userForm.reset({
           imgMenu: this.user?.imgUser,
-        });  
+        });
         this.user = user;
         this.isUpdate = true;
-     
+
       });
 
     });
@@ -86,7 +86,7 @@ export class AvatarFormComponent implements OnInit {
     const user: User = this.userForm.value as User;
 
     let formData = new FormData();
-    
+
 
     if (this.photoFile) {
       formData.append("photo", this.photoFile);
@@ -101,13 +101,13 @@ export class AvatarFormComponent implements OnInit {
         .subscribe(dish => this.navigateToList());
     }
 
-    
-   
-}
 
-private navigateToList() {
-  this.router.navigate(['/users', this.user?.id, 'detail']);
-}
+
+  }
+
+  private navigateToList() {
+    this.router.navigate(['/users', this.user?.id, 'detail']);
+  }
 
 
 }
