@@ -64,11 +64,11 @@ export class GoogleAuthService {
   }
 
   saveUserData(userData: GoogleAuthResponse): void {
-    localStorage.setItem('userId', userData.userId.toString());
-    localStorage.setItem('userEmail', userData.email);
-    localStorage.setItem('userFirstName', userData.firstName);
-    localStorage.setItem('userLastName', userData.lastName);
-    localStorage.setItem('userImg', userData.imgUser);
+    localStorage.setItem('userId', (userData.userId ?? '').toString());
+    localStorage.setItem('userEmail', userData.email ?? '');
+    localStorage.setItem('userFirstName', userData.firstName ?? '');
+    localStorage.setItem('userLastName', userData.lastName ?? '');
+    localStorage.setItem('userImg', userData.imgUser ?? '');
   }
 
   getToken(): string | null {
