@@ -20,7 +20,7 @@ declare const google: any;
   standalone: true,
   templateUrl: './login-main.component.html',
   styleUrl: './login-main.component.css',
-  imports: [RouterLink, ReactiveFormsModule, NgbCarouselModule]
+  imports: [RouterLink, ReactiveFormsModule, NgbCarouselModule, HttpClientModule]
 })
 export class LoginMainComponent implements OnInit, AfterViewInit {
   errorMessage: string = '';

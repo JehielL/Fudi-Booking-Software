@@ -60,7 +60,7 @@ export class GoogleAuthService {
   }
 
   saveToken(token: string): void {
-    localStorage.setItem('authToken', token);
+    localStorage.setItem('jwt_token', token);
   }
 
   saveUserData(userData: GoogleAuthResponse): void {
@@ -72,11 +72,11 @@ export class GoogleAuthService {
   }
 
   getToken(): string | null {
-    return localStorage.getItem('authToken');
+    return localStorage.getItem('jwt_token');
   }
 
   clearAuth(): void {
-    localStorage.removeItem('authToken');
+    localStorage.removeItem('jwt_token');
     localStorage.removeItem('userId');
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userFirstName');
