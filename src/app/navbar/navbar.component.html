@@ -18,10 +18,12 @@
           <a (click)="closeNavbar()" class="nav-link" routerLink="/home">Inicio</a>
         </li>
         <li class="nav-item dropdown" ngbDropdown>
-          <a  class="nav-link dropdown-toggle" ngbDropdownToggle>Según su Origen</a>
+          <a class="nav-link dropdown-toggle" ngbDropdownToggle>Según su Origen</a>
           <div (click)="closeNavbar()" ngbDropdownMenu><app-kitchen></app-kitchen></div>
         </li>
-        <li (click)="closeNavbar()" class="nav-item"><a class="nav-link" routerLink="/about-us">Quiénes somos</a></li>
+        <li class="nav-item">
+          <a (click)="closeNavbar()" class="nav-link" routerLink="/about-us">Quiénes somos</a>
+        </li>
         @if (isAdmin || isRestaurant) {
           <li class="nav-item dropdown" ngbDropdown>
             <a class="nav-link dropdown-toggle position-relative" ngbDropdownToggle>
@@ -38,7 +40,7 @@
                 }
               </a>
               <div class="dropdown-divider"></div>
-              @if (isAdmin) { <a ngbDropdownItem routerLink="/restaurant-form">Crear Restaurantes</a> }
+              @if (isAdmin) { <a (click)="closeNavbar()" ngbDropdownItem routerLink="/restaurant-form">Crear Restaurantes</a> }
               <a (click)="closeNavbar()" ngbDropdownItem routerLink="/restaurant-list" [queryParams]="{ view: 'mine' }">Mis Restaurantes</a>
               <a (click)="closeNavbar()" ngbDropdownItem routerLink="/menus/create">Crear Menú</a>
               <a (click)="closeNavbar()" ngbDropdownItem routerLink="/dishes/create">Crear Plato</a>
@@ -61,17 +63,17 @@
               {{ user?.firstName || '' }}
             </a>
             <div ngbDropdownMenu class="dropdown-menu-end">
-              <a ngbDropdownItem [routerLink]="['/bookings', 'user', userId]">Mis Reservas</a>
+              <a (click)="closeNavbar()" ngbDropdownItem [routerLink]="['/bookings', 'user', userId]">Mis Reservas</a>
               @if (isAdmin) {
-                <a ngbDropdownItem routerLink="/user/list">Lista de usuarios</a>
+                <a (click)="closeNavbar()" ngbDropdownItem routerLink="/user/list">Lista de usuarios</a>
               }
-              <a ngbDropdownItem routerLink="/menus">Gastronomía Favorita</a>
-              <a ngbDropdownItem routerLink="/users/account">Ajustes</a>
-              <a ngbDropdownItem (click)="logout()">Cerrar sesión</a>
+              <a (click)="closeNavbar()" ngbDropdownItem routerLink="/menus">Gastronomía Favorita</a>
+              <a (click)="closeNavbar()" ngbDropdownItem routerLink="/users/account">Ajustes</a>
+              <a (click)="closeNavbar()" ngbDropdownItem (click)="logout()">Cerrar sesión</a>
             </div>
           } @else {
-            <button class="btn btn-outline-light me-2" routerLink="/user/login">Login</button>
-            <button class="btn btn-outline-light" routerLink="/user/register">Crear cuenta</button>
+            <button (click)="closeNavbar()" class="btn btn-outline-light me-2" routerLink="/user/login">Login</button>
+            <button (click)="closeNavbar()" class="btn btn-outline-light" routerLink="/user/register">Crear cuenta</button>
           }
         </div>
 
